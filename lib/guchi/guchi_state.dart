@@ -1,4 +1,4 @@
-import 'package:flutter_guchi_memo/guchi.dart';
+import 'package:flutter_guchi_memo/guchi/guchi.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
