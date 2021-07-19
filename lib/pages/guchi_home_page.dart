@@ -10,22 +10,28 @@ class GuchiHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final guchiList = watch(guchiListProvider);
+    final guchi = guchiList.guchiList;
     return Scaffold(
         appBar: AppBar(
           title: const Text('GuchiRO'),
         ),
-        body: ListView.builder(
-            itemCount: 12,
-            itemBuilder: (BuildContext context, int index) {
-              return const ListTile(
-                leading: Icon(Icons.ac_unit),
-                trailing: Icon(Icons.delete),
-                title: Center(child: Text('愚痴る')),
-                subtitle: Center(
-                  child: Text('あいつやりやがって見てろよ、あああああああ！！！！！！！！！'),
-                ),
-              );
-            }),
+        body: ListView(
+          children: guchi
+              .map((guchi) => ListTile(
+                    title: Center(child: Text(guchi.title)),
+                    subtitle: Center(
+                      child: Text(guchi.content),
+                    ),
+                    leading: const Icon(Icons.ac_unit_sharp),
+                    trailing: IconButton(
+                        onPressed: () {
+                          final id = guchi.id;
+                          guchiList.delteGuchi(id);
+                        },
+                        icon: const Icon(Icons.delete)),
+                  ))
+              .toList(),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {

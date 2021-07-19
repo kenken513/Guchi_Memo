@@ -15,4 +15,10 @@ class GuchiList extends ChangeNotifier {
         [...guchiList, Guchi(id, title, content, createDay, editDay)].toList();
     notifyListeners();
   }
+
+//Guchiを削除する処理
+  void delteGuchi(int id) {
+    guchiList = guchiList.where((guchi) => guchi.id != id).toList();
+    notifyListeners();
+  }
 }
