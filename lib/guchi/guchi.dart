@@ -5,5 +5,5 @@ class Guchi {
   String title;
   String content;
   DateTime createDay;
-  DateTime editDay;
+  DateTime? editDay;
 }

@@ -22,8 +22,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic_mono: any
-  freezed: ^0.14.2
-  build_runner: ^2.0.6
+  # freezed: ^0.14.2
+  # build_runner: ^2.0.6
 
 flutter:
 

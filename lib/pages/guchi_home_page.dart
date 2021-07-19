@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/guchi/guchi.dart';
+import 'package:flutter_guchi_memo/guchi/guchi_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final guchiListProvider = ChangeNotifierProvider((ref) => GuchiList());
 
 class GuchiHomePage extends ConsumerWidget {
   const GuchiHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    final guchiList = watch(guchiListProvider);
     return Scaffold(
         appBar: AppBar(
           title: const Text('GuchiRO'),
@@ -46,6 +49,9 @@ class GuchiHomePage extends ConsumerWidget {
                                 border: OutlineInputBorder(),
                                 hintText: '愚痴れ！',
                                 labelText: 'どんな愚痴？'),
+                            onChanged: (value) {
+                              guchiList.title = value;
+                            },
                           ),
                         ),
                       ],
@@ -61,6 +67,9 @@ class GuchiHomePage extends ConsumerWidget {
                             border: OutlineInputBorder(),
                             hintText: 'ぶつけろ！',
                             labelText: 'くわしく！'),
+                        onChanged: (value) {
+                          guchiList.content = value;
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -68,13 +77,8 @@ class GuchiHomePage extends ConsumerWidget {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          // notifier.addGuchi(
-                          //   id,
-                          //   title,
-                          //   content,
-                          //   createDay,
-                          //   editDay,
-                          // );
+                          guchiList.addGuchi(
+                              guchiList.title, guchiList.content);
                           Navigator.pop(context);
                         },
                         child: const Text('愚痴れ！！'))
