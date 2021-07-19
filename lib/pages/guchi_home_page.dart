@@ -29,6 +29,69 @@ class GuchiHomePage extends ConsumerWidget {
                           guchiList.delteGuchi(id);
                         },
                         icon: const Icon(Icons.delete)),
+                    onLongPress: () {
+                      showDialog<Widget>(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            title: const Center(child: Text('愚痴る')),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 24,
+                            ),
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 200,
+                                    padding: const EdgeInsets.only(left: 4),
+                                    child: TextFormField(
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: '愚痴れ！',
+                                        labelText: 'どんな愚痴？',
+                                      ),
+                                      onChanged: (value) {
+                                        guchiList.title = value;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                width: 200,
+                                padding: const EdgeInsets.only(left: 4),
+                                child: TextFormField(
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: 'ぶつけろ！',
+                                    labelText: 'くわしく！',
+                                  ),
+                                  onChanged: (value) {
+                                    guchiList.content = value;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    guchiList.upDateGuchi(guchi.id,
+                                        guchiList.title, guchiList.content);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    '愚痴れ！！',
+                                  ))
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ))
               .toList(),
         ),
@@ -52,9 +115,10 @@ class GuchiHomePage extends ConsumerWidget {
                           padding: const EdgeInsets.only(left: 4),
                           child: TextFormField(
                             decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: '愚痴れ！',
-                                labelText: 'どんな愚痴？'),
+                              border: OutlineInputBorder(),
+                              hintText: '愚痴れ！',
+                              labelText: 'どんな愚痴？',
+                            ),
                             onChanged: (value) {
                               guchiList.title = value;
                             },
@@ -70,9 +134,10 @@ class GuchiHomePage extends ConsumerWidget {
                       padding: const EdgeInsets.only(left: 4),
                       child: TextFormField(
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'ぶつけろ！',
-                            labelText: 'くわしく！'),
+                          border: OutlineInputBorder(),
+                          hintText: 'ぶつけろ！',
+                          labelText: 'くわしく！',
+                        ),
                         onChanged: (value) {
                           guchiList.content = value;
                         },
@@ -84,10 +149,14 @@ class GuchiHomePage extends ConsumerWidget {
                     ElevatedButton(
                         onPressed: () {
                           guchiList.addGuchi(
-                              guchiList.title, guchiList.content);
+                            guchiList.title,
+                            guchiList.content,
+                          );
                           Navigator.pop(context);
                         },
-                        child: const Text('愚痴れ！！'))
+                        child: const Text(
+                          '愚痴れ！！',
+                        ))
                   ],
                 );
               },

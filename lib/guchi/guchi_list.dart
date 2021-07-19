@@ -16,6 +16,18 @@ class GuchiList extends ChangeNotifier {
     notifyListeners();
   }
 
+//Guchiを編集する処理
+  void upDateGuchi(int id, String title, String content) {
+    guchiList.asMap().forEach((int index, Guchi guchi) {
+      if (guchi.id == id) {
+        guchiList[index].title = title;
+        guchiList[index].content = content;
+        guchiList[index].editDay = DateTime.now();
+      }
+    });
+    notifyListeners();
+  }
+
 //Guchiを削除する処理
   void delteGuchi(int id) {
     guchiList = guchiList.where((guchi) => guchi.id != id).toList();
