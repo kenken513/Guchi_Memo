@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-// void main() {
-//   runApp(const ProviderScope(child: MyApp()));
-// }
-
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
@@ -97,8 +93,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo SQL',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primarySwatch: Colors.pink,
       ),
       home: const GuchiHomePage(),
     );
@@ -116,7 +111,6 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   final upDateController = TextEditingController();
-  late var _selectedvalue = 0;
 
   Future<void> initializeDemo() async {
     _memoList = await Guchi.getGuchis();
@@ -144,22 +138,59 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
               itemCount: _memoList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    leading: Text(
-                      'ID ${_memoList[index].id}',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    title: Text(_memoList[index].text.toString()),
-                    subtitle: Text(_memoList[index].text.toString()),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () async {
-                        await Guchi.deleteGuchi(_memoList[index].id!);
-                        final memos = await Guchi.getGuchis();
-                        setState(() {
-                          _memoList = memos;
-                        });
-                      },
-                    ));
+                  leading: const Text(
+                    'GUchi',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  title: Text(_memoList[index].text.toString()),
+                  subtitle: Text(_memoList[index].content.toString()),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () async {
+                      await Guchi.deleteGuchi(_memoList[index].id!);
+                      final memos = await Guchi.getGuchis();
+                      setState(() {
+                        _memoList = memos;
+                      });
+                    },
+                  ),
+                  onLongPress: () async {
+                    await showDialog<Widget>(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                              title: const Text('愚痴れ！'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  TextField(controller: titleController),
+                                  TextField(controller: contentController),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      final _upDate = Guchi(
+                                        id: _memoList[index].id,
+                                        text: titleController.text,
+                                        content: contentController.text,
+                                        editedAt: DateTime.now().toString(),
+                                      );
+                                      await Guchi.updateGuchi(_upDate);
+                                      final memos = await Guchi.getGuchis();
+                                      setState(() {
+                                        _memoList = memos;
+                                      });
+                                      setState(() {
+                                        _memoList = memos;
+                                      });
+                                      titleController.clear();
+                                      contentController.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('編集'),
+                                  ),
+                                ],
+                              ),
+                            ));
+                  },
+                );
               },
             );
           },
@@ -186,13 +217,11 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                   text: titleController.text,
                                   content: contentController.text,
                                   createdAt: DateTime.now().toString(),
-                                  // editedAt: DateTime.now()
                                 );
                                 await Guchi.insertGuchi(_memo);
                                 final memos = await Guchi.getGuchis();
                                 setState(() {
                                   _memoList = memos;
-                                  _selectedvalue = 0;
                                 });
                                 titleController.clear();
                                 contentController.clear();
@@ -211,11 +240,4 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
       ),
     );
   }
-
-//   @override
-//   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-//     super.debugFillProperties(properties);
-//     properties.add(DiagnosticsProperty('_selectedvalue', _selectedvalue));
-//   }
-// }
 }
