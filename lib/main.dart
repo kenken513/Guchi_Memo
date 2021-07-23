@@ -177,27 +177,30 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                         hintText: '愚痴れ！',
                                       ),
                                       controller: contentController),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      final _upDate = Guchi(
-                                        id: _memoList[index].id,
-                                        text: titleController.text,
-                                        content: contentController.text,
-                                        editedAt: DateTime.now().toString(),
-                                      );
-                                      await Guchi.updateGuchi(_upDate);
-                                      final memos = await Guchi.getGuchis();
-                                      setState(() {
-                                        _memoList = memos;
-                                      });
-                                      setState(() {
-                                        _memoList = memos;
-                                      });
-                                      titleController.clear();
-                                      contentController.clear();
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('編集'),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        final _upDate = Guchi(
+                                          id: _memoList[index].id,
+                                          text: titleController.text,
+                                          content: contentController.text,
+                                          editedAt: DateTime.now().toString(),
+                                        );
+                                        await Guchi.updateGuchi(_upDate);
+                                        final memos = await Guchi.getGuchis();
+                                        setState(() {
+                                          _memoList = memos;
+                                        });
+                                        setState(() {
+                                          _memoList = memos;
+                                        });
+                                        titleController.clear();
+                                        contentController.clear();
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('編集'),
+                                    ),
                                   ),
                                 ],
                               ),
