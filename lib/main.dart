@@ -23,6 +23,7 @@ class Guchi {
     return map;
   }
 
+//テーブル作成
   static Future<Database> get database async {
     final _database = openDatabase(
       join(await getDatabasesPath(), 'guchi_database.db'),
@@ -37,6 +38,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     return _database;
   }
 
+//愚痴を追加
   static Future<void> insertGuchi(Guchi guchi) async {
     final db = await database;
     await db.insert(
@@ -46,6 +48,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     );
   }
 
+//愚痴を取得
   static Future<List<Guchi>> getGuchis() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('guchi');
@@ -60,6 +63,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     });
   }
 
+//愚痴を編集
   static Future<void> updateGuchi(Guchi guchi) async {
     final db = await database;
     await db.update(
@@ -71,6 +75,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     );
   }
 
+//愚痴を削除
   static Future<void> deleteGuchi(String id) async {
     final db = await database;
     await db.delete(
