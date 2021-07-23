@@ -112,7 +112,7 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
   final contentController = TextEditingController();
   final upDateController = TextEditingController();
 
-  Future<void> initializeDemo() async {
+  Future<void> initializeGuchi() async {
     _memoList = await Guchi.getGuchis();
   }
 
@@ -132,16 +132,13 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
       body: Container(
         padding: const EdgeInsets.all(32),
         child: FutureBuilder(
-          future: initializeDemo(),
+          future: initializeGuchi(),
           builder: (context, snapshot) {
             return ListView.builder(
               itemCount: _memoList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: const Text(
-                    'GUchi',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  leading: const Icon(Icons.book),
                   title: Text(_memoList[index].text.toString()),
                   subtitle: Text(_memoList[index].content.toString()),
                   trailing: IconButton(
@@ -162,8 +159,19 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  TextField(controller: titleController),
-                                  TextField(controller: contentController),
+                                  TextField(
+                                    decoration: const InputDecoration(
+                                      labelText: '愚痴を教えて！',
+                                      hintText: '愚痴れ！',
+                                    ),
+                                    controller: titleController,
+                                  ),
+                                  TextField(
+                                      decoration: const InputDecoration(
+                                        labelText: '詳しく教えて！',
+                                        hintText: '愚痴れ！',
+                                      ),
+                                      controller: contentController),
                                   ElevatedButton(
                                     onPressed: () async {
                                       final _upDate = Guchi(
@@ -209,25 +217,38 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            TextField(controller: titleController),
-                            TextField(controller: contentController),
-                            ElevatedButton(
-                              onPressed: () async {
-                                final _memo = Guchi(
-                                  text: titleController.text,
-                                  content: contentController.text,
-                                  createdAt: DateTime.now().toString(),
-                                );
-                                await Guchi.insertGuchi(_memo);
-                                final memos = await Guchi.getGuchis();
-                                setState(() {
-                                  _memoList = memos;
-                                });
-                                titleController.clear();
-                                contentController.clear();
-                                Navigator.pop(context);
-                              },
-                              child: const Text('保存'),
+                            TextField(
+                                decoration: const InputDecoration(
+                                  labelText: '愚痴を教えて！',
+                                  hintText: '愚痴れ！',
+                                ),
+                                controller: titleController),
+                            TextField(
+                                decoration: const InputDecoration(
+                                  labelText: '詳しく教えて！',
+                                  hintText: '愚痴れ！',
+                                ),
+                                controller: contentController),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  final _memo = Guchi(
+                                    text: titleController.text,
+                                    content: contentController.text,
+                                    createdAt: DateTime.now().toString(),
+                                  );
+                                  await Guchi.insertGuchi(_memo);
+                                  final memos = await Guchi.getGuchis();
+                                  setState(() {
+                                    _memoList = memos;
+                                  });
+                                  titleController.clear();
+                                  contentController.clear();
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('保存'),
+                              ),
                             ),
                           ],
                         ),
