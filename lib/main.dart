@@ -183,6 +183,7 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                           id: _memoList[index].id,
                                           text: titleController.text,
                                           content: contentController.text,
+                                          createdAt: DateTime.now(),
                                           editedAt: DateTime.now(),
                                         );
                                         await Guchi.updateGuchi(_upDate);
