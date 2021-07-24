@@ -185,7 +185,8 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                           id: _memoList[index].id,
                                           text: titleController.text,
                                           content: contentController.text,
-                                          editedAt: DateTime.now().toString(),
+                                          editedAt:
+                                              DateTime.now().toIso8601String(),
                                         );
                                         await Guchi.updateGuchi(_upDate);
                                         final memos = await Guchi.getGuchis();
@@ -244,7 +245,7 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                   final _memo = Guchi(
                                     text: titleController.text,
                                     content: contentController.text,
-                                    createdAt: DateTime.now().toString(),
+                                    createdAt: DateTime.now().toIso8601String(),
                                   );
                                   await Guchi.insertGuchi(_memo);
                                   final memos = await Guchi.getGuchis();
