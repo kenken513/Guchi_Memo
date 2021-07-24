@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
@@ -9,16 +8,16 @@ class Guchi {
   final String? id;
   final String? text;
   final String? content;
-  final String? createdAt;
-  final String? editedAt;
+  final DateTime? createdAt;
+  final DateTime? editedAt;
 
   Map<String, dynamic> toMap() {
     final map = {
       'id': id,
       'text': text,
       'content': content,
-      'createdAt': createdAt,
-      'editedAt': editedAt,
+      'createdAt': createdAt!.toIso8601String(),
+      'editedAt': editedAt!.toIso8601String(),
     };
     return map;
   }
@@ -52,18 +51,17 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
   static Future<List<Guchi>> getGuchis() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('guchi');
-    return List.generate(maps.length, (i) {
-      return Guchi(
-        id: maps[i]['id'].toString(),
-        text: maps[i]['text'].toString(),
-        content: maps[i]['content'].toString(),
-        createdAt: maps[i]['createdAt'].toString(),
-        editedAt: maps[i]['editedAt'].toString(),
-      );
-    });
+    return maps
+        .map((guchi) => Guchi(
+            id: guchi['id'].toString(),
+            text: guchi['text'].toString(),
+            content: guchi['content'].toString(),
+            createdAt: DateTime.parse(guchi['createdAt'].toString()).toLocal(),
+            editedAt: DateTime.parse(guchi['editedAt'].toString()).toLocal()))
+        .toList();
   }
 
-//愚痴を編集
+  //愚痴を編集
   static Future<void> updateGuchi(Guchi guchi) async {
     final db = await database;
     await db.update(
@@ -185,8 +183,7 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                           id: _memoList[index].id,
                                           text: titleController.text,
                                           content: contentController.text,
-                                          editedAt:
-                                              DateTime.now().toIso8601String(),
+                                          editedAt: DateTime.now(),
                                         );
                                         await Guchi.updateGuchi(_upDate);
                                         final memos = await Guchi.getGuchis();
@@ -245,7 +242,8 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                   final _memo = Guchi(
                                     text: titleController.text,
                                     content: contentController.text,
-                                    createdAt: DateTime.now().toIso8601String(),
+                                    createdAt: DateTime.now(),
+                                    editedAt: DateTime.now(),
                                   );
                                   await Guchi.insertGuchi(_memo);
                                   final memos = await Guchi.getGuchis();
