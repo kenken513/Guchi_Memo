@@ -4,10 +4,16 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
 
 class Guchi {
-  Guchi({this.id, this.text, this.content, this.createdAt, this.editedAt});
+  Guchi({
+    this.id,
+    required this.text,
+    required this.content,
+    this.createdAt,
+    this.editedAt,
+  });
   final String? id;
-  final String? text;
-  final String? content;
+  final String text;
+  final String content;
   final DateTime? createdAt;
   final DateTime? editedAt;
 
@@ -16,8 +22,8 @@ class Guchi {
       'id': id,
       'text': text,
       'content': content,
-      'createdAt': createdAt!.toIso8601String(),
-      'editedAt': editedAt!.toIso8601String(),
+      'createdAt': createdAt?.toIso8601String(),
+      'editedAt': editedAt?.toIso8601String(),
     };
     return map;
   }
@@ -53,11 +59,16 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     final List<Map<String, dynamic>> maps = await db.query('guchi');
     return maps
         .map((guchi) => Guchi(
-            id: guchi['id'].toString(),
-            text: guchi['text'].toString(),
-            content: guchi['content'].toString(),
-            createdAt: DateTime.parse(guchi['createdAt'].toString()).toLocal(),
-            editedAt: DateTime.parse(guchi['editedAt'].toString()).toLocal()))
+              id: guchi['id'].toString(),
+              text: guchi['text'].toString(),
+              content: guchi['content'].toString(),
+              createdAt: guchi['createdAt'] != null
+                  ? DateTime.parse(guchi['createdAt'].toString()).toLocal()
+                  : null,
+              editedAt: guchi['editedAt'] != null
+                  ? DateTime.parse(guchi['editedAt'].toString()).toLocal()
+                  : null,
+            ))
         .toList();
   }
 
@@ -183,7 +194,6 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                           id: _memoList[index].id,
                                           text: titleController.text,
                                           content: contentController.text,
-                                          createdAt: DateTime.now(),
                                           editedAt: DateTime.now(),
                                         );
                                         await Guchi.updateGuchi(_upDate);
@@ -244,7 +254,6 @@ class _GuchiHomePageState extends State<GuchiHomePage> {
                                     text: titleController.text,
                                     content: contentController.text,
                                     createdAt: DateTime.now(),
-                                    editedAt: DateTime.now(),
                                   );
                                   await Guchi.insertGuchi(_memo);
                                   final memos = await Guchi.getGuchis();
