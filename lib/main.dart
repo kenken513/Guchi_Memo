@@ -1,113 +1,281 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqlite_api.dart';
+import 'package:path/path.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class Guchi {
+  Guchi({
+    this.id,
+    required this.text,
+    required this.content,
+    this.createdAt,
+    this.editedAt,
+  });
+  final String? id;
+  final String text;
+  final String content;
+  final DateTime? createdAt;
+  final DateTime? editedAt;
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+  Map<String, dynamic> toMap() {
+    final map = {
+      'id': id,
+      'text': text,
+      'content': content,
+      'createdAt': createdAt?.toIso8601String(),
+      'editedAt': editedAt?.toIso8601String(),
+    };
+    return map;
+  }
+
+//テーブル作成
+  static Future<Database> get database async {
+    final _database = openDatabase(
+      join(await getDatabasesPath(), 'guchi_database.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          '''
+CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT, createdAt TEXT, editedAt TEXT)''',
+        );
+      },
+      version: 1,
+    );
+    return _database;
+  }
+
+//愚痴を追加
+  static Future<void> insertGuchi(Guchi guchi) async {
+    final db = await database;
+    await db.insert(
+      'guchi',
+      guchi.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+//愚痴を取得
+  static Future<List<Guchi>> getGuchis() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('guchi');
+    return maps
+        .map((guchi) => Guchi(
+              id: guchi['id'].toString(),
+              text: guchi['text'].toString(),
+              content: guchi['content'].toString(),
+              createdAt: guchi['createdAt'] != null
+                  ? DateTime.parse(guchi['createdAt'].toString()).toLocal()
+                  : null,
+              editedAt: guchi['editedAt'] != null
+                  ? DateTime.parse(guchi['editedAt'].toString()).toLocal()
+                  : null,
+            ))
+        .toList();
+  }
+
+  //愚痴を編集
+  static Future<void> updateGuchi(Guchi guchi) async {
+    final db = await database;
+    await db.update(
+      'guchi',
+      guchi.toMap(),
+      where: 'id = ?',
+      whereArgs: [guchi.id],
+      conflictAlgorithm: ConflictAlgorithm.fail,
+    );
+  }
+
+//愚痴を削除
+  static Future<void> deleteGuchi(String id) async {
+    final db = await database;
+    await db.delete(
+      'guchi',
+      where: 'id = ?',
+      whereArgs: [id],
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo SQL',
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+      ),
+      home: const GuchiHomePage(),
+    );
+  }
+}
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+class GuchiHomePage extends StatefulWidget {
+  const GuchiHomePage({Key? key}) : super(key: key);
+  @override
+  _GuchiHomePageState createState() => _GuchiHomePageState();
+}
+
+class _GuchiHomePageState extends State<GuchiHomePage> {
+  List<Guchi> _memoList = [];
+  final titleController = TextEditingController();
+  final contentController = TextEditingController();
+  final upDateController = TextEditingController();
+
+  Future<void> initializeGuchi() async {
+    _memoList = await Guchi.getGuchis();
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text('GuchiRO'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: Container(
+        padding: const EdgeInsets.all(32),
+        child: FutureBuilder(
+          future: initializeGuchi(),
+          builder: (context, snapshot) {
+            return ListView.builder(
+              itemCount: _memoList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: const Icon(Icons.book),
+                  title: Text(_memoList[index].text.toString()),
+                  subtitle: Text(_memoList[index].content.toString()),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () async {
+                      await Guchi.deleteGuchi(_memoList[index].id!);
+                      final memos = await Guchi.getGuchis();
+                      setState(() {
+                        _memoList = memos;
+                      });
+                    },
+                  ),
+                  onLongPress: () async {
+                    await showDialog<Widget>(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                              title: const Text('愚痴れ！'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  TextField(
+                                    decoration: const InputDecoration(
+                                      labelText: '愚痴を教えて！',
+                                      hintText: '愚痴れ！',
+                                    ),
+                                    controller: titleController,
+                                  ),
+                                  TextField(
+                                      decoration: const InputDecoration(
+                                        labelText: '詳しく教えて！',
+                                        hintText: '愚痴れ！',
+                                      ),
+                                      controller: contentController),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        final _upDate = Guchi(
+                                          id: _memoList[index].id,
+                                          text: titleController.text,
+                                          content: contentController.text,
+                                          editedAt: DateTime.now(),
+                                        );
+                                        await Guchi.updateGuchi(_upDate);
+                                        final memos = await Guchi.getGuchis();
+                                        setState(() {
+                                          _memoList = memos;
+                                        });
+                                        setState(() {
+                                          _memoList = memos;
+                                        });
+                                        titleController.clear();
+                                        contentController.clear();
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('編集'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ));
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: Column(
+        verticalDirection: VerticalDirection.up,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: () {
+              showDialog<Widget>(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        title: const Text('愚痴れ！'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            TextField(
+                                decoration: const InputDecoration(
+                                  labelText: '愚痴を教えて！',
+                                  hintText: '愚痴れ！',
+                                ),
+                                controller: titleController),
+                            TextField(
+                                decoration: const InputDecoration(
+                                  labelText: '詳しく教えて！',
+                                  hintText: '愚痴れ！',
+                                ),
+                                controller: contentController),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  final _memo = Guchi(
+                                    text: titleController.text,
+                                    content: contentController.text,
+                                    createdAt: DateTime.now(),
+                                  );
+                                  await Guchi.insertGuchi(_memo);
+                                  final memos = await Guchi.getGuchis();
+                                  setState(() {
+                                    _memoList = memos;
+                                  });
+                                  titleController.clear();
+                                  contentController.clear();
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('保存'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
+            },
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }
