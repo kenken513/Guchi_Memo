@@ -5,10 +5,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class GuchiNotifier extends StateNotifier<GuchiState> {
-  GuchiNotifier() : super(const GuchiState(guchiList: []));
+  GuchiNotifier() : super(const GuchiState()) {
+    initializeGuchi();
+  }
 
+//初期化
   Future<void> initializeGuchi() async {
-    await getGuchisDB();
+    final listDB = await getGuchisDB();
+    state = state.copyWith(guchiList: listDB);
   }
 
 //愚痴を作成
@@ -22,6 +26,7 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
     ];
     state = state.copyWith(guchiList: newList);
     await insertGuchiDB(guchi);
+    await getGuchisDB();
   }
 
 //愚痴を編集
@@ -39,6 +44,7 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
         .toList();
     state = state.copyWith(guchiList: newList);
     await updateGuchiDB(guchi);
+    await getGuchisDB();
   }
 
 //愚痴を削除
@@ -48,6 +54,7 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
     final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
     state = state.copyWith(guchiList: newList);
     await deleteGuchiDB(id);
+    await getGuchisDB();
   }
 
   //テーブル作成
