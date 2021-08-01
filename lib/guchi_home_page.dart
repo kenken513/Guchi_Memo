@@ -23,7 +23,9 @@ class GuchiPage extends ConsumerWidget {
               subtitle: Text(data.content.toString()),
               trailing: IconButton(
                 onPressed: () {
-                  notifier.deleteGuchi(data.id);
+                  if (data.id != null) {
+                    notifier.deleteGuchi(data.id!);
+                  }
                 },
                 icon: const Icon(Icons.delete),
               ),
@@ -52,17 +54,13 @@ class GuchiPage extends ConsumerWidget {
                                 padding: const EdgeInsets.all(8),
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    await notifier.updateGuchi(
-                                      data.id,
-                                      notifier.titleController.text,
-                                      notifier.contentController.text,
-                                      Guchi(
-                                          text: notifier.titleController.text,
-                                          content:
-                                              notifier.contentController.text,
-                                          editedAt: DateTime.now()),
-                                    );
-
+                                    if (data.id != null) {
+                                      await notifier.updateGuchi(
+                                        data.id!,
+                                        notifier.titleController.text,
+                                        notifier.contentController.text,
+                                      );
+                                    }
                                     notifier.titleController.clear();
                                     notifier.contentController.clear();
                                     Navigator.pop(context);

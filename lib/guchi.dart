@@ -8,7 +8,7 @@ part 'guchi.g.dart';
 @freezed
 class Guchi with _$Guchi {
   const factory Guchi({
-    @Default(0) int id,
+    int? id,
     @Default('') String text,
     @Default('') String content,
     DateTime? createdAt,

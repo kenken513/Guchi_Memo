@@ -24,15 +24,20 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
 
 //愚痴を作成
   Future<void> createGuchi(String text, String content, Guchi guchi) async {
-    final id = guchi.id;
     final createdAt = DateTime.now();
+    final createList = Guchi(
+      id: state.guchiList.length + 1,
+      text: text,
+      content: content,
+      createdAt: createdAt,
+    );
     final newList = [
       ...state.guchiList,
-      Guchi(id: id, text: text, content: content, createdAt: createdAt)
+      createList,
     ];
-    state = state.copyWith(guchiList: newList);
     await insertGuchiDB(guchi);
-    await getGuchisDB();
+    state = state.copyWith(guchiList: newList);
+    await initializeGuchi();
   }
 
 //愚痴を編集
@@ -40,17 +45,17 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
     int id,
     String text,
     String content,
-    Guchi guchi,
   ) async {
     final editedAt = DateTime.now();
+    final updateGuchi = state.guchiList
+        .firstWhere((guchi) => guchi.id == id)
+        .copyWith(text: text, content: content, editedAt: editedAt);
     final newList = state.guchiList
-        .map((guchi) => guchi.id == id
-            ? Guchi(id: id, text: text, content: content, editedAt: editedAt)
-            : guchi)
+        .map((guchi) => guchi.id == id ? updateGuchi : guchi)
         .toList();
+    await updateGuchiDB(updateGuchi);
     state = state.copyWith(guchiList: newList);
-    await updateGuchiDB(guchi);
-    await getGuchisDB();
+    await initializeGuchi();
   }
 
 //愚痴を削除
@@ -60,7 +65,7 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
     final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
     state = state.copyWith(guchiList: newList);
     await deleteGuchiDB(id);
-    await getGuchisDB();
+    await initializeGuchi();
   }
 
   //テーブル作成
