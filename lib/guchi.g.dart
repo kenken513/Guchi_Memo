@@ -8,7 +8,7 @@ part of 'guchi.dart';
 
 _$_Guchi _$_$_GuchiFromJson(Map<String, dynamic> json) {
   return _$_Guchi(
-    id: json['id'] as String?,
+    id: json['id'] as int? ?? 0,
     text: json['text'] as String? ?? '',
     content: json['content'] as String? ?? '',
     createdAt: json['createdAt'] == null

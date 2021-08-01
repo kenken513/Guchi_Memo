@@ -21,7 +21,7 @@ class _$GuchiTearOff {
   const _$GuchiTearOff();
 
   _Guchi call(
-      {String? id,
+      {int id = 0,
       String text = '',
       String content = '',
       DateTime? createdAt,
@@ -45,7 +45,7 @@ const $Guchi = _$GuchiTearOff();
 
 /// @nodoc
 mixin _$Guchi {
-  String? get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -61,7 +61,7 @@ abstract class $GuchiCopyWith<$Res> {
   factory $GuchiCopyWith(Guchi value, $Res Function(Guchi) then) =
       _$GuchiCopyWithImpl<$Res>;
   $Res call(
-      {String? id,
+      {int id,
       String text,
       String content,
       DateTime? createdAt,
@@ -88,7 +88,7 @@ class _$GuchiCopyWithImpl<$Res> implements $GuchiCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,7 @@ abstract class _$GuchiCopyWith<$Res> implements $GuchiCopyWith<$Res> {
       __$GuchiCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String? id,
+      {int id,
       String text,
       String content,
       DateTime? createdAt,
@@ -143,7 +143,7 @@ class __$GuchiCopyWithImpl<$Res> extends _$GuchiCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -168,7 +168,7 @@ class __$GuchiCopyWithImpl<$Res> extends _$GuchiCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Guchi with DiagnosticableTreeMixin implements _Guchi {
   const _$_Guchi(
-      {this.id,
+      {this.id = 0,
       this.text = '',
       this.content = '',
       this.createdAt,
@@ -177,8 +177,9 @@ class _$_Guchi with DiagnosticableTreeMixin implements _Guchi {
   factory _$_Guchi.fromJson(Map<String, dynamic> json) =>
       _$_$_GuchiFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
-  final String? id;
+  final int id;
   @JsonKey(defaultValue: '')
   @override
   final String text;
@@ -248,7 +249,7 @@ class _$_Guchi with DiagnosticableTreeMixin implements _Guchi {
 
 abstract class _Guchi implements Guchi {
   const factory _Guchi(
-      {String? id,
+      {int id,
       String text,
       String content,
       DateTime? createdAt,
@@ -257,7 +258,7 @@ abstract class _Guchi implements Guchi {
   factory _Guchi.fromJson(Map<String, dynamic> json) = _$_Guchi.fromJson;
 
   @override
-  String? get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   @override
   String get text => throw _privateConstructorUsedError;
   @override

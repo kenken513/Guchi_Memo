@@ -24,12 +24,11 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
 
 //愚痴を作成
   Future<void> createGuchi(String text, String content, Guchi guchi) async {
-    final id = state.guchiList.length + 1;
-    final idToStr = id.toString();
+    final id = guchi.id;
     final createdAt = DateTime.now();
     final newList = [
       ...state.guchiList,
-      Guchi(id: idToStr, text: text, content: content, createdAt: createdAt)
+      Guchi(id: id, text: text, content: content, createdAt: createdAt)
     ];
     state = state.copyWith(guchiList: newList);
     await insertGuchiDB(guchi);
@@ -38,7 +37,7 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
 
 //愚痴を編集
   Future<void> updateGuchi(
-    String id,
+    int id,
     String text,
     String content,
     Guchi guchi,
@@ -56,7 +55,7 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
 
 //愚痴を削除
   Future<void> deleteGuchi(
-    String id,
+    int id,
   ) async {
     final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
     state = state.copyWith(guchiList: newList);
@@ -95,7 +94,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     final List<Map<String, dynamic>> maps = await db.query('guchi');
     return maps
         .map((guchi) => Guchi(
-              id: guchi['id'].toString(),
+              id: int.parse(guchi['id'].toString()),
               text: guchi['text'].toString(),
               content: guchi['content'].toString(),
               createdAt: guchi['createdAt'] != null
@@ -121,7 +120,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
   }
 
 //DBの愚痴を削除
-  Future<void> deleteGuchiDB(String id) async {
+  Future<void> deleteGuchiDB(int id) async {
     final db = await database;
     await db.delete(
       'guchi',
