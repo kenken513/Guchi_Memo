@@ -23,17 +23,22 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
   }
 
 //愚痴を作成
-  Future<void> createGuchi(String text, String content, Guchi guchi) async {
+  Future<void> createGuchi(
+    String text,
+    String content,
+  ) async {
     final createdAt = DateTime.now();
-    final createList = Guchi(
-      id: state.guchiList.length + 1,
+    final editedAt = DateTime.now();
+
+    final guchi = Guchi(
       text: text,
       content: content,
       createdAt: createdAt,
+      editedAt: editedAt,
     );
     final newList = [
       ...state.guchiList,
-      createList,
+      guchi,
     ];
     await insertGuchiDB(guchi);
     state = state.copyWith(guchiList: newList);

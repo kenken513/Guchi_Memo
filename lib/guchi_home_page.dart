@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/guchi.dart';
 import 'package:flutter_guchi_memo/guchi_notifier.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -100,13 +99,9 @@ class GuchiPage extends ConsumerWidget {
                           child: ElevatedButton(
                             onPressed: () async {
                               await notifier.createGuchi(
-                                  notifier.titleController.text,
-                                  notifier.contentController.text,
-                                  Guchi(
-                                    text: notifier.titleController.text,
-                                    content: notifier.contentController.text,
-                                    createdAt: DateTime.now(),
-                                  ));
+                                notifier.titleController.text,
+                                notifier.contentController.text,
+                              );
                               notifier.titleController.clear();
                               notifier.contentController.clear();
                               Navigator.pop(context);

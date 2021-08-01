@@ -16,4 +16,11 @@ class Guchi with _$Guchi {
   }) = _Guchi;
 
   factory Guchi.fromJson(Map<String, dynamic> json) => _$GuchiFromJson(json);
+
+  // Map<String, dynamic> toCreateJson(Guchi guchi) {
+  //   final data = guchi.toJson();
+
+  //   data.remove('id');
+  //   return data;
+  // }
 }
