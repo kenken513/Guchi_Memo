@@ -12,8 +12,6 @@ class GuchiPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final guchi = watch(guchiProvider);
     final notifier = watch(guchiProvider.notifier);
-    final titleController = TextEditingController();
-    final contentController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: ListView.builder(
@@ -42,29 +40,30 @@ class GuchiPage extends ConsumerWidget {
                                   labelText: '愚痴を教えて！',
                                   hintText: '愚痴れ！',
                                 ),
-                                controller: titleController,
+                                controller: notifier.titleController,
                               ),
                               TextField(
                                   decoration: const InputDecoration(
                                     labelText: '詳しく教えて！',
                                     hintText: '愚痴れ！',
                                   ),
-                                  controller: contentController),
+                                  controller: notifier.contentController),
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     await notifier.updateGuchi(
                                       guchi.guchiList[index].id!,
-                                      titleController.text,
-                                      contentController.text,
+                                      notifier.titleController.text,
+                                      notifier.contentController.text,
                                       Guchi(
-                                          text: titleController.text,
-                                          content: contentController.text,
+                                          text: notifier.titleController.text,
+                                          content:
+                                              notifier.contentController.text,
                                           editedAt: DateTime.now()),
                                     );
-                                    titleController.clear();
-                                    contentController.clear();
+                                    notifier.titleController.clear();
+                                    notifier.contentController.clear();
                                     Navigator.pop(context);
                                   },
                                   child: const Text('編集'),
@@ -90,27 +89,27 @@ class GuchiPage extends ConsumerWidget {
                               labelText: '愚痴を教えて！',
                               hintText: '愚痴れ！',
                             ),
-                            controller: titleController),
+                            controller: notifier.titleController),
                         TextField(
                             decoration: const InputDecoration(
                               labelText: '詳しく教えて！',
                               hintText: '愚痴れ！',
                             ),
-                            controller: contentController),
+                            controller: notifier.contentController),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: ElevatedButton(
                             onPressed: () async {
                               await notifier.createGuchi(
-                                  titleController.text,
-                                  contentController.text,
+                                  notifier.titleController.text,
+                                  notifier.contentController.text,
                                   Guchi(
-                                    text: titleController.text,
-                                    content: contentController.text,
+                                    text: notifier.titleController.text,
+                                    content: notifier.contentController.text,
                                     createdAt: DateTime.now(),
                                   ));
-                              titleController.clear();
-                              contentController.clear();
+                              notifier.titleController.clear();
+                              notifier.contentController.clear();
                               Navigator.pop(context);
                             },
                             child: const Text('保存'),
