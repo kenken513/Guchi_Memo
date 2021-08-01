@@ -16,13 +16,14 @@ class GuchiPage extends ConsumerWidget {
       body: ListView.builder(
           itemCount: guchi.guchiList.length,
           itemBuilder: (context, index) {
+            final data = guchi.guchiList[index];
             return ListTile(
               leading: const Icon(Icons.book),
-              title: Text(guchi.guchiList[index].text.toString()),
-              subtitle: Text(guchi.guchiList[index].content.toString()),
+              title: Text(data.text.toString()),
+              subtitle: Text(data.content.toString()),
               trailing: IconButton(
                 onPressed: () {
-                  notifier.deleteGuchi(guchi.guchiList[index].id!);
+                  notifier.deleteGuchi(data.id!);
                 },
                 icon: const Icon(Icons.delete),
               ),
@@ -52,7 +53,7 @@ class GuchiPage extends ConsumerWidget {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     await notifier.updateGuchi(
-                                      guchi.guchiList[index].id!,
+                                      data.id!,
                                       notifier.titleController.text,
                                       notifier.contentController.text,
                                       Guchi(
