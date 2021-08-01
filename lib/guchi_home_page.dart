@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/guchi.dart';
 import 'package:flutter_guchi_memo/guchi_notifier.dart';
-import 'package:flutter_guchi_memo/guchi_state.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GuchiPage extends ConsumerWidget {
-  GuchiPage({Key? key}) : super(key: key);
-  final guchiProvider = StateNotifierProvider<GuchiNotifier, GuchiState>(
-      (ref) => GuchiNotifier());
+  const GuchiPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final guchi = watch(guchiProvider);
