@@ -1,57 +1,19 @@
-class Guchi {
-  Guchi({
-    this.id,
-    required this.text,
-    required this.content,
-    this.createdAt,
-    this.editedAt,
-  });
-  final String? id;
-  final String text;
-  final String content;
-  final DateTime? createdAt;
-  final DateTime? editedAt;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 
-  Map<String, dynamic> toMap() {
-    final map = {
-      'id': id,
-      'text': text,
-      'content': content,
-      'createdAt': createdAt?.toIso8601String(),
-      'editedAt': editedAt?.toIso8601String(),
-    };
-    return map;
-  }
-}
-
-//freezedでモデルを定義するとエラーがでた
-
-
-// import 'package:freezed_annotation/freezed_annotation.dart';
-
-// part 'guchi.freezed.dart';
+part 'guchi.freezed.dart';
+part 'guchi.g.dart';
 
 //愚痴モデルを定義
-// @freezed
-// class Gu with _$Gu {
-//   const factory Gu({
-//     @Default('') String id,
-//     @Default('') String text,
-//     @Default('') String content,
-//     DateTime? createdAt,
-//     DateTime? editedAt,
-//   }) = _Gu;
+@freezed
+class Guchi with _$Guchi {
+  const factory Guchi({
+    String? id,
+    @Default('') String text,
+    @Default('') String content,
+    DateTime? createdAt,
+    DateTime? editedAt,
+  }) = _Guchi;
 
-// Map<String, dynamic> toMap() {
-//   final map = {
-//     'id': id,
-//     'text': text,
-//     'content': content,
-//     'createdAt': createdAt?.toIso8601String(),
-//     'editedAt': editedAt?.toIso8601String(),
-//   };
-//   return map;
-// }
-// }
-
-
+  factory Guchi.fromJson(Map<String, dynamic> json) => _$GuchiFromJson(json);
+}

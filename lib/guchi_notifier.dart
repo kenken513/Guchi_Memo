@@ -84,7 +84,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     final db = await database;
     await db.insert(
       'guchi',
-      guchi.toMap(),
+      guchi.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -113,7 +113,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     final db = await database;
     await db.update(
       'guchi',
-      guchi.toMap(),
+      guchi.toJson(),
       where: 'id = ?',
       whereArgs: [guchi.id],
       conflictAlgorithm: ConflictAlgorithm.fail,

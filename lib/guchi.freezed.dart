@@ -12,17 +12,21 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-/// @nodoc
-class _$GuTearOff {
-  const _$GuTearOff();
+Guchi _$GuchiFromJson(Map<String, dynamic> json) {
+  return _Guchi.fromJson(json);
+}
 
-  _Gu call(
-      {String id = '',
+/// @nodoc
+class _$GuchiTearOff {
+  const _$GuchiTearOff();
+
+  _Guchi call(
+      {String? id,
       String text = '',
       String content = '',
       DateTime? createdAt,
       DateTime? editedAt}) {
-    return _Gu(
+    return _Guchi(
       id: id,
       text: text,
       content: content,
@@ -30,29 +34,34 @@ class _$GuTearOff {
       editedAt: editedAt,
     );
   }
+
+  Guchi fromJson(Map<String, Object> json) {
+    return Guchi.fromJson(json);
+  }
 }
 
 /// @nodoc
-const $Gu = _$GuTearOff();
+const $Guchi = _$GuchiTearOff();
 
 /// @nodoc
-mixin _$Gu {
-  String get id => throw _privateConstructorUsedError;
+mixin _$Guchi {
+  String? get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get editedAt => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GuCopyWith<Gu> get copyWith => throw _privateConstructorUsedError;
+  $GuchiCopyWith<Guchi> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GuCopyWith<$Res> {
-  factory $GuCopyWith(Gu value, $Res Function(Gu) then) =
-      _$GuCopyWithImpl<$Res>;
+abstract class $GuchiCopyWith<$Res> {
+  factory $GuchiCopyWith(Guchi value, $Res Function(Guchi) then) =
+      _$GuchiCopyWithImpl<$Res>;
   $Res call(
-      {String id,
+      {String? id,
       String text,
       String content,
       DateTime? createdAt,
@@ -60,12 +69,12 @@ abstract class $GuCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GuCopyWithImpl<$Res> implements $GuCopyWith<$Res> {
-  _$GuCopyWithImpl(this._value, this._then);
+class _$GuchiCopyWithImpl<$Res> implements $GuchiCopyWith<$Res> {
+  _$GuchiCopyWithImpl(this._value, this._then);
 
-  final Gu _value;
+  final Guchi _value;
   // ignore: unused_field
-  final $Res Function(Gu) _then;
+  final $Res Function(Guchi) _then;
 
   @override
   $Res call({
@@ -79,7 +88,7 @@ class _$GuCopyWithImpl<$Res> implements $GuCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -101,12 +110,12 @@ class _$GuCopyWithImpl<$Res> implements $GuCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$GuCopyWith<$Res> implements $GuCopyWith<$Res> {
-  factory _$GuCopyWith(_Gu value, $Res Function(_Gu) then) =
-      __$GuCopyWithImpl<$Res>;
+abstract class _$GuchiCopyWith<$Res> implements $GuchiCopyWith<$Res> {
+  factory _$GuchiCopyWith(_Guchi value, $Res Function(_Guchi) then) =
+      __$GuchiCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
+      {String? id,
       String text,
       String content,
       DateTime? createdAt,
@@ -114,13 +123,13 @@ abstract class _$GuCopyWith<$Res> implements $GuCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$GuCopyWithImpl<$Res> extends _$GuCopyWithImpl<$Res>
-    implements _$GuCopyWith<$Res> {
-  __$GuCopyWithImpl(_Gu _value, $Res Function(_Gu) _then)
-      : super(_value, (v) => _then(v as _Gu));
+class __$GuchiCopyWithImpl<$Res> extends _$GuchiCopyWithImpl<$Res>
+    implements _$GuchiCopyWith<$Res> {
+  __$GuchiCopyWithImpl(_Guchi _value, $Res Function(_Guchi) _then)
+      : super(_value, (v) => _then(v as _Guchi));
 
   @override
-  _Gu get _value => super._value as _Gu;
+  _Guchi get _value => super._value as _Guchi;
 
   @override
   $Res call({
@@ -130,11 +139,11 @@ class __$GuCopyWithImpl<$Res> extends _$GuCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? editedAt = freezed,
   }) {
-    return _then(_Gu(
+    return _then(_Guchi(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -156,18 +165,20 @@ class __$GuCopyWithImpl<$Res> extends _$GuCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-class _$_Gu implements _Gu {
-  const _$_Gu(
-      {this.id = '',
+@JsonSerializable()
+class _$_Guchi with DiagnosticableTreeMixin implements _Guchi {
+  const _$_Guchi(
+      {this.id,
       this.text = '',
       this.content = '',
       this.createdAt,
       this.editedAt});
 
-  @JsonKey(defaultValue: '')
+  factory _$_Guchi.fromJson(Map<String, dynamic> json) =>
+      _$_$_GuchiFromJson(json);
+
   @override
-  final String id;
+  final String? id;
   @JsonKey(defaultValue: '')
   @override
   final String text;
@@ -180,14 +191,26 @@ class _$_Gu implements _Gu {
   final DateTime? editedAt;
 
   @override
-  String toString() {
-    return 'Gu(id: $id, text: $text, content: $content, createdAt: $createdAt, editedAt: $editedAt)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Guchi(id: $id, text: $text, content: $content, createdAt: $createdAt, editedAt: $editedAt)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Guchi'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('text', text))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('editedAt', editedAt));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Gu &&
+        (other is _Guchi &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.text, text) ||
@@ -214,19 +237,27 @@ class _$_Gu implements _Gu {
 
   @JsonKey(ignore: true)
   @override
-  _$GuCopyWith<_Gu> get copyWith => __$GuCopyWithImpl<_Gu>(this, _$identity);
+  _$GuchiCopyWith<_Guchi> get copyWith =>
+      __$GuchiCopyWithImpl<_Guchi>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_GuchiToJson(this);
+  }
 }
 
-abstract class _Gu implements Gu {
-  const factory _Gu(
-      {String id,
+abstract class _Guchi implements Guchi {
+  const factory _Guchi(
+      {String? id,
       String text,
       String content,
       DateTime? createdAt,
-      DateTime? editedAt}) = _$_Gu;
+      DateTime? editedAt}) = _$_Guchi;
+
+  factory _Guchi.fromJson(Map<String, dynamic> json) = _$_Guchi.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @override
   String get text => throw _privateConstructorUsedError;
   @override
@@ -237,5 +268,5 @@ abstract class _Gu implements Gu {
   DateTime? get editedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$GuCopyWith<_Gu> get copyWith => throw _privateConstructorUsedError;
+  _$GuchiCopyWith<_Guchi> get copyWith => throw _privateConstructorUsedError;
 }
