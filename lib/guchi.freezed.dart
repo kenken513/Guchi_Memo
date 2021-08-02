@@ -166,13 +166,14 @@ class __$GuchiCopyWithImpl<$Res> extends _$GuchiCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Guchi with DiagnosticableTreeMixin implements _Guchi {
+class _$_Guchi extends _Guchi with DiagnosticableTreeMixin {
   const _$_Guchi(
       {this.id,
       this.text = '',
       this.content = '',
       this.createdAt,
-      this.editedAt});
+      this.editedAt})
+      : super._();
 
   factory _$_Guchi.fromJson(Map<String, dynamic> json) =>
       _$_$_GuchiFromJson(json);
@@ -246,13 +247,14 @@ class _$_Guchi with DiagnosticableTreeMixin implements _Guchi {
   }
 }
 
-abstract class _Guchi implements Guchi {
+abstract class _Guchi extends Guchi {
   const factory _Guchi(
       {int? id,
       String text,
       String content,
       DateTime? createdAt,
       DateTime? editedAt}) = _$_Guchi;
+  const _Guchi._() : super._();
 
   factory _Guchi.fromJson(Map<String, dynamic> json) = _$_Guchi.fromJson;
 

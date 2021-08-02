@@ -14,13 +14,12 @@ class Guchi with _$Guchi {
     DateTime? createdAt,
     DateTime? editedAt,
   }) = _Guchi;
-
+  const Guchi._();
   factory Guchi.fromJson(Map<String, dynamic> json) => _$GuchiFromJson(json);
 
-  // Map<String, dynamic> toCreateJson(Guchi guchi) {
-  //   final data = guchi.toJson();
-
-  //   data.remove('id');
-  //   return data;
-  // }
+  Map<String, dynamic> toCreateJson(Guchi guchi) {
+    final data = guchi.toJson();
+    data.remove('id');
+    return data;
+  }
 }
