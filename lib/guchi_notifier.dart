@@ -36,13 +36,13 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
       createdAt: createdAt,
       editedAt: editedAt,
     );
-    final newList = [
-      ...state.guchiList,
-      guchi,
-    ];
+
     await insertGuchiDB(guchi);
-    state = state.copyWith(guchiList: newList);
-    await initializeGuchi();
+
+    final latestGuchiListDB = await getLatestGuchi(createdAt.toIso8601String());
+
+    final list = [...state.guchiList, ...latestGuchiListDB];
+    state = state.copyWith(guchiList: list);
   }
 
 //愚痴を編集
@@ -60,7 +60,6 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
         .toList();
     await updateGuchiDB(updateGuchi);
     state = state.copyWith(guchiList: newList);
-    await initializeGuchi();
   }
 
 //愚痴を削除
@@ -70,7 +69,6 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
     final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
     state = state.copyWith(guchiList: newList);
     await deleteGuchiDB(id);
-    await initializeGuchi();
   }
 
   //テーブル作成
@@ -103,6 +101,26 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('guchi');
     return maps
+        .map((guchi) => Guchi(
+              id: int.parse(guchi['id'].toString()),
+              text: guchi['text'].toString(),
+              content: guchi['content'].toString(),
+              createdAt: guchi['createdAt'] != null
+                  ? DateTime.parse(guchi['createdAt'].toString()).toLocal()
+                  : null,
+              editedAt: guchi['editedAt'] != null
+                  ? DateTime.parse(guchi['editedAt'].toString()).toLocal()
+                  : null,
+            ))
+        .toList();
+  }
+
+  //作成された最新の愚痴を取得
+  Future<List<Guchi>> getLatestGuchi(String createdAt) async {
+    final db = await database;
+    final List<Map<String, dynamic>> latestGuchi =
+        await db.query('guchi', where: 'createdAt = ?', whereArgs: [createdAt]);
+    return latestGuchi
         .map((guchi) => Guchi(
               id: int.parse(guchi['id'].toString()),
               text: guchi['text'].toString(),
