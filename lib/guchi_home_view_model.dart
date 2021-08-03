@@ -5,20 +5,24 @@ import 'package:flutter_guchi_memo/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
-  (ref) => GuchiHomeViewModel(),
+  (ref) => GuchiHomeViewModel(
+    ref.read(sqlRepositoryProvider),
+  ),
 );
 
 class GuchiHomeViewModel extends StateNotifier<GuchiState> {
-  GuchiHomeViewModel() : super(const GuchiState()) {
+  GuchiHomeViewModel(this._read) : super(const GuchiState()) {
     initializeGuchi();
   }
+
+  final SqlRepository _read;
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
 //初期化
   Future<void> initializeGuchi() async {
-    final listDB = await SqlRepository().getGuchisDB();
+    final listDB = await _read.getGuchisDB();
     state = state.copyWith(guchiList: listDB);
   }
 
@@ -37,9 +41,9 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
       editedAt: editedAt,
     );
 
-    await SqlRepository().insertGuchiDB(guchi);
+    await _read.insertGuchiDB(guchi);
 
-    final latestGuchiListDB = await SqlRepository().getLatestGuchiDB();
+    final latestGuchiListDB = await _read.getLatestGuchiDB();
 
     final newlist = [...state.guchiList, ...latestGuchiListDB];
     state = state.copyWith(guchiList: newlist);
@@ -58,7 +62,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
     final newList = state.guchiList
         .map((guchi) => guchi.id == id ? updateGuchi : guchi)
         .toList();
-    await SqlRepository().updateGuchiDB(updateGuchi);
+    await _read.updateGuchiDB(updateGuchi);
     state = state.copyWith(guchiList: newList);
   }
 
@@ -68,6 +72,6 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   ) async {
     final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
     state = state.copyWith(guchiList: newList);
-    await SqlRepository().deleteGuchiDB(id);
+    await _read.deleteGuchiDB(id);
   }
 }
