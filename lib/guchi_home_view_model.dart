@@ -39,8 +39,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
     await SqlRepository().insertGuchiDB(guchi);
 
-    final latestGuchiListDB =
-        await SqlRepository().getLatestGuchiDB(createdAt.toIso8601String());
+    final latestGuchiListDB = await SqlRepository().getLatestGuchiDB();
 
     final newlist = [...state.guchiList, ...latestGuchiListDB];
     state = state.copyWith(guchiList: newlist);
