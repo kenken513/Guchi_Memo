@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/guchi.dart';
 import 'package:flutter_guchi_memo/guchi_state.dart';
-import 'package:flutter_guchi_memo/repository.dart';
+import 'package:flutter_guchi_memo/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(

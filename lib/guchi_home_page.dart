@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/guchi_notifier.dart';
+import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
