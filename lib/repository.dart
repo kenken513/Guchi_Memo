@@ -48,8 +48,8 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
         .toList();
   }
 
-  //作成された最新の愚痴を取得
-  Future<List<Guchi>> getLatestGuchi(String createdAt) async {
+  //DBから最新の愚痴を取得
+  Future<List<Guchi>> getLatestGuchiDB(String createdAt) async {
     final db = await database;
     final List<Map<String, dynamic>> latestGuchi =
         await db.query('guchi', where: 'createdAt = ?', whereArgs: [createdAt]);

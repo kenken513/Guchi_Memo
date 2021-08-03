@@ -4,11 +4,12 @@ import 'package:flutter_guchi_memo/guchi_state.dart';
 import 'package:flutter_guchi_memo/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final guchiProvider =
-    StateNotifierProvider<GuchiNotifier, GuchiState>((ref) => GuchiNotifier());
+final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
+  (ref) => GuchiHomeViewModel(),
+);
 
-class GuchiNotifier extends StateNotifier<GuchiState> {
-  GuchiNotifier() : super(const GuchiState()) {
+class GuchiHomeViewModel extends StateNotifier<GuchiState> {
+  GuchiHomeViewModel() : super(const GuchiState()) {
     initializeGuchi();
   }
 
@@ -39,10 +40,10 @@ class GuchiNotifier extends StateNotifier<GuchiState> {
     await SqlRepository().insertGuchiDB(guchi);
 
     final latestGuchiListDB =
-        await SqlRepository().getLatestGuchi(createdAt.toIso8601String());
+        await SqlRepository().getLatestGuchiDB(createdAt.toIso8601String());
 
-    final list = [...state.guchiList, ...latestGuchiListDB];
-    state = state.copyWith(guchiList: list);
+    final newlist = [...state.guchiList, ...latestGuchiListDB];
+    state = state.copyWith(guchiList: newlist);
   }
 
 //愚痴を編集
