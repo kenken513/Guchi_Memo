@@ -11,18 +11,18 @@ final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
 );
 
 class GuchiHomeViewModel extends StateNotifier<GuchiState> {
-  GuchiHomeViewModel(this._read) : super(const GuchiState()) {
+  GuchiHomeViewModel(this._sqlRepository) : super(const GuchiState()) {
     initializeGuchi();
   }
 
-  final SqlRepository _read;
+  final SqlRepository _sqlRepository;
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
 //初期化
   Future<void> initializeGuchi() async {
-    final listDB = await _read.getGuchisDB();
+    final listDB = await _sqlRepository.getGuchisDB();
     state = state.copyWith(guchiList: listDB);
   }
 
@@ -41,9 +41,9 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
       editedAt: editedAt,
     );
 
-    await _read.insertGuchiDB(guchi);
+    await _sqlRepository.insertGuchiDB(guchi);
 
-    final latestGuchiListDB = await _read.getLatestGuchiDB();
+    final latestGuchiListDB = await _sqlRepository.getLatestGuchiDB();
 
     final newlist = [...state.guchiList, ...latestGuchiListDB];
     state = state.copyWith(guchiList: newlist);
@@ -62,7 +62,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
     final newList = state.guchiList
         .map((guchi) => guchi.id == id ? updateGuchi : guchi)
         .toList();
-    await _read.updateGuchiDB(updateGuchi);
+    await _sqlRepository.updateGuchiDB(updateGuchi);
     state = state.copyWith(guchiList: newList);
   }
 
@@ -72,6 +72,6 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   ) async {
     final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
     state = state.copyWith(guchiList: newList);
-    await _read.deleteGuchiDB(id);
+    await _sqlRepository.deleteGuchiDB(id);
   }
 }
