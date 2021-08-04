@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/guchi_notifier.dart';
+import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GuchiPage extends ConsumerWidget {
-  const GuchiPage({Key? key}) : super(key: key);
+class GuchiHomePage extends ConsumerWidget {
+  const GuchiHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {

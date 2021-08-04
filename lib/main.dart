@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: const GuchiPage(),
+      home: const GuchiHomePage(),
     );
   }
 }

@@ -1,78 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/guchi.dart';
-import 'package:flutter_guchi_memo/guchi_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-final guchiProvider =
-    StateNotifierProvider<GuchiNotifier, GuchiState>((ref) => GuchiNotifier());
+import 'guchi.dart';
 
-class GuchiNotifier extends StateNotifier<GuchiState> {
-  GuchiNotifier() : super(const GuchiState()) {
-    initializeGuchi();
-  }
+final sqlRepositoryProvider = Provider<SqlRepository>(
+  (_) => SqlRepository(),
+);
 
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
-
-//初期化
-  Future<void> initializeGuchi() async {
-    final listDB = await getGuchisDB();
-    state = state.copyWith(guchiList: listDB);
-  }
-
-//愚痴を作成
-  Future<void> createGuchi(
-    String text,
-    String content,
-  ) async {
-    final createdAt = DateTime.now();
-    final editedAt = DateTime.now();
-
-    final guchi = Guchi(
-      text: text,
-      content: content,
-      createdAt: createdAt,
-      editedAt: editedAt,
-    );
-
-    await insertGuchiDB(guchi);
-
-    final latestGuchiListDB = await getLatestGuchi(createdAt.toIso8601String());
-
-    final list = [...state.guchiList, ...latestGuchiListDB];
-    state = state.copyWith(guchiList: list);
-  }
-
-//愚痴を編集
-  Future<void> updateGuchi(
-    int id,
-    String text,
-    String content,
-  ) async {
-    final editedAt = DateTime.now();
-    final updateGuchi = state.guchiList
-        .firstWhere((guchi) => guchi.id == id)
-        .copyWith(text: text, content: content, editedAt: editedAt);
-    final newList = state.guchiList
-        .map((guchi) => guchi.id == id ? updateGuchi : guchi)
-        .toList();
-    await updateGuchiDB(updateGuchi);
-    state = state.copyWith(guchiList: newList);
-  }
-
-//愚痴を削除
-  Future<void> deleteGuchi(
-    int id,
-  ) async {
-    final newList = state.guchiList.where((guchi) => guchi.id != id).toList();
-    state = state.copyWith(guchiList: newList);
-    await deleteGuchiDB(id);
-  }
-
+class SqlRepository {
   //テーブル作成
-  Future<Database> get database async {
+  static Future<Database> get _database async {
     final _database = openDatabase(
       join(await getDatabasesPath(), 'guchi_database.db'),
       onCreate: (db, version) {
@@ -88,7 +26,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
 
 //DBに愚痴を追加
   Future<void> insertGuchiDB(Guchi guchi) async {
-    final db = await database;
+    final db = await _database;
     await db.insert(
       'guchi',
       guchi.toJson(),
@@ -98,7 +36,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
 
 //DBから愚痴を取得
   Future<List<Guchi>> getGuchisDB() async {
-    final db = await database;
+    final db = await _database;
     final List<Map<String, dynamic>> maps = await db.query('guchi');
     return maps
         .map((guchi) => Guchi(
@@ -115,11 +53,12 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
         .toList();
   }
 
-  //作成された最新の愚痴を取得
-  Future<List<Guchi>> getLatestGuchi(String createdAt) async {
-    final db = await database;
-    final List<Map<String, dynamic>> latestGuchi =
-        await db.query('guchi', where: 'createdAt = ?', whereArgs: [createdAt]);
+//DBから最新の愚痴を取得
+  Future<List<Guchi>> getLatestGuchiDB() async {
+    final db = await _database;
+    final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
+SELECT * FROM guchi ORDER BY id DESC LIMIT 1
+      ''');
     return latestGuchi
         .map((guchi) => Guchi(
               id: int.parse(guchi['id'].toString()),
@@ -137,7 +76,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
 
 //DBの愚痴を編集
   Future<void> updateGuchiDB(Guchi guchi) async {
-    final db = await database;
+    final db = await _database;
     await db.update(
       'guchi',
       guchi.toJson(),
@@ -149,7 +88,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
 
 //DBの愚痴を削除
   Future<void> deleteGuchiDB(int id) async {
-    final db = await database;
+    final db = await _database;
     await db.delete(
       'guchi',
       where: 'id = ?',
