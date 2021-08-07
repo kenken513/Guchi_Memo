@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
@@ -11,6 +12,7 @@ class GuchiHomePage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final guchi = watch(guchiProvider);
     final notifier = watch(guchiProvider.notifier);
+    final audioCache = AudioCache();
     return Scaffold(
       appBar: AppBar(),
       body: ListView.builder(
@@ -60,11 +62,15 @@ class GuchiHomePage extends ConsumerWidget {
                                         notifier.titleController.text,
                                         notifier.contentController.text,
                                       );
+
+                                      await audioCache.play(
+                                        'panti.mp3',
+                                      );
+
+                                      await HapticFeedback.heavyImpact();
                                     }
                                     notifier.titleController.clear();
                                     notifier.contentController.clear();
-
-                                    await HapticFeedback.mediumImpact();
 
                                     Navigator.pop(context);
                                   },
@@ -87,17 +93,19 @@ class GuchiHomePage extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextField(
-                            decoration: const InputDecoration(
-                              labelText: '愚痴を教えて！',
-                              hintText: '愚痴れ！',
-                            ),
-                            controller: notifier.titleController),
+                          decoration: const InputDecoration(
+                            labelText: '愚痴を教えて！',
+                            hintText: '愚痴れ！',
+                          ),
+                          controller: notifier.titleController,
+                        ),
                         TextField(
-                            decoration: const InputDecoration(
-                              labelText: '詳しく教えて！',
-                              hintText: '愚痴れ！',
-                            ),
-                            controller: notifier.contentController),
+                          decoration: const InputDecoration(
+                            labelText: '詳しく教えて！',
+                            hintText: '愚痴れ！',
+                          ),
+                          controller: notifier.contentController,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: ElevatedButton(
@@ -109,12 +117,12 @@ class GuchiHomePage extends ConsumerWidget {
                               notifier.titleController.clear();
                               notifier.contentController.clear();
 
-                              await HapticFeedback.mediumImpact();
-
-                              await audioPlayer.play(
-                                '/Users/kentaronakagawa/FlutterProject/flutter_guchi_memo/lib/assets/panti.mp3',
-                                isLocal: true,
+                              await audioCache.play(
+                                '/panti.mp3',
                               );
+
+                              await HapticFeedback.heavyImpact();
+
                               Navigator.pop(context);
                             },
                             child: const Text('保存'),

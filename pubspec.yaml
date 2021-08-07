@@ -19,7 +19,7 @@ dependencies:
   flutter_riverpod: ^0.14.0+3
   json_serializable: ^4.1.4
   audioplayers: ^0.19.1
-  vibration: ^1.7.3
+  vibration: ^1.7.4-nullsafety.0
 
 dev_dependencies:
   flutter_test:
@@ -29,6 +29,8 @@ dev_dependencies:
   freezed: ^0.14.2
 
 flutter:
+  assets: 
+    - assets/panti.mp3
 
   uses-material-design: true
 
