@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,6 +63,9 @@ class GuchiHomePage extends ConsumerWidget {
                                     }
                                     notifier.titleController.clear();
                                     notifier.contentController.clear();
+
+                                    await HapticFeedback.mediumImpact();
+
                                     Navigator.pop(context);
                                   },
                                   child: const Text('編集'),
@@ -104,6 +108,13 @@ class GuchiHomePage extends ConsumerWidget {
                               );
                               notifier.titleController.clear();
                               notifier.contentController.clear();
+
+                              await HapticFeedback.mediumImpact();
+
+                              await audioPlayer.play(
+                                '/Users/kentaronakagawa/FlutterProject/flutter_guchi_memo/lib/assets/panti.mp3',
+                                isLocal: true,
+                              );
                               Navigator.pop(context);
                             },
                             child: const Text('保存'),
