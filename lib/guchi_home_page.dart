@@ -1,6 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_guchi_memo/audio_file.dart';
 import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +12,6 @@ class GuchiHomePage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final guchi = watch(guchiProvider);
     final notifier = watch(guchiProvider.notifier);
-    final audioCache = AudioCache();
     return Scaffold(
       appBar: AppBar(),
       body: ListView.builder(
@@ -63,8 +62,8 @@ class GuchiHomePage extends ConsumerWidget {
                                         notifier.contentController.text,
                                       );
 
-                                      await audioCache.play(
-                                        'panti.mp3',
+                                      await notifier.audioCache.play(
+                                        AudioFile.panti.value,
                                       );
 
                                       await HapticFeedback.heavyImpact();
@@ -117,8 +116,8 @@ class GuchiHomePage extends ConsumerWidget {
                               notifier.titleController.clear();
                               notifier.contentController.clear();
 
-                              await audioCache.play(
-                                '/panti.mp3',
+                              await notifier.audioCache.play(
+                                AudioFile.panti.value,
                               );
 
                               await HapticFeedback.heavyImpact();
