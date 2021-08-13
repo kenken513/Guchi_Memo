@@ -3,6 +3,7 @@ import 'package:flutter_guchi_memo/guchi.dart';
 import 'package:flutter_guchi_memo/guchi_state.dart';
 import 'package:flutter_guchi_memo/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
   (ref) => GuchiHomeViewModel(
@@ -19,6 +20,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+  final audioCache = AudioCache();
 
 //初期化
   Future<void> initializeGuchi() async {
