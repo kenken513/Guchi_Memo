@@ -11,7 +11,7 @@ class GuchiHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final guchi = watch(guchiProvider);
-    final notifier = watch(guchiProvider.notifier);
+    final viewModel = watch(guchiProvider.notifier);
     return Scaffold(
       appBar: AppBar(),
       body: ListView.builder(
@@ -25,7 +25,7 @@ class GuchiHomePage extends ConsumerWidget {
               trailing: IconButton(
                 onPressed: () {
                   if (data.id != null) {
-                    notifier.deleteGuchi(data.id!);
+                    viewModel.deleteGuchi(data.id!);
                   }
                 },
                 icon: const Icon(Icons.delete),
@@ -43,33 +43,33 @@ class GuchiHomePage extends ConsumerWidget {
                                   labelText: '愚痴を教えて！',
                                   hintText: '愚痴れ！',
                                 ),
-                                controller: notifier.titleController,
+                                controller: viewModel.titleController,
                               ),
                               TextField(
                                   decoration: const InputDecoration(
                                     labelText: '詳しく教えて！',
                                     hintText: '愚痴れ！',
                                   ),
-                                  controller: notifier.contentController),
+                                  controller: viewModel.contentController),
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     if (data.id != null) {
-                                      await notifier.updateGuchi(
+                                      await viewModel.updateGuchi(
                                         data.id!,
-                                        notifier.titleController.text,
-                                        notifier.contentController.text,
+                                        viewModel.titleController.text,
+                                        viewModel.contentController.text,
                                       );
 
-                                      await notifier.audioCache.play(
+                                      await viewModel.audioCache.play(
                                         AudioFile.panti.value,
                                       );
 
                                       await HapticFeedback.heavyImpact();
                                     }
-                                    notifier.titleController.clear();
-                                    notifier.contentController.clear();
+                                    viewModel.titleController.clear();
+                                    viewModel.contentController.clear();
 
                                     Navigator.pop(context);
                                   },
@@ -96,27 +96,27 @@ class GuchiHomePage extends ConsumerWidget {
                             labelText: '愚痴を教えて！',
                             hintText: '愚痴れ！',
                           ),
-                          controller: notifier.titleController,
+                          controller: viewModel.titleController,
                         ),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: '詳しく教えて！',
                             hintText: '愚痴れ！',
                           ),
-                          controller: notifier.contentController,
+                          controller: viewModel.contentController,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await notifier.createGuchi(
-                                notifier.titleController.text,
-                                notifier.contentController.text,
+                              await viewModel.createGuchi(
+                                viewModel.titleController.text,
+                                viewModel.contentController.text,
                               );
-                              notifier.titleController.clear();
-                              notifier.contentController.clear();
+                              viewModel.titleController.clear();
+                              viewModel.contentController.clear();
 
-                              await notifier.audioCache.play(
+                              await viewModel.audioCache.play(
                                 AudioFile.panti.value,
                               );
 
