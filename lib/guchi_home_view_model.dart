@@ -4,6 +4,7 @@ import 'package:flutter_guchi_memo/guchi_state.dart';
 import 'package:flutter_guchi_memo/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
   (ref) => GuchiHomeViewModel(
@@ -18,14 +19,31 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
   final SqlRepository _sqlRepository;
 
+  final refreshController = RefreshController(initialRefresh: false);
+
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   final audioCache = AudioCache();
 
+  Future<void> onLoading() async {
+    return Future.delayed(const Duration(milliseconds: 1000), () async {
+      await scrolledGuchi();
+      refreshController.loadComplete();
+    });
+  }
+
 //初期化
   Future<void> initializeGuchi() async {
-    final listDB = await _sqlRepository.getGuchisDB();
+    final listDB = await _sqlRepository.initializeGuchiDB();
     state = state.copyWith(guchiList: listDB);
+  }
+
+  //スクロール時に愚痴を取得
+  Future<void> scrolledGuchi() async {
+    final listLength = state.guchiList.length;
+    final listDB = await _sqlRepository.scrollGuchiDB(listLength);
+    final newList = [...state.guchiList, ...listDB];
+    state = state.copyWith(guchiList: newList);
   }
 
 //愚痴を作成

@@ -74,6 +74,49 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 1
         .toList();
   }
 
+  //初期化時にDBから20件愚痴を取得
+  Future<List<Guchi>> initializeGuchiDB() async {
+    final db = await _database;
+    final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
+SELECT * FROM guchi LIMIT 20
+      ''');
+    return latestGuchi
+        .map((guchi) => Guchi(
+              id: int.parse(guchi['id'].toString()),
+              text: guchi['text'].toString(),
+              content: guchi['content'].toString(),
+              createdAt: guchi['createdAt'] != null
+                  ? DateTime.parse(guchi['createdAt'].toString()).toLocal()
+                  : null,
+              editedAt: guchi['editedAt'] != null
+                  ? DateTime.parse(guchi['editedAt'].toString()).toLocal()
+                  : null,
+            ))
+        .toList();
+  }
+
+  //スクロール時にDBから愚痴20件を取得する
+  Future<List<Guchi>> scrollGuchiDB(int listLength) async {
+    final length = listLength;
+    final db = await _database;
+    final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
+SELECT * FROM guchi LIMIT 20 OFFSET $length
+      ''');
+    return latestGuchi
+        .map((guchi) => Guchi(
+              id: int.parse(guchi['id'].toString()),
+              text: guchi['text'].toString(),
+              content: guchi['content'].toString(),
+              createdAt: guchi['createdAt'] != null
+                  ? DateTime.parse(guchi['createdAt'].toString()).toLocal()
+                  : null,
+              editedAt: guchi['editedAt'] != null
+                  ? DateTime.parse(guchi['editedAt'].toString()).toLocal()
+                  : null,
+            ))
+        .toList();
+  }
+
 //DBの愚痴を編集
   Future<void> updateGuchiDB(Guchi guchi) async {
     final db = await _database;
