@@ -26,13 +26,11 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   final audioCache = AudioCache();
 
   Future<void> onLoading() async {
-    return Future.delayed(const Duration(milliseconds: 1000), () async {
-      final listLength = state.guchiList.length;
-      final listDB = await _sqlRepository.fetchGuchisOnScroll(listLength);
-      final newList = [...state.guchiList, ...listDB];
-      state = state.copyWith(guchiList: newList);
-      refreshController.loadComplete();
-    });
+    final listLength = state.guchiList.length;
+    final listDB = await _sqlRepository.fetchGuchisOnScroll(listLength);
+    final newList = [...state.guchiList, ...listDB];
+    state = state.copyWith(guchiList: newList);
+    refreshController.loadComplete();
   }
 
 //初期化
