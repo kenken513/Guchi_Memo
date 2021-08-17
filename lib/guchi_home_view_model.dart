@@ -27,23 +27,18 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
   Future<void> onLoading() async {
     return Future.delayed(const Duration(milliseconds: 1000), () async {
-      await scrolledGuchi();
+      final listLength = state.guchiList.length;
+      final listDB = await _sqlRepository.fetchGuchisOnScroll(listLength);
+      final newList = [...state.guchiList, ...listDB];
+      state = state.copyWith(guchiList: newList);
       refreshController.loadComplete();
     });
   }
 
 //初期化
   Future<void> initializeGuchi() async {
-    final listDB = await _sqlRepository.initializeGuchiDB();
+    final listDB = await _sqlRepository.getInitializeGuchisDB();
     state = state.copyWith(guchiList: listDB);
-  }
-
-  //スクロール時に愚痴を取得
-  Future<void> scrolledGuchi() async {
-    final listLength = state.guchiList.length;
-    final listDB = await _sqlRepository.scrollGuchiDB(listLength);
-    final newList = [...state.guchiList, ...listDB];
-    state = state.copyWith(guchiList: newList);
   }
 
 //愚痴を作成
