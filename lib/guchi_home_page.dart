@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_guchi_memo/audio_file.dart';
 import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GuchiHomePage extends ConsumerWidget {
@@ -70,11 +66,7 @@ class GuchiHomePage extends ConsumerWidget {
                                           viewModel.contentController.text,
                                         );
 
-                                        await viewModel.audioCache.play(
-                                          AudioFile.panti.value,
-                                        );
-
-                                        await HapticFeedback.heavyImpact();
+                                        await viewModel.soundAction();
                                       }
                                       viewModel.titleController.clear();
                                       viewModel.contentController.clear();
@@ -125,11 +117,7 @@ class GuchiHomePage extends ConsumerWidget {
                               viewModel.titleController.clear();
                               viewModel.contentController.clear();
 
-                              await viewModel.audioCache.play(
-                                AudioFile.panti.value,
-                              );
-
-                              await HapticFeedback.heavyImpact();
+                              await viewModel.soundAction();
 
                               Navigator.pop(context);
                             },

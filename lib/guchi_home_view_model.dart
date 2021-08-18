@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_guchi_memo/audio_file.dart';
 import 'package:flutter_guchi_memo/guchi.dart';
 import 'package:flutter_guchi_memo/guchi_state.dart';
 import 'package:flutter_guchi_memo/sql_repository.dart';
@@ -23,7 +25,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-  final audioCache = AudioCache();
+  final _audioCache = AudioCache();
 
   Future<void> onLoading() async {
     final listLength = state.guchiList.length;
@@ -31,6 +33,13 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
     final newList = [...state.guchiList, ...listDB];
     state = state.copyWith(guchiList: newList);
     refreshController.loadComplete();
+  }
+
+  Future<void> soundAction() async {
+    await Future.wait([
+      _audioCache.play(AudioFile.panti.value),
+      HapticFeedback.heavyImpact(),
+    ]);
   }
 
 //初期化
