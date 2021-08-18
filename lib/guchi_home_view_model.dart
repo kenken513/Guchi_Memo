@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_guchi_memo/audio_file.dart';
 import 'package:flutter_guchi_memo/guchi.dart';
 import 'package:flutter_guchi_memo/guchi_state.dart';
 import 'package:flutter_guchi_memo/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
   (ref) => GuchiHomeViewModel(
@@ -18,13 +21,30 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
   final SqlRepository _sqlRepository;
 
+  final refreshController = RefreshController(initialRefresh: false);
+
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-  final audioCache = AudioCache();
+  final _audioCache = AudioCache();
+
+  Future<void> onLoading() async {
+    final listLength = state.guchiList.length;
+    final listDB = await _sqlRepository.fetchGuchiList(offset: listLength);
+    final newList = [...state.guchiList, ...listDB];
+    state = state.copyWith(guchiList: newList);
+    refreshController.loadComplete();
+  }
+
+  Future<void> soundAction() async {
+    await Future.wait([
+      _audioCache.play(AudioFile.panti.value),
+      HapticFeedback.heavyImpact(),
+    ]);
+  }
 
 //初期化
   Future<void> initializeGuchi() async {
-    final listDB = await _sqlRepository.getGuchisDB();
+    final listDB = await _sqlRepository.fetchGuchiList();
     state = state.copyWith(guchiList: listDB);
   }
 
@@ -45,9 +65,12 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
     await _sqlRepository.insertGuchiDB(guchi);
 
-    final latestGuchiListDB = await _sqlRepository.getLatestGuchiDB();
+    final latestGuchiListDB = await _sqlRepository.fetchLatestGuchiDB();
 
-    final newlist = [...state.guchiList, ...latestGuchiListDB];
+    final newlist = [
+      ...latestGuchiListDB,
+      ...state.guchiList,
+    ];
     state = state.copyWith(guchiList: newlist);
   }
 
