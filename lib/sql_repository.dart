@@ -34,27 +34,8 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
     );
   }
 
-//DBから愚痴を取得
-  Future<List<Guchi>> getGuchisDB() async {
-    final db = await _database;
-    final List<Map<String, dynamic>> maps = await db.query('guchi');
-    return maps
-        .map((guchi) => Guchi(
-              id: int.parse(guchi['id'].toString()),
-              text: guchi['text'].toString(),
-              content: guchi['content'].toString(),
-              createdAt: guchi['createdAt'] != null
-                  ? DateTime.parse(guchi['createdAt'].toString()).toLocal()
-                  : null,
-              editedAt: guchi['editedAt'] != null
-                  ? DateTime.parse(guchi['editedAt'].toString()).toLocal()
-                  : null,
-            ))
-        .toList();
-  }
-
 //DBから最新の愚痴を取得
-  Future<List<Guchi>> getLatestGuchiDB() async {
+  Future<List<Guchi>> fetchLatestGuchiDB() async {
     final db = await _database;
     final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
 SELECT * FROM guchi ORDER BY id DESC LIMIT 1
@@ -62,18 +43,9 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 1
     return latestGuchi.map((guchi) => Guchi.fromJson(guchi)).toList();
   }
 
-  //初期化時にDBから20件愚痴を取得
-  Future<List<Guchi>> getInitializeGuchisDB() async {
-    final db = await _database;
-    final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
-SELECT * FROM guchi LIMIT 20
-      ''');
-    return latestGuchi.map((guchi) => Guchi.fromJson(guchi)).toList();
-  }
-
   //スクロール時にDBから愚痴20件を取得する
-  Future<List<Guchi>> fetchGuchisOnScroll(int listLength) async {
-    final length = listLength;
+  Future<List<Guchi>> fetchGuchiList({int offset = 0}) async {
+    final length = offset;
     final db = await _database;
     final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
 SELECT * FROM guchi LIMIT 20 OFFSET $length

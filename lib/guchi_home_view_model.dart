@@ -27,7 +27,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
   Future<void> onLoading() async {
     final listLength = state.guchiList.length;
-    final listDB = await _sqlRepository.fetchGuchisOnScroll(listLength);
+    final listDB = await _sqlRepository.fetchGuchiList(offset: listLength);
     final newList = [...state.guchiList, ...listDB];
     state = state.copyWith(guchiList: newList);
     refreshController.loadComplete();
@@ -35,7 +35,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
 //初期化
   Future<void> initializeGuchi() async {
-    final listDB = await _sqlRepository.getInitializeGuchisDB();
+    final listDB = await _sqlRepository.fetchGuchiList();
     state = state.copyWith(guchiList: listDB);
   }
 
@@ -56,7 +56,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
 
     await _sqlRepository.insertGuchiDB(guchi);
 
-    final latestGuchiListDB = await _sqlRepository.getLatestGuchiDB();
+    final latestGuchiListDB = await _sqlRepository.fetchLatestGuchiDB();
 
     final newlist = [...state.guchiList, ...latestGuchiListDB];
     state = state.copyWith(guchiList: newlist);
