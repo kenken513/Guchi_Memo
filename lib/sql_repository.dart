@@ -45,12 +45,11 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 1
 
   //スクロール時にDBから愚痴20件を取得する
   Future<List<Guchi>> fetchGuchiList({int offset = 0}) async {
-    final length = offset;
     final db = await _database;
-    final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
-SELECT * FROM guchi LIMIT 20 OFFSET $length
+    final List<Map<String, dynamic>> guchiList = await db.rawQuery('''
+SELECT * FROM guchi ORDER BY id DESC LIMIT 20 OFFSET $offset
       ''');
-    return latestGuchi.map((guchi) => Guchi.fromJson(guchi)).toList();
+    return guchiList.map((guchi) => Guchi.fromJson(guchi)).toList();
   }
 
 //DBの愚痴を編集
