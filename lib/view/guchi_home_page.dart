@@ -5,7 +5,8 @@ import 'package:flutter_guchi_memo/view_model/guchi_home_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-final _guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
+final _guchiProvider =
+    StateNotifierProvider.autoDispose<GuchiHomeViewModel, GuchiState>(
   (ref) => GuchiHomeViewModel(
     ref.read(sqlRepositoryProvider),
   ),
