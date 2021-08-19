@@ -8,12 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
-  (ref) => GuchiHomeViewModel(
-    ref.read(sqlRepositoryProvider),
-  ),
-);
-
 class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   GuchiHomeViewModel(this._sqlRepository) : super(const GuchiState()) {
     initializeGuchi();
