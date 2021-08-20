@@ -5,12 +5,20 @@ import 'package:path/path.dart';
 import '../model/guchi.dart';
 
 final sqlRepositoryProvider = Provider<SqlRepository>(
-  (_) => SqlRepository(),
+  (_) => throw UnimplementedError(),
 );
 
 class SqlRepository {
+  //_databaseを受け取る
+  SqlRepository(this._database);
+  final Database _database;
+
+  Database getDatabase() {
+    return database as Database;
+  }
+
   //テーブル作成
-  static Future<Database> get _database async {
+  Future<Database> get database async {
     final _database = openDatabase(
       join(await getDatabasesPath(), 'guchi_database.db'),
       onCreate: (db, version) {
