@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../model/guchi.dart';
 
@@ -11,25 +11,24 @@ final sqlRepositoryProvider = Provider<SqlRepository>(
 class SqlRepository {
   //_databaseを受け取る
   SqlRepository(this._database);
-  final Database _database;
-
-  Database getDatabase() {
-    return database as Database;
-  }
+  final Future<Database> _database;
 
   //テーブル作成
-  Future<Database> get database async {
-    final _database = openDatabase(
-      join(await getDatabasesPath(), 'guchi_database.db'),
+  static Future<Database> get database async {
+    final databasesPath = await getDatabasesPath();
+    final path = join(databasesPath, 'guchi.db');
+
+    final database = openDatabase(
+      path,
+      version: 1,
       onCreate: (db, version) {
         return db.execute(
           '''
 CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT, createdAt TEXT, editedAt TEXT)''',
         );
       },
-      version: 1,
     );
-    return _database;
+    return database;
   }
 
 //DBに愚痴を追加
@@ -67,7 +66,7 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 20 OFFSET $offset
       'guchi',
       guchi.toJson(),
       where: 'id = ?',
-      whereArgs: [guchi.id],
+      whereArgs: [guchi.id!],
       conflictAlgorithm: ConflictAlgorithm.fail,
     );
   }

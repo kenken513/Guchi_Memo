@@ -6,18 +6,19 @@ import 'package:sqflite/sqflite.dart';
 import 'view/guchi_home_page.dart';
 
 Future<void> main() async {
-  late final Database database;
+  WidgetsFlutterBinding.ensureInitialized();
+  late final Future<Database> database;
 
   await Future.wait([
     Future(() async {
-      database = SqlRepository(database).getDatabase();
+      database = SqlRepository.database;
     }),
   ]);
 
   runApp(
     ProviderScope(
       overrides: [
-        sqlRepositoryProvider.overrideWithValue(database as SqlRepository),
+        sqlRepositoryProvider.overrideWithValue(SqlRepository(database)),
       ],
       child: const MyApp(),
     ),
