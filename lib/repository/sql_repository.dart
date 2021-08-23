@@ -42,12 +42,13 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
   }
 
 //DBから最新の愚痴を取得
-  Future<List<Guchi>> fetchLatestGuchiDB() async {
+  Future<Guchi?> fetchLatestGuchiDB() async {
     final db = _database;
     final latestGuchi = await db.rawQuery('''
 SELECT * FROM guchi ORDER BY id DESC LIMIT 1
       ''');
-    return latestGuchi.map((guchi) => Guchi.fromJson(guchi)).toList();
+    final guchi = latestGuchi.map((guchi) => Guchi.fromJson(guchi)).toList();
+    return guchi.first;
   }
 
   //スクロール時にDBから愚痴20件を取得する
