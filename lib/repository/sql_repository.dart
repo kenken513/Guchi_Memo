@@ -11,7 +11,7 @@ final sqlRepositoryProvider = Provider<SqlRepository>(
 class SqlRepository {
   //_databaseを受け取る
   SqlRepository(this._database);
-  final Future<Database> _database;
+  final Database _database;
 
   //テーブル作成
   static Future<Database> get database async {
@@ -33,7 +33,7 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
 
 //DBに愚痴を追加
   Future<void> insertGuchiDB(Guchi guchi) async {
-    final db = await _database;
+    final db = _database;
     await db.insert(
       'guchi',
       guchi.toJson(),
@@ -43,8 +43,8 @@ CREATE TABLE guchi(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, content TEXT
 
 //DBから最新の愚痴を取得
   Future<List<Guchi>> fetchLatestGuchiDB() async {
-    final db = await _database;
-    final List<Map<String, dynamic>> latestGuchi = await db.rawQuery('''
+    final db = _database;
+    final latestGuchi = await db.rawQuery('''
 SELECT * FROM guchi ORDER BY id DESC LIMIT 1
       ''');
     return latestGuchi.map((guchi) => Guchi.fromJson(guchi)).toList();
@@ -52,8 +52,8 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 1
 
   //スクロール時にDBから愚痴20件を取得する
   Future<List<Guchi>> fetchGuchiList({int offset = 0}) async {
-    final db = await _database;
-    final List<Map<String, dynamic>> guchiList = await db.rawQuery('''
+    final db = _database;
+    final guchiList = await db.rawQuery('''
 SELECT * FROM guchi ORDER BY id DESC LIMIT 20 OFFSET $offset
       ''');
     return guchiList.map((guchi) => Guchi.fromJson(guchi)).toList();
@@ -61,7 +61,7 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 20 OFFSET $offset
 
 //DBの愚痴を編集
   Future<void> updateGuchiDB(Guchi guchi) async {
-    final db = await _database;
+    final db = _database;
     await db.update(
       'guchi',
       guchi.toJson(),
@@ -73,7 +73,7 @@ SELECT * FROM guchi ORDER BY id DESC LIMIT 20 OFFSET $offset
 
 //DBの愚痴を削除
   Future<void> deleteGuchiDB(int id) async {
-    final db = await _database;
+    final db = _database;
     await db.delete(
       'guchi',
       where: 'id = ?',

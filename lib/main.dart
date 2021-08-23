@@ -7,11 +7,11 @@ import 'view/guchi_home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  late final Future<Database> database;
+  late final Database database;
 
   await Future.wait([
     Future(() async {
-      database = SqlRepository.database;
+      database = await SqlRepository.database;
     }),
   ]);
 
