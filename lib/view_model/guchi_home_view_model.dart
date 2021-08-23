@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_guchi_memo/audio_file.dart';
-import 'package:flutter_guchi_memo/guchi.dart';
-import 'package:flutter_guchi_memo/guchi_state.dart';
-import 'package:flutter_guchi_memo/sql_repository.dart';
+import 'package:flutter_guchi_memo/common/audio_file.dart';
+import 'package:flutter_guchi_memo/model/guchi.dart';
+import 'package:flutter_guchi_memo/model/guchi_state.dart';
+import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-final guchiProvider = StateNotifierProvider<GuchiHomeViewModel, GuchiState>(
-  (ref) => GuchiHomeViewModel(
-    ref.read(sqlRepositoryProvider),
-  ),
-);
 
 class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   GuchiHomeViewModel(this._sqlRepository) : super(const GuchiState()) {
@@ -68,7 +62,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
     final latestGuchiListDB = await _sqlRepository.fetchLatestGuchiDB();
 
     final newlist = [
-      ...latestGuchiListDB,
+      latestGuchiListDB!,
       ...state.guchiList,
     ];
     state = state.copyWith(guchiList: newlist);

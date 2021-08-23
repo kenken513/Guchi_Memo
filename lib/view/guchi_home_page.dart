@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/guchi_home_view_model.dart';
+import 'package:flutter_guchi_memo/model/guchi_state.dart';
+import 'package:flutter_guchi_memo/repository/sql_repository.dart';
+import 'package:flutter_guchi_memo/view_model/guchi_home_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+final _guchiProvider =
+    StateNotifierProvider.autoDispose<GuchiHomeViewModel, GuchiState>(
+  (ref) => GuchiHomeViewModel(
+    ref.read(sqlRepositoryProvider),
+  ),
+);
 
 class GuchiHomePage extends ConsumerWidget {
   const GuchiHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final guchi = watch(guchiProvider);
-    final viewModel = watch(guchiProvider.notifier);
+    final state = watch(_guchiProvider);
+    final viewModel = watch(_guchiProvider.notifier);
     return Scaffold(
       appBar: AppBar(),
       body: SmartRefresher(
@@ -18,9 +27,9 @@ class GuchiHomePage extends ConsumerWidget {
         controller: viewModel.refreshController,
         onLoading: viewModel.onLoading,
         child: ListView.builder(
-            itemCount: guchi.guchiList.length,
+            itemCount: state.guchiList.length,
             itemBuilder: (context, index) {
-              final data = guchi.guchiList[index];
+              final data = state.guchiList[index];
               return ListTile(
                 leading: Text(data.id.toString()),
                 // const Icon(Icons.book),

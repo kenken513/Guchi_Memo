@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sqflite/sqflite.dart';
 
-import 'guchi_home_page.dart';
+import 'view/guchi_home_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  late final Database database;
+
+  await Future.wait([
+    Future(() async {
+      database = await SqlRepository.database;
+    }),
+  ]);
+
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [
+        sqlRepositoryProvider.overrideWithValue(SqlRepository(database)),
+      ],
+      child: const MyApp(),
     ),
   );
 }

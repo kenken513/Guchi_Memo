@@ -4,6 +4,6 @@ enum AudioFile {
 
 extension AudioFileExtension on AudioFile {
   String get value {
-    return toString().replaceAll('${runtimeType}.', '') + '.mp3';
+    return '${toString().replaceAll('$runtimeType.', '')}.mp3';
   }
 }
