@@ -17,19 +17,19 @@ class GuchiHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final guchi = watch(_guchiProvider);
-    final _viewModel = watch(_guchiProvider.notifier);
+    final state = watch(_guchiProvider);
+    final viewModel = watch(_guchiProvider.notifier);
     return Scaffold(
       appBar: AppBar(),
       body: SmartRefresher(
         enablePullDown: false,
         enablePullUp: true,
-        controller: _viewModel.refreshController,
-        onLoading: _viewModel.onLoading,
+        controller: viewModel.refreshController,
+        onLoading: viewModel.onLoading,
         child: ListView.builder(
-            itemCount: guchi.guchiList.length,
+            itemCount: state.guchiList.length,
             itemBuilder: (context, index) {
-              final data = guchi.guchiList[index];
+              final data = state.guchiList[index];
               return ListTile(
                 leading: Text(data.id.toString()),
                 // const Icon(Icons.book),
@@ -38,7 +38,7 @@ class GuchiHomePage extends ConsumerWidget {
                 trailing: IconButton(
                   onPressed: () {
                     if (data.id != null) {
-                      _viewModel.deleteGuchi(data.id!);
+                      viewModel.deleteGuchi(data.id!);
                     }
                   },
                   icon: const Icon(Icons.delete),
@@ -56,29 +56,29 @@ class GuchiHomePage extends ConsumerWidget {
                                     labelText: '愚痴を教えて！',
                                     hintText: '愚痴れ！',
                                   ),
-                                  controller: _viewModel.titleController,
+                                  controller: viewModel.titleController,
                                 ),
                                 TextField(
                                     decoration: const InputDecoration(
                                       labelText: '詳しく教えて！',
                                       hintText: '愚痴れ！',
                                     ),
-                                    controller: _viewModel.contentController),
+                                    controller: viewModel.contentController),
                                 Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       if (data.id != null) {
-                                        await _viewModel.updateGuchi(
+                                        await viewModel.updateGuchi(
                                           data.id!,
-                                          _viewModel.titleController.text,
-                                          _viewModel.contentController.text,
+                                          viewModel.titleController.text,
+                                          viewModel.contentController.text,
                                         );
 
-                                        await _viewModel.soundAction();
+                                        await viewModel.soundAction();
                                       }
-                                      _viewModel.titleController.clear();
-                                      _viewModel.contentController.clear();
+                                      viewModel.titleController.clear();
+                                      viewModel.contentController.clear();
 
                                       Navigator.pop(context);
                                     },
@@ -106,27 +106,27 @@ class GuchiHomePage extends ConsumerWidget {
                             labelText: '愚痴を教えて！',
                             hintText: '愚痴れ！',
                           ),
-                          controller: _viewModel.titleController,
+                          controller: viewModel.titleController,
                         ),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: '詳しく教えて！',
                             hintText: '愚痴れ！',
                           ),
-                          controller: _viewModel.contentController,
+                          controller: viewModel.contentController,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await _viewModel.createGuchi(
-                                _viewModel.titleController.text,
-                                _viewModel.contentController.text,
+                              await viewModel.createGuchi(
+                                viewModel.titleController.text,
+                                viewModel.contentController.text,
                               );
-                              _viewModel.titleController.clear();
-                              _viewModel.contentController.clear();
+                              viewModel.titleController.clear();
+                              viewModel.contentController.clear();
 
-                              await _viewModel.soundAction();
+                              await viewModel.soundAction();
 
                               Navigator.pop(context);
                             },
