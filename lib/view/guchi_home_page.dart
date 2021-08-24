@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/model/guchi_state.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
+import 'package:flutter_guchi_memo/view/setting_page.dart';
 import 'package:flutter_guchi_memo/view_model/guchi_home_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -20,7 +21,22 @@ class GuchiHomePage extends ConsumerWidget {
     final state = watch(_guchiProvider);
     final viewModel = watch(_guchiProvider.notifier);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('愚痴郎'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await Navigator.push<Widget>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.settings),
+          )
+        ],
+      ),
       body: SmartRefresher(
         enablePullDown: false,
         enablePullUp: true,

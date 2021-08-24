@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo SQL',
+      title: '愚痴郎',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
