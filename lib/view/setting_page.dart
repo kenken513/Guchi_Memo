@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guchi_memo/model/Version/version_info.dart';
 import 'package:flutter_guchi_memo/model/panti/panti.dart';
+import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/view_model/setting_page_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +13,13 @@ final _settingProvider =
   ),
 );
 
+final _versionProvider =
+    StateNotifierProvider.autoDispose<VersionViewModel, VersionInfo>(
+  (ref) => VersionViewModel(
+    ref.read(packageInfoRepositoryProvider),
+  ),
+);
+
 class SettingPage extends ConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
@@ -18,6 +27,7 @@ class SettingPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(_settingProvider);
     final viewModel = watch(_settingProvider.notifier);
+    final versionState = watch(_versionProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
@@ -38,6 +48,9 @@ class SettingPage extends ConsumerWidget {
                 await viewModel.onCnaged(value: value);
               },
             ),
+          ),
+          ListTile(
+            title: Text(versionState.version),
           ),
         ],
       ),
