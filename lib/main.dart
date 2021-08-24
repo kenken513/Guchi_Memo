@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,11 +13,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   late final Database database;
   late final SharedPreferences sharedPreferences;
+  late final PackageInfo packageInfo;
 
   await Future.wait([
     Future(() async {
       database = await SqlRepository.database;
       sharedPreferences = await SharedPreferences.getInstance();
+      packageInfo = await PackageInfo.fromPlatform();
     }),
   ]);
 
@@ -25,6 +29,8 @@ Future<void> main() async {
         sqlRepositoryProvider.overrideWithValue(SqlRepository(database)),
         sharedPreferenceRepositoryProvider
             .overrideWithValue(SharedPreferenceRepository(sharedPreferences)),
+        packageInfoRepositoryProvider
+            .overrideWithValue(PackageInfoRepository(packageInfo)),
       ],
       child: const MyApp(),
     ),
