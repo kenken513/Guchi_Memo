@@ -3,17 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_guchi_memo/common/audio_file.dart';
 import 'package:flutter_guchi_memo/model/guchi.dart';
 import 'package:flutter_guchi_memo/model/guchi_state.dart';
+import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GuchiHomeViewModel extends StateNotifier<GuchiState> {
-  GuchiHomeViewModel(this._sqlRepository) : super(const GuchiState()) {
+  GuchiHomeViewModel(this._sqlRepository, this._sharedPreferenceRepository)
+      : super(const GuchiState()) {
     initializeGuchi();
   }
 
   final SqlRepository _sqlRepository;
+  final SharedPreferenceRepository _sharedPreferenceRepository;
 
   final refreshController = RefreshController(initialRefresh: false);
 
@@ -30,10 +33,16 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   }
 
   Future<void> soundAction() async {
-    await Future.wait([
-      _audioCache.play(AudioFile.panti.value),
-      HapticFeedback.heavyImpact(),
-    ]);
+    final active = await _sharedPreferenceRepository.fetchActivePrefs();
+
+    if (active) {
+      await Future.wait([
+        _audioCache.play(AudioFile.panti.value),
+        HapticFeedback.heavyImpact(),
+      ]);
+    } else {
+      await HapticFeedback.heavyImpact();
+    }
   }
 
 //初期化

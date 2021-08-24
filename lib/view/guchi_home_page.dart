@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/model/guchi_state.dart';
+import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_guchi_memo/view/setting_page.dart';
 import 'package:flutter_guchi_memo/view_model/guchi_home_view_model.dart';
@@ -10,6 +11,7 @@ final _guchiProvider =
     StateNotifierProvider.autoDispose<GuchiHomeViewModel, GuchiState>(
   (ref) => GuchiHomeViewModel(
     ref.read(sqlRepositoryProvider),
+    ref.read(sharedPreferenceRepositoryProvider),
   ),
 );
 
