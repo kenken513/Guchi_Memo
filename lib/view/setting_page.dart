@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/model/panti/panti.dart';
+import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/view_model/setting_page_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _settingProvider =
     StateNotifierProvider.autoDispose<SettingPageViewModel, Panti>(
-  (ref) => SettingPageViewModel(),
+  (ref) => SettingPageViewModel(
+    ref.read(sharedPreferenceRepositoryProvider),
+  ),
 );
 
 class SettingPage extends ConsumerWidget {
