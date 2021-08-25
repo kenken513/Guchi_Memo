@@ -28,31 +28,58 @@ class SettingPage extends ConsumerWidget {
     final state = watch(_settingProvider);
     final viewModel = watch(_settingProvider.notifier);
     final versionState = watch(_versionProvider);
+    final active = state.active;
+    final isActive = active ? 'ON' : 'OFF';
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: SwitchListTile(
-              value: state.acrive,
-              activeColor: Colors.pink,
-              activeTrackColor: Colors.pink,
-              inactiveThumbColor: Colors.grey,
-              inactiveTrackColor: Colors.grey,
-              secondary: const Icon(Icons.volume_up),
-              title: const Text('パンチ音のON/OFF'),
-              onChanged: (bool value) async {
-                await viewModel.onCnaged(value: value);
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white70,
+                ),
+                child: SwitchListTile(
+                  value: active,
+                  activeColor: Colors.pink,
+                  activeTrackColor: Colors.pink,
+                  inactiveThumbColor: Colors.grey,
+                  inactiveTrackColor: Colors.grey,
+                  secondary: const Icon(Icons.volume_up),
+                  title: Text('効果音 $isActive'),
+                  onChanged: (bool value) async {
+                    await viewModel.onCnaged(value: value);
+                  },
+                ),
+              ),
             ),
-          ),
-          ListTile(
-            title: Text(versionState.version),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white70,
+                ),
+                child: ListTile(
+                  title: const Text('アプリバージョン'),
+                  subtitle: Text(
+                    versionState.version,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

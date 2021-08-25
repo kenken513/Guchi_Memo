@@ -14,11 +14,11 @@ class SettingPageViewModel extends StateNotifier<Panti> {
 
   Future<void> fetchActive() async {
     final sharedValue = await _sharedPreferenceRepository.fetchActivePrefs();
-    state = state.copyWith(acrive: sharedValue);
+    state = state.copyWith(active: sharedValue);
   }
 
   Future<void> onCnaged({required bool value}) async {
-    state = state.copyWith(acrive: value);
+    state = state.copyWith(active: value);
     await _sharedPreferenceRepository.setActive(value: value);
   }
 }
