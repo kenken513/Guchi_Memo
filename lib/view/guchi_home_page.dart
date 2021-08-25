@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/model/guchi_state.dart';
+import 'package:flutter_guchi_memo/model/guchi/guchi_state.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_guchi_memo/view/setting_page.dart';
