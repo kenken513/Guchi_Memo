@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$PantiTearOff {
   const _$PantiTearOff();
 
-  _Panti call({bool acrive = true}) {
+  _Panti call({bool active = true}) {
     return _Panti(
-      acrive: acrive,
+      active: active,
     );
   }
 }
@@ -28,7 +28,7 @@ const $Panti = _$PantiTearOff();
 
 /// @nodoc
 mixin _$Panti {
-  bool get acrive => throw _privateConstructorUsedError;
+  bool get active => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PantiCopyWith<Panti> get copyWith => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ mixin _$Panti {
 abstract class $PantiCopyWith<$Res> {
   factory $PantiCopyWith(Panti value, $Res Function(Panti) then) =
       _$PantiCopyWithImpl<$Res>;
-  $Res call({bool acrive});
+  $Res call({bool active});
 }
 
 /// @nodoc
@@ -51,12 +51,12 @@ class _$PantiCopyWithImpl<$Res> implements $PantiCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? acrive = freezed,
+    Object? active = freezed,
   }) {
     return _then(_value.copyWith(
-      acrive: acrive == freezed
-          ? _value.acrive
-          : acrive // ignore: cast_nullable_to_non_nullable
+      active: active == freezed
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -67,7 +67,7 @@ abstract class _$PantiCopyWith<$Res> implements $PantiCopyWith<$Res> {
   factory _$PantiCopyWith(_Panti value, $Res Function(_Panti) then) =
       __$PantiCopyWithImpl<$Res>;
   @override
-  $Res call({bool acrive});
+  $Res call({bool active});
 }
 
 /// @nodoc
@@ -81,12 +81,12 @@ class __$PantiCopyWithImpl<$Res> extends _$PantiCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? acrive = freezed,
+    Object? active = freezed,
   }) {
     return _then(_Panti(
-      acrive: acrive == freezed
-          ? _value.acrive
-          : acrive // ignore: cast_nullable_to_non_nullable
+      active: active == freezed
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -95,28 +95,28 @@ class __$PantiCopyWithImpl<$Res> extends _$PantiCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Panti implements _Panti {
-  const _$_Panti({this.acrive = true});
+  const _$_Panti({this.active = true});
 
   @JsonKey(defaultValue: true)
   @override
-  final bool acrive;
+  final bool active;
 
   @override
   String toString() {
-    return 'Panti(acrive: $acrive)';
+    return 'Panti(active: $active)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Panti &&
-            (identical(other.acrive, acrive) ||
-                const DeepCollectionEquality().equals(other.acrive, acrive)));
+            (identical(other.active, active) ||
+                const DeepCollectionEquality().equals(other.active, active)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(acrive);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(active);
 
   @JsonKey(ignore: true)
   @override
@@ -125,10 +125,10 @@ class _$_Panti implements _Panti {
 }
 
 abstract class _Panti implements Panti {
-  const factory _Panti({bool acrive}) = _$_Panti;
+  const factory _Panti({bool active}) = _$_Panti;
 
   @override
-  bool get acrive => throw _privateConstructorUsedError;
+  bool get active => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PantiCopyWith<_Panti> get copyWith => throw _privateConstructorUsedError;

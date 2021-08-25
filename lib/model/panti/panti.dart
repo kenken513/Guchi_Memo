@@ -6,6 +6,6 @@ part 'panti.freezed.dart';
 @freezed
 class Panti with _$Panti {
   const factory Panti({
-    @Default(true) bool acrive,
+    @Default(true) bool active,
   }) = _Panti;
 }
