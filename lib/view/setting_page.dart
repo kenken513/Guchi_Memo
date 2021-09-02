@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/model/Version/version_info.dart';
-import 'package:flutter_guchi_memo/model/panti/panti.dart';
-import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
-import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/view_model/setting_page_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final _settingProvider =
-    StateNotifierProvider.autoDispose<SettingPageViewModel, Panti>(
-  (ref) => SettingPageViewModel(
-    ref.read(sharedPreferenceRepositoryProvider),
-  ),
-);
-
-final _versionProvider =
-    StateNotifierProvider.autoDispose<VersionViewModel, VersionInfo>(
-  (ref) => VersionViewModel(
-    ref.read(packageInfoRepositoryProvider),
-  ),
-);
 
 class SettingPage extends ConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(_settingProvider);
-    final viewModel = watch(_settingProvider.notifier);
-    final versionState = watch(_versionProvider);
+    // final state = watch(settingPageViewModelProvider);
+    final state = watch(settingPageViewModelProvider);
+    final viewModel = watch(settingPageViewModelProvider.notifier);
     final active = state.active;
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +50,7 @@ class SettingPage extends ConsumerWidget {
                 child: ListTile(
                   title: const Text('アプリバージョン'),
                   subtitle: Text(
-                    versionState.version,
+                    state.version,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
