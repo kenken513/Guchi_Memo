@@ -10,19 +10,33 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GuchiHomeViewModel extends StateNotifier<GuchiState> {
-  GuchiHomeViewModel(this._sqlRepository, this._sharedPreferenceRepository)
-      : super(const GuchiState()) {
+  GuchiHomeViewModel(
+    this._sqlRepository,
+    this._sharedPreferenceRepository,
+  ) : super(const GuchiState()) {
     initializeGuchi();
+    _active = fetchIsActive();
   }
 
   final SqlRepository _sqlRepository;
   final SharedPreferenceRepository _sharedPreferenceRepository;
+
+  late Future<bool> _active;
 
   final refreshController = RefreshController(initialRefresh: false);
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   final _audioCache = AudioCache();
+
+  Future<bool> fetchIsActive() async {
+    final active = await _sharedPreferenceRepository.fetchActivePrefs();
+    return active;
+  }
+
+  Future<void> isActiveCheck() async {
+    _active = _sharedPreferenceRepository.fetchActivePrefs();
+  }
 
   Future<void> onLoading() async {
     final listLength = state.guchiList.length;
@@ -33,7 +47,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   }
 
   Future<void> soundAction() async {
-    final active = await _sharedPreferenceRepository.fetchActivePrefs();
+    final active = await _active;
 
     if (active) {
       await Future.wait([

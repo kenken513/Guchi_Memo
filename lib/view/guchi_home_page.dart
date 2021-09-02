@@ -33,7 +33,9 @@ class GuchiHomePage extends ConsumerWidget {
                 MaterialPageRoute(
                   builder: (context) => const SettingPage(),
                 ),
-              );
+              ).then((value) async {
+                await viewModel.isActiveCheck();
+              });
             },
             icon: const Icon(Icons.settings),
           )

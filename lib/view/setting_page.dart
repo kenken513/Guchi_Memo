@@ -7,7 +7,6 @@ class SettingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    // final state = watch(settingPageViewModelProvider);
     final state = watch(settingPageViewModelProvider);
     final viewModel = watch(settingPageViewModelProvider.notifier);
     final active = state.active;
