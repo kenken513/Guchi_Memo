@@ -29,7 +29,6 @@ class SettingPage extends ConsumerWidget {
     final viewModel = watch(_settingProvider.notifier);
     final versionState = watch(_versionProvider);
     final active = state.active;
-    final isActive = active ? 'ON' : 'OFF';
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
@@ -52,7 +51,7 @@ class SettingPage extends ConsumerWidget {
                   inactiveThumbColor: Colors.grey,
                   inactiveTrackColor: Colors.grey,
                   secondary: const Icon(Icons.volume_up),
-                  title: Text('効果音 $isActive'),
+                  title: Text('効果音 ${active ? 'ON' : 'OFF'}'),
                   onChanged: (bool value) async {
                     await viewModel.onCnaged(value: value);
                   },

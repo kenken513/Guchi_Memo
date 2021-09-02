@@ -1,3 +1,4 @@
+import 'package:flutter_guchi_memo/common/shared_preference_key.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,13 +11,16 @@ class SharedPreferenceRepository {
 
   Future<bool> setActive({required bool value}) async {
     final prefs = _sharedPreferences;
-    final sharedValue = await prefs.setBool('active', value);
+    final sharedValue = await prefs.setBool(
+      SharedPreferenceKey.active.value,
+      value,
+    );
     return sharedValue;
   }
 
   Future<bool> fetchActivePrefs() async {
     final prefs = _sharedPreferences;
-    final sharedValue = prefs.getBool('active') ?? true;
+    final sharedValue = prefs.getBool(SharedPreferenceKey.active.value) ?? true;
     return sharedValue;
   }
 }
