@@ -19,13 +19,9 @@ Future<void> main() async {
     Future(() async {
       database = await SqlRepository.database;
     }),
-  ]);
-  await Future.wait([
     Future(() async {
       sharedPreferences = await SharedPreferences.getInstance();
     }),
-  ]);
-  await Future.wait([
     Future(() async {
       packageInfo = await PackageInfo.fromPlatform();
     }),
