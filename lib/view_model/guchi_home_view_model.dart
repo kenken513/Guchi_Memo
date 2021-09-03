@@ -15,13 +15,15 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
     this._sharedPreferenceRepository,
   ) : super(const GuchiState()) {
     initializeGuchi();
-    _active = fetchIsActive();
+    Future(() async {
+      _active = await fetchIsActive();
+    });
   }
 
   final SqlRepository _sqlRepository;
   final SharedPreferenceRepository _sharedPreferenceRepository;
 
-  late Future<bool> _active;
+  late bool _active;
 
   final refreshController = RefreshController(initialRefresh: false);
 
@@ -35,7 +37,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   }
 
   Future<void> isActiveCheck() async {
-    _active = _sharedPreferenceRepository.fetchActivePrefs();
+    _active = await _sharedPreferenceRepository.fetchActivePrefs();
   }
 
   Future<void> onLoading() async {
@@ -47,9 +49,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
   }
 
   Future<void> soundAction() async {
-    final active = await _active;
-
-    if (active) {
+    if (_active) {
       await Future.wait([
         _audioCache.play(AudioFile.panti.value),
         HapticFeedback.heavyImpact(),
