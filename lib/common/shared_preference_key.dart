@@ -4,6 +4,6 @@ enum SharedPreferenceKey {
 
 extension SharedPreferenceKeyExtension on SharedPreferenceKey {
   String get value {
-    return toString();
+    return toString().replaceAll('$runtimeType.', '');
   }
 }
