@@ -28,7 +28,7 @@ class GuchiHomePage extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              await Navigator.push<Widget>(
+              await Navigator.push<void>(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const SettingPage(),
