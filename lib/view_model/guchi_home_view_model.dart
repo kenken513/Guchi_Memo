@@ -36,7 +36,7 @@ class GuchiHomeViewModel extends StateNotifier<GuchiState> {
     return active;
   }
 
-  Future<void> isActiveCheck() async {
+  Future<void> updateActive() async {
     _active = await _sharedPreferenceRepository.fetchActivePrefs();
   }
 
