@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/model/guchi/guchi_state.dart';
-import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
-import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_guchi_memo/view/setting_page.dart';
-import 'package:flutter_guchi_memo/view_model/guchi_home_view_model.dart';
+import 'package:flutter_guchi_memo/controllers/guchi_controller/guchi_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-final _guchiProvider =
-    StateNotifierProvider.autoDispose<GuchiHomeViewModel, GuchiState>(
-  (ref) => GuchiHomeViewModel(
-    ref.read(sqlRepositoryProvider),
-    ref.read(sharedPreferenceRepositoryProvider),
-  ),
-);
 
 class GuchiHomePage extends ConsumerWidget {
   const GuchiHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(_guchiProvider);
-    final viewModel = watch(_guchiProvider.notifier);
+    final state = watch(guchiProvider);
+    final guchiController = watch(guchiProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('愚痴郎'),
@@ -34,7 +23,7 @@ class GuchiHomePage extends ConsumerWidget {
                   builder: (context) => const SettingPage(),
                 ),
               ).then((value) async {
-                await viewModel.updateActive();
+                await guchiController.updateActive();
               });
             },
             icon: const Icon(Icons.settings),
@@ -44,8 +33,8 @@ class GuchiHomePage extends ConsumerWidget {
       body: SmartRefresher(
         enablePullDown: false,
         enablePullUp: true,
-        controller: viewModel.refreshController,
-        onLoading: viewModel.onLoading,
+        controller: guchiController.refreshController,
+        onLoading: guchiController.onLoading,
         child: ListView.builder(
             itemCount: state.guchiList.length,
             itemBuilder: (context, index) {
@@ -58,7 +47,7 @@ class GuchiHomePage extends ConsumerWidget {
                 trailing: IconButton(
                   onPressed: () {
                     if (data.id != null) {
-                      viewModel.deleteGuchi(data.id!);
+                      guchiController.deleteGuchi(data.id!);
                     }
                   },
                   icon: const Icon(Icons.delete),
@@ -76,29 +65,31 @@ class GuchiHomePage extends ConsumerWidget {
                                     labelText: '愚痴を教えて！',
                                     hintText: '愚痴れ！',
                                   ),
-                                  controller: viewModel.titleController,
+                                  controller: guchiController.titleController,
                                 ),
                                 TextField(
                                     decoration: const InputDecoration(
                                       labelText: '詳しく教えて！',
                                       hintText: '愚痴れ！',
                                     ),
-                                    controller: viewModel.contentController),
+                                    controller:
+                                        guchiController.contentController),
                                 Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       if (data.id != null) {
-                                        await viewModel.updateGuchi(
+                                        await guchiController.updateGuchi(
                                           data.id!,
-                                          viewModel.titleController.text,
-                                          viewModel.contentController.text,
+                                          guchiController.titleController.text,
+                                          guchiController
+                                              .contentController.text,
                                         );
 
-                                        await viewModel.soundAction();
+                                        await guchiController.soundAction();
                                       }
-                                      viewModel.titleController.clear();
-                                      viewModel.contentController.clear();
+                                      guchiController.titleController.clear();
+                                      guchiController.contentController.clear();
 
                                       Navigator.pop(context);
                                     },
@@ -126,27 +117,27 @@ class GuchiHomePage extends ConsumerWidget {
                             labelText: '愚痴を教えて！',
                             hintText: '愚痴れ！',
                           ),
-                          controller: viewModel.titleController,
+                          controller: guchiController.titleController,
                         ),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: '詳しく教えて！',
                             hintText: '愚痴れ！',
                           ),
-                          controller: viewModel.contentController,
+                          controller: guchiController.contentController,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await viewModel.createGuchi(
-                                viewModel.titleController.text,
-                                viewModel.contentController.text,
+                              await guchiController.createGuchi(
+                                guchiController.titleController.text,
+                                guchiController.contentController.text,
                               );
-                              viewModel.titleController.clear();
-                              viewModel.contentController.clear();
+                              guchiController.titleController.clear();
+                              guchiController.contentController.clear();
 
-                              await viewModel.soundAction();
+                              await guchiController.soundAction();
 
                               Navigator.pop(context);
                             },
