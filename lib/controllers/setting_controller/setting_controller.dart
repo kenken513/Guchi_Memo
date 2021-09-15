@@ -3,16 +3,16 @@ import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final settingPageViewModelProvider =
-    StateNotifierProvider.autoDispose<SettingPageViewModel, SettingState>(
-  (ref) => SettingPageViewModel(
+final settingProvider =
+    StateNotifierProvider.autoDispose<SettingController, SettingState>(
+  (ref) => SettingController(
     ref.read(packageInfoRepositoryProvider),
     ref.read(sharedPreferenceRepositoryProvider),
   ),
 );
 
-class SettingPageViewModel extends StateNotifier<SettingState> {
-  SettingPageViewModel(
+class SettingController extends StateNotifier<SettingState> {
+  SettingController(
       this._packageInfoRepository, this._sharedPreferenceRepository)
       : super(const SettingState()) {
     fetchActive();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/view_model/setting_page_view_model.dart';
+import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingPage extends ConsumerWidget {
@@ -7,8 +7,8 @@ class SettingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(settingPageViewModelProvider);
-    final viewModel = watch(settingPageViewModelProvider.notifier);
+    final state = watch(settingProvider);
+    final settingController = watch(settingProvider.notifier);
     final active = state.active;
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +34,7 @@ class SettingPage extends ConsumerWidget {
                   secondary: const Icon(Icons.volume_up),
                   title: Text('効果音 ${active ? 'ON' : 'OFF'}'),
                   onChanged: (bool value) async {
-                    await viewModel.onCnaged(value: value);
+                    await settingController.onCnaged(value: value);
                   },
                 ),
               ),

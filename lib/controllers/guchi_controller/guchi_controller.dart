@@ -9,8 +9,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class GuchiHomeViewModel extends StateNotifier<GuchiState> {
-  GuchiHomeViewModel(
+final guchiProvider =
+    StateNotifierProvider.autoDispose<GuchiController, GuchiState>(
+  (ref) => GuchiController(
+    ref.read(sqlRepositoryProvider),
+    ref.read(sharedPreferenceRepositoryProvider),
+  ),
+);
+
+class GuchiController extends StateNotifier<GuchiState> {
+  GuchiController(
     this._sqlRepository,
     this._sharedPreferenceRepository,
   ) : super(const GuchiState()) {
