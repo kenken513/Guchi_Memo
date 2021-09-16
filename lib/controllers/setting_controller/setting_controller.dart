@@ -16,6 +16,7 @@ class SettingController extends StateNotifier<SettingState> {
       this._packageInfoRepository, this._sharedPreferenceRepository)
       : super(const SettingState()) {
     fetchActive();
+    setAppVersion();
   }
 
   final SharedPreferenceRepository _sharedPreferenceRepository;
