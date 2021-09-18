@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_guchi_memo">
-   <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
    <application
         android:label="flutter_guchi_memo"
         android:icon="@mipmap/ic_launcher">
