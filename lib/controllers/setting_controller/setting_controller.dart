@@ -13,10 +13,12 @@ final settingProvider =
 
 class SettingController extends StateNotifier<SettingState> {
   SettingController(
-      this._packageInfoRepository, this._sharedPreferenceRepository)
-      : super(const SettingState()) {
+    this._packageInfoRepository,
+    this._sharedPreferenceRepository,
+  ) : super(const SettingState()) {
     fetchActive();
     setAppVersion();
+    fetchAuthState();
   }
 
   final SharedPreferenceRepository _sharedPreferenceRepository;
@@ -36,5 +38,15 @@ class SettingController extends StateNotifier<SettingState> {
   Future<void> onCnaged({required bool value}) async {
     state = state.copyWith(active: value);
     await _sharedPreferenceRepository.setActive(value: value);
+  }
+
+  Future<void> fetchAuthState() async {
+    final sharedValue = await _sharedPreferenceRepository.fetchAuthState();
+    state = state.copyWith(authState: sharedValue);
+  }
+
+  Future<void> onCnagedAuthState({required bool value}) async {
+    state = state.copyWith(authState: value);
+    await _sharedPreferenceRepository.setAuthState(value: value);
   }
 }
