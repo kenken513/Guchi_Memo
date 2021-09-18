@@ -16,10 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SettingStateTearOff {
   const _$SettingStateTearOff();
 
-  _SettingState call({String version = '', bool active = true}) {
+  _SettingState call(
+      {String version = '', bool active = true, bool authState = false}) {
     return _SettingState(
       version: version,
       active: active,
+      authState: authState,
     );
   }
 }
@@ -31,6 +33,7 @@ const $SettingState = _$SettingStateTearOff();
 mixin _$SettingState {
   String get version => throw _privateConstructorUsedError;
   bool get active => throw _privateConstructorUsedError;
+  bool get authState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -42,7 +45,7 @@ abstract class $SettingStateCopyWith<$Res> {
   factory $SettingStateCopyWith(
           SettingState value, $Res Function(SettingState) then) =
       _$SettingStateCopyWithImpl<$Res>;
-  $Res call({String version, bool active});
+  $Res call({String version, bool active, bool authState});
 }
 
 /// @nodoc
@@ -57,6 +60,7 @@ class _$SettingStateCopyWithImpl<$Res> implements $SettingStateCopyWith<$Res> {
   $Res call({
     Object? version = freezed,
     Object? active = freezed,
+    Object? authState = freezed,
   }) {
     return _then(_value.copyWith(
       version: version == freezed
@@ -66,6 +70,10 @@ class _$SettingStateCopyWithImpl<$Res> implements $SettingStateCopyWith<$Res> {
       active: active == freezed
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+      authState: authState == freezed
+          ? _value.authState
+          : authState // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -78,7 +86,7 @@ abstract class _$SettingStateCopyWith<$Res>
           _SettingState value, $Res Function(_SettingState) then) =
       __$SettingStateCopyWithImpl<$Res>;
   @override
-  $Res call({String version, bool active});
+  $Res call({String version, bool active, bool authState});
 }
 
 /// @nodoc
@@ -95,6 +103,7 @@ class __$SettingStateCopyWithImpl<$Res> extends _$SettingStateCopyWithImpl<$Res>
   $Res call({
     Object? version = freezed,
     Object? active = freezed,
+    Object? authState = freezed,
   }) {
     return _then(_SettingState(
       version: version == freezed
@@ -105,6 +114,10 @@ class __$SettingStateCopyWithImpl<$Res> extends _$SettingStateCopyWithImpl<$Res>
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
               as bool,
+      authState: authState == freezed
+          ? _value.authState
+          : authState // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -112,7 +125,8 @@ class __$SettingStateCopyWithImpl<$Res> extends _$SettingStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SettingState implements _SettingState {
-  const _$_SettingState({this.version = '', this.active = true});
+  const _$_SettingState(
+      {this.version = '', this.active = true, this.authState = false});
 
   @JsonKey(defaultValue: '')
   @override
@@ -120,10 +134,13 @@ class _$_SettingState implements _SettingState {
   @JsonKey(defaultValue: true)
   @override
   final bool active;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool authState;
 
   @override
   String toString() {
-    return 'SettingState(version: $version, active: $active)';
+    return 'SettingState(version: $version, active: $active, authState: $authState)';
   }
 
   @override
@@ -134,14 +151,18 @@ class _$_SettingState implements _SettingState {
                 const DeepCollectionEquality()
                     .equals(other.version, version)) &&
             (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)));
+                const DeepCollectionEquality().equals(other.active, active)) &&
+            (identical(other.authState, authState) ||
+                const DeepCollectionEquality()
+                    .equals(other.authState, authState)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(version) ^
-      const DeepCollectionEquality().hash(active);
+      const DeepCollectionEquality().hash(active) ^
+      const DeepCollectionEquality().hash(authState);
 
   @JsonKey(ignore: true)
   @override
@@ -150,12 +171,15 @@ class _$_SettingState implements _SettingState {
 }
 
 abstract class _SettingState implements SettingState {
-  const factory _SettingState({String version, bool active}) = _$_SettingState;
+  const factory _SettingState({String version, bool active, bool authState}) =
+      _$_SettingState;
 
   @override
   String get version => throw _privateConstructorUsedError;
   @override
   bool get active => throw _privateConstructorUsedError;
+  @override
+  bool get authState => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SettingStateCopyWith<_SettingState> get copyWith =>
