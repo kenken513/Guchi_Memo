@@ -9,8 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-final guchiProvider =
-    StateNotifierProvider.autoDispose<GuchiController, GuchiState>(
+final guchiProvider = StateNotifierProvider<GuchiController, GuchiState>(
   (ref) => GuchiController(
     ref.read(sqlRepositoryProvider),
     ref.read(sharedPreferenceRepositoryProvider),
