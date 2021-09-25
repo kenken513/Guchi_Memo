@@ -43,12 +43,12 @@ class AuthController extends StateNotifier<IsSignInState>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.paused) {
-      changeIsSignInBackground();
+      await changeIsSignInBackground();
     }
     if (state == AppLifecycleState.inactive) {
-      changeIsSignInBackground();
+      await changeIsSignInBackground();
     }
   }
 
