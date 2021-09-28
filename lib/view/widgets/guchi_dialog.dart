@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/guchi_controller/guchi_controller.dart';
+import 'package:flutter_guchi_memo/controllers/modal_controller/modal_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GuchiDialog extends ConsumerWidget {
@@ -9,6 +10,8 @@ class GuchiDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final guchiController = watch(guchiProvider.notifier);
+    final modalController = watch(modalProvider.notifier);
+
     return AlertDialog(
       title: const Text('愚痴れ！'),
       content: Column(
@@ -51,6 +54,7 @@ class GuchiDialog extends ConsumerWidget {
                 await guchiController.soundAction();
 
                 Navigator.pop(context);
+                await modalController.changeModalStateFlase();
               },
               child: Text(id != null ? '編集' : '保存'),
             ),
