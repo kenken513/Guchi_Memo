@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/controllers/auth_controller/auth_controller.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
 import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
@@ -51,20 +50,13 @@ class MyApp extends ConsumerWidget {
     final settingController = watch(settingProvider);
     final authState = settingController.authState;
 
-    final auth = watch(authProvider);
-    final isSignIn = auth.isSignIn;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: '愚痴郎',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: authState
-          ? isSignIn
-              ? const GuchiHomePage()
-              : const AuthPage()
-          : const GuchiHomePage(),
+      home: authState ? const AuthPage() : const GuchiHomePage(),
     );
   }
 }

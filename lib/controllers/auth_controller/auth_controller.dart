@@ -67,20 +67,18 @@ class AuthController extends StateNotifier<IsSignInState>
     return canCheckBiometrics;
   }
 
-  Future<void> authenticate() async {
+  Future<bool> authenticate() async {
     final availableBiometrics = await _auth.getAvailableBiometrics();
-
+    var result = false;
     if (availableBiometrics.contains(BiometricType.face) ||
         availableBiometrics.contains(BiometricType.fingerprint)) {
-      final result = await _auth.authenticate(
+      result = await _auth.authenticate(
         localizedReason: 'Please authenticate to show account balance',
         useErrorDialogs: true,
         stickyAuth: true,
         biometricOnly: true,
       );
-      if (result) {
-        await changeIsSignIn();
-      }
     }
+    return result;
   }
 }
