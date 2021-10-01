@@ -1,5 +1,6 @@
 enum SharedPreferenceKey {
   active,
+  authState,
 }
 
 extension SharedPreferenceKeyExtension on SharedPreferenceKey {

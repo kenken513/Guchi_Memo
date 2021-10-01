@@ -23,4 +23,20 @@ class SharedPreferenceRepository {
     final sharedValue = prefs.getBool(SharedPreferenceKey.active.value) ?? true;
     return sharedValue;
   }
+
+  Future<bool> setAuthState({required bool value}) async {
+    final prefs = _sharedPreferences;
+    final sharedValue = await prefs.setBool(
+      SharedPreferenceKey.authState.value,
+      value,
+    );
+    return sharedValue;
+  }
+
+  Future<bool> fetchAuthState() async {
+    final prefs = _sharedPreferences;
+    final sharedValue =
+        prefs.getBool(SharedPreferenceKey.authState.value) ?? false;
+    return sharedValue;
+  }
 }
