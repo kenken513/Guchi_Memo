@@ -1,3 +1,6 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
 import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
@@ -13,6 +16,7 @@ import 'view/guchi_home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   late final Database database;
   late final SharedPreferences sharedPreferences;
   late final PackageInfo packageInfo;
@@ -49,6 +53,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final settingController = watch(settingProvider);
     final authState = settingController.authState;
+    final analytics = FirebaseAnalytics();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -57,6 +62,9 @@ class MyApp extends ConsumerWidget {
         primarySwatch: Colors.pink,
       ),
       home: authState ? const AuthPage() : const GuchiHomePage(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
     );
   }
 }
