@@ -16,12 +16,14 @@ import 'view/guchi_home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   late final Database database;
   late final SharedPreferences sharedPreferences;
   late final PackageInfo packageInfo;
 
   await Future.wait([
+    Future(() async {
+      await Firebase.initializeApp();
+    }),
     Future(() async {
       database = await SqlRepository.database;
     }),
