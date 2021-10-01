@@ -47,9 +47,6 @@ class AuthController extends StateNotifier<IsSignInState>
     if (state == AppLifecycleState.paused) {
       await changeIsSignInBackground();
     }
-    if (state == AppLifecycleState.inactive) {
-      await changeIsSignInBackground();
-    }
   }
 
   @override
