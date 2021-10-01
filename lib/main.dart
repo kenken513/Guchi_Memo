@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
 import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
+import 'package:flutter_guchi_memo/view/auth_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,17 +43,20 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final settingController = watch(settingProvider);
+    final authState = settingController.authState;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: '愚痴郎',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: const GuchiHomePage(),
+      home: authState ? const AuthPage() : const GuchiHomePage(),
     );
   }
 }

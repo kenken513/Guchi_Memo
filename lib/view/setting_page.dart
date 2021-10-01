@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guchi_memo/controllers/auth_controller/auth_controller.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +10,10 @@ class SettingPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(settingProvider);
     final settingController = watch(settingProvider.notifier);
+    final authController = watch(authProvider.notifier);
     final active = state.active;
+    final auth = state.authState;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
@@ -39,6 +43,28 @@ class SettingPage extends ConsumerWidget {
                 ),
               ),
             ),
+            if (authController.canCheckBiometrics)
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.white70,
+                  ),
+                  child: SwitchListTile(
+                    value: auth,
+                    activeColor: Colors.pink,
+                    activeTrackColor: Colors.pink,
+                    inactiveThumbColor: Colors.grey,
+                    inactiveTrackColor: Colors.grey,
+                    secondary: const Icon(Icons.lock),
+                    title: Text('画面ロック ${auth ? 'ON' : 'OFF'}'),
+                    onChanged: (bool value) async {
+                      await settingController.onCnagedAuthState(value: value);
+                    },
+                  ),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Container(
