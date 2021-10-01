@@ -54,7 +54,7 @@ class GuchiDialog extends ConsumerWidget {
                 await guchiController.soundAction();
 
                 Navigator.pop(context);
-                await modalController.changeModalStateFlase();
+                modalController.changeModalStateFlase();
               },
               child: Text(id != null ? '編集' : '保存'),
             ),

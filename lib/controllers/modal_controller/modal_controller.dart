@@ -8,11 +8,11 @@ final modalProvider = StateNotifierProvider<ModalController, ModalState>(
 class ModalController extends StateNotifier<ModalState> {
   ModalController() : super(const ModalState());
 
-  Future<void> changeModalStateTrue() async {
+  void changeModalStateTrue() {
     state = state.copyWith(isOpen: true);
   }
 
-  Future<void> changeModalStateFlase() async {
+  void changeModalStateFlase() {
     state = state.copyWith(isOpen: false);
   }
 }
