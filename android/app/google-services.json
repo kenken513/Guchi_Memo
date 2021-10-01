@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "77861919972",
+    "project_id": "guchi-memo",
+    "storage_bucket": "guchi-memo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77861919972:android:5a74c444025ab3a096a0f1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_guchi_memo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77861919972-a0s8vdn5bqclpgjt011f35gfbnb90mdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6WQs1MG3m03zsPIYi7siq6GcGzKNETk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77861919972-a0s8vdn5bqclpgjt011f35gfbnb90mdn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "77861919972-s9m1jnt90p3iaem7mc7afcsq5mh4611b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterGuchiMemo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
