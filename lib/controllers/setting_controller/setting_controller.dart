@@ -16,16 +16,18 @@ class SettingController extends StateNotifier<SettingState> {
     this._packageInfoRepository,
     this._sharedPreferenceRepository,
   ) : super(const SettingState()) {
-    fetchActive();
-    setAppVersion();
-    fetchAuthState();
+    Future(() async {
+      await fetchActive();
+      await setAppVersion();
+      await fetchAuthState();
+    });
   }
 
   final SharedPreferenceRepository _sharedPreferenceRepository;
 
   final PackageInfoRepository _packageInfoRepository;
 
-  void setAppVersion() {
+  Future<void> setAppVersion() async {
     final appVersion = _packageInfoRepository.fetchAppVersion();
     state = state.copyWith(version: appVersion);
   }
