@@ -21,9 +21,7 @@ Future<void> main() async {
   late final PackageInfo packageInfo;
 
   await Future.wait([
-    Future(() async {
-      await Firebase.initializeApp();
-    }),
+    Firebase.initializeApp(),
     Future(() async {
       database = await SqlRepository.database;
     }),
@@ -49,13 +47,16 @@ Future<void> main() async {
   );
 }
 
+final firebaseAnalyticsProvider =
+    Provider<FirebaseAnalytics>((ref) => FirebaseAnalytics());
+
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final settingController = watch(settingProvider);
     final authState = settingController.authState;
-    final analytics = FirebaseAnalytics();
+    final analytics = watch(firebaseAnalyticsProvider);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
