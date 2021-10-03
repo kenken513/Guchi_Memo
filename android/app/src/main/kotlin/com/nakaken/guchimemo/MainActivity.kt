@@ -1,4 +1,4 @@
-package com.example.flutter_guchi_memo
+package com.nakaken.guchimemo
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
