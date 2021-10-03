@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_guchi_memo">
+    package="com.nakaken.guchimemo">
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
    <application
         android:label="flutter_guchi_memo"

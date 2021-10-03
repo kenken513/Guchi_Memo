@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:77861919972:android:5a74c444025ab3a096a0f1",
+        "mobilesdk_app_id": "1:77861919972:android:edf9444d3b9434e696a0f1",
         "android_client_info": {
-          "package_name": "com.example.flutter_guchi_memo"
+          "package_name": "com.nakaken.guchimemo"
         }
       },
       "oauth_client": [
@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "77861919972-s9m1jnt90p3iaem7mc7afcsq5mh4611b.apps.googleusercontent.com",
+              "client_id": "77861919972-00v90b56irpdhqqjeq5spgm518u04qh9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutterGuchiMemo"
+                "bundle_id": "com.nakaken.guchimemo"
               }
             }
           ]
