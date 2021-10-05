@@ -3,13 +3,11 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
-import 'package:flutter_guchi_memo/repository/auth_repository.dart';
 import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_guchi_memo/view/auth_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,7 +19,6 @@ Future<void> main() async {
   late final Database database;
   late final SharedPreferences sharedPreferences;
   late final PackageInfo packageInfo;
-  late final bool canCheckBiometrics;
 
   await Future.wait([
     Firebase.initializeApp(),
@@ -34,9 +31,6 @@ Future<void> main() async {
     Future(() async {
       packageInfo = await PackageInfo.fromPlatform();
     }),
-    Future(() async {
-      canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
-    }),
   ]);
 
   runApp(
@@ -47,8 +41,6 @@ Future<void> main() async {
             .overrideWithValue(SharedPreferenceRepository(sharedPreferences)),
         packageInfoRepositoryProvider
             .overrideWithValue(PackageInfoRepository(packageInfo)),
-        authRepositoryProvider
-            .overrideWithValue(AuthRepository(canCheckBiometrics)),
       ],
       child: const MyApp(),
     ),
