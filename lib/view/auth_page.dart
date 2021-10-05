@@ -43,7 +43,7 @@ class AuthPage extends ConsumerWidget {
                       builder: (context) => const GuchiHomePage(),
                     ),
                   );
-                  await authController.changeIsSignIn();
+                  authController.changeIsSignIn();
                 }
               },
               style: ElevatedButton.styleFrom(
