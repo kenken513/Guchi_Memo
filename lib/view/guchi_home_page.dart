@@ -19,7 +19,7 @@ class GuchiHomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('愚痴郎'),
+        title: const Text('愚痴メモ'),
         actions: [
           IconButton(
             onPressed: () async {
