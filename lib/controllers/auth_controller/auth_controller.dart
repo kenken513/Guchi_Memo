@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/model/auth_state/is_sign_in.dart';
+import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
+
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 
-final authProvider = StateNotifierProvider<AuthController, IsSignInState>(
+final authProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) => AuthController(
     ref.read(sharedPreferenceRepositoryProvider),
   ),
 );
 
-class AuthController extends StateNotifier<IsSignInState>
+class AuthController extends StateNotifier<AuthState>
     with WidgetsBindingObserver {
-  AuthController(this._sharedPreferenceRepository)
-      : super(const IsSignInState()) {
-    Future(() async {
-      canCheckBiometrics = await isCanCheckBiometrics();
-    });
+  AuthController(this._sharedPreferenceRepository) : super(const AuthState()) {
     initState();
+    Future(() async {
+      await fetchCanCheckBiometrics();
+    });
   }
+
+  final SharedPreferenceRepository _sharedPreferenceRepository;
 
   final _auth = LocalAuthentication();
 
-  late bool canCheckBiometrics;
-
-  final SharedPreferenceRepository _sharedPreferenceRepository;
+  Future<void> fetchCanCheckBiometrics() async {
+    final canCheckBiometrics = await _auth.canCheckBiometrics;
+    state = state.copyWith(canCheckBiometrics: canCheckBiometrics);
+  }
 
   Future<bool> fetchAuthState() async {
     final autuStaet = await _sharedPreferenceRepository.fetchAuthState();
@@ -55,7 +58,7 @@ class AuthController extends StateNotifier<IsSignInState>
     super.dispose();
   }
 
-  Future<void> changeIsSignIn() async {
+  void changeIsSignIn() {
     state = state.copyWith(isSignIn: true);
   }
 
