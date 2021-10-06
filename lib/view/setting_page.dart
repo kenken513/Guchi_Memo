@@ -10,7 +10,8 @@ class SettingPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(settingProvider);
     final settingController = watch(settingProvider.notifier);
-    final authController = watch(authProvider.notifier);
+    final authState = watch(authProvider);
+    final canCheckBiometrics = authState.canCheckBiometrics;
     final active = state.active;
     final auth = state.authState;
 
@@ -43,7 +44,7 @@ class SettingPage extends ConsumerWidget {
                 ),
               ),
             ),
-            if (authController.canCheckBiometrics)
+            if (canCheckBiometrics)
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Container(
