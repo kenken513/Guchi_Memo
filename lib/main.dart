@@ -60,7 +60,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: '愚痴郎',
+      title: '愚痴メモ',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
