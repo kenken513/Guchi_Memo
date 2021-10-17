@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/controllers/auth_controller/auth_controller.dart';
-import 'package:flutter_guchi_memo/controllers/setting_controller/setting_controller.dart';
+import 'package:flutter_guchi_memo/controllers/auth_controller.dart';
+import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
 import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
 import 'package:flutter_guchi_memo/view/guchi_home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/controllers/guchi_controller/guchi_controller.dart';
-import 'package:flutter_guchi_memo/controllers/modal_controller/modal_controller.dart';
+import 'package:flutter_guchi_memo/controllers/guchi_controller.dart';
+import 'package:flutter_guchi_memo/controllers/modal_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GuchiDialog extends ConsumerWidget {
