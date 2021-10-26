@@ -47,6 +47,11 @@ class GuchiDialog extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
               onPressed: () async {
                 if (id != null) {
                   await guchiController.updateGuchi(
@@ -69,7 +74,13 @@ class GuchiDialog extends ConsumerWidget {
                 Navigator.pop(context);
                 modalController.changeModalStateFlase();
               },
-              child: Text(id != null ? '編集' : '保存'),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  id != null ? '編集' : '保存',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ),
         ],
