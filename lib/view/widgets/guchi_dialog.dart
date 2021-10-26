@@ -22,6 +22,9 @@ class GuchiDialog extends ConsumerWidget {
               labelText: '愚痴を教えて！',
               hintText: '愚痴れ！',
             ),
+            onChanged: (text) async {
+              await guchiController.soundActionOnChange();
+            },
             controller: guchiController.titleController,
           ),
           TextField(
@@ -29,6 +32,9 @@ class GuchiDialog extends ConsumerWidget {
               labelText: '詳しく教えて！',
               hintText: '愚痴れ！',
             ),
+            onChanged: (text) async {
+              await guchiController.soundActionOnChange();
+            },
             controller: guchiController.contentController,
           ),
           Padding(

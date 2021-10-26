@@ -55,10 +55,21 @@ class GuchiController extends StateNotifier<GuchiState> {
     refreshController.loadComplete();
   }
 
-  Future<void> soundAction() async {
+  Future<void> soundActionOnChange() async {
     if (_active) {
       await Future.wait([
         _audioCache.play(AudioFile.panti.value),
+        HapticFeedback.heavyImpact(),
+      ]);
+    } else {
+      await HapticFeedback.heavyImpact();
+    }
+  }
+
+  Future<void> soundAction() async {
+    if (_active) {
+      await Future.wait([
+        _audioCache.play(AudioFile.panti_big.value),
         HapticFeedback.heavyImpact(),
       ]);
     } else {

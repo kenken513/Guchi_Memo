@@ -1,5 +1,6 @@
 enum AudioFile {
   panti,
+  panti_big,
 }
 
 extension AudioFileExtension on AudioFile {

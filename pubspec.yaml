@@ -43,6 +43,7 @@ flutter_icons:
 flutter:
   assets: 
     - assets/panti.mp3
+    - assets/panti_big.mp3
 
   uses-material-design: true
 
