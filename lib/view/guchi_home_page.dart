@@ -84,9 +84,8 @@ class GuchiHomePage extends ConsumerWidget {
                       await showDialog<Widget>(
                         context: context,
                         builder: (_) => GuchiDialog(id: data.id),
-                      ).then((_) {
-                        modalController.changeModalStateTrue();
-                      });
+                      );
+                      modalController.changeModalStateTrue();
                     },
                   ),
                 ),
