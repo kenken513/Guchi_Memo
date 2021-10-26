@@ -33,6 +33,8 @@ class GuchiDialog extends ConsumerWidget {
             controller: guchiController.titleController,
           ),
           TextField(
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
             decoration: const InputDecoration(
               labelText: '詳しく教えて！',
               hintText: '愚痴れ！',
