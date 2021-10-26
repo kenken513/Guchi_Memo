@@ -81,7 +81,7 @@ class GuchiHomePage extends ConsumerWidget {
                       ),
                     ),
                     onLongPress: () async {
-                      await showDialog<Widget>(
+                      await showDialog<void>(
                         context: context,
                         builder: (_) => GuchiDialog(id: data.id),
                       );
