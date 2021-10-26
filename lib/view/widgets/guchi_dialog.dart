@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_guchi_memo/controllers/guchi_controller.dart';
 import 'package:flutter_guchi_memo/controllers/modal_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,11 @@ class GuchiDialog extends ConsumerWidget {
     final modalController = watch(modalProvider.notifier);
 
     return AlertDialog(
-      title: const Text('愚痴れ！'),
+      title: const Center(
+          child: Text(
+        '愚痴れ！',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      )),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
