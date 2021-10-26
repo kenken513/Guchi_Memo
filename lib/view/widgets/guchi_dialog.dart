@@ -22,27 +22,33 @@ class GuchiDialog extends ConsumerWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          TextField(
-            decoration: const InputDecoration(
-              labelText: '愚痴を教えて！',
-              hintText: '愚痴れ！',
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: '愚痴を教えて！',
+                hintText: '愚痴れ！',
+              ),
+              onChanged: (text) async {
+                await guchiController.soundActionOnChange();
+              },
+              controller: guchiController.titleController,
             ),
-            onChanged: (text) async {
-              await guchiController.soundActionOnChange();
-            },
-            controller: guchiController.titleController,
           ),
-          TextField(
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            decoration: const InputDecoration(
-              labelText: '詳しく教えて！',
-              hintText: '愚痴れ！',
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextField(
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              decoration: const InputDecoration(
+                labelText: '詳しく教えて！',
+                hintText: '愚痴れ！',
+              ),
+              onChanged: (text) async {
+                await guchiController.soundActionOnChange();
+              },
+              controller: guchiController.contentController,
             ),
-            onChanged: (text) async {
-              await guchiController.soundActionOnChange();
-            },
-            controller: guchiController.contentController,
           ),
           Padding(
             padding: const EdgeInsets.all(8),
