@@ -13,14 +13,14 @@ class GuchiDialog extends ConsumerWidget {
     final guchiController = watch(guchiProvider.notifier);
     final modalController = watch(modalProvider.notifier);
 
-    return SingleChildScrollView(
-      child: AlertDialog(
-        title: const Center(
-            child: Text(
-          '愚痴れ！',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        )),
-        content: Column(
+    return AlertDialog(
+      title: const Center(
+          child: Text(
+        '愚痴れ！',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      )),
+      content: SingleChildScrollView(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
