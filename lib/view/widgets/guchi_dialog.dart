@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_guchi_memo/controllers/guchi_controller.dart';
 import 'package:flutter_guchi_memo/controllers/modal_controller.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GuchiDialog extends ConsumerWidget {
   GuchiDialog({Key? key, this.id}) : super(key: key);
   int? id;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final guchiController = watch(guchiProvider.notifier);
-    final modalController = watch(modalProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final guchiController = ref.watch(guchiProvider.notifier);
+    final modalController = ref.watch(modalProvider.notifier);
 
     return AlertDialog(
       title: const Center(
