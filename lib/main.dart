@@ -1,5 +1,4 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
@@ -7,7 +6,7 @@ import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_guchi_memo/view/auth_page.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -48,15 +47,14 @@ Future<void> main() async {
 }
 
 final firebaseAnalyticsProvider =
-    Provider<FirebaseAnalytics>((ref) => FirebaseAnalytics());
+    Provider<FirebaseAnalytics>((ref) => FirebaseAnalytics.instance);
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final settingController = watch(settingProvider);
-    final authState = settingController.authState;
-    final analytics = watch(firebaseAnalyticsProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(settingProvider).authState;
+    final analytics = ref.watch(firebaseAnalyticsProvider);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_guchi_memo/controllers/start_up_guide_dialog_controller.dart';
 import 'package:flutter_guchi_memo/view/widgets/guchi_dialog.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class StartUpGuideDialog extends ConsumerWidget {
   const StartUpGuideDialog({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final startUpGuideDialogController =
-        watch(startUpGuideDialogProvider.notifier);
+        ref.watch(startUpGuideDialogProvider.notifier);
     return AlertDialog(
       title: const Center(
           child: Text(

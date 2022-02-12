@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/auth_controller.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SettingPage extends ConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(settingProvider);
-    final settingController = watch(settingProvider.notifier);
-    final authState = watch(authProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(settingProvider);
+    final settingController = ref.watch(settingProvider.notifier);
+    final authState = ref.watch(authProvider);
     final canCheckBiometrics = authState.canCheckBiometrics;
     final active = state.active;
     final auth = state.authState;
