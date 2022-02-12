@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guchi_memo/controllers/auth_controller.dart';
+import 'package:flutter_guchi_memo/controllers/biometrics_controller.dart';
 import 'package:flutter_guchi_memo/controllers/fetch_app_version.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SettingPage extends ConsumerWidget {
+class SettingPage extends HookConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(settingProvider);
     final settingController = ref.watch(settingProvider.notifier);
-    final authState = ref.watch(authProvider);
-    final canCheckBiometrics = authState.canCheckBiometrics;
     final active = state.active;
     final auth = state.authState;
+    final biometricsController = ref.watch(biometricsControllerProvider);
     final appVersion = ref.watch(fetchAppVersion);
+    final canCheckBiometrics = useState(false);
+
+    useEffect(() {
+      Future(() async {
+        canCheckBiometrics.value =
+            await biometricsController.canCheckBiometrics;
+      });
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +55,7 @@ class SettingPage extends ConsumerWidget {
                 ),
               ),
             ),
-            if (canCheckBiometrics)
+            if (canCheckBiometrics.value)
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Container(

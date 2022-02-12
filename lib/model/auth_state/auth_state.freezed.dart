@@ -18,10 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$AuthStateTearOff {
   const _$AuthStateTearOff();
 
-  _AuthState call({bool isSignIn = false, bool canCheckBiometrics = false}) {
+  _AuthState call({bool isSignIn = false}) {
     return _AuthState(
       isSignIn: isSignIn,
-      canCheckBiometrics: canCheckBiometrics,
     );
   }
 }
@@ -32,7 +31,6 @@ const $AuthState = _$AuthStateTearOff();
 /// @nodoc
 mixin _$AuthState {
   bool get isSignIn => throw _privateConstructorUsedError;
-  bool get canCheckBiometrics => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -43,7 +41,7 @@ mixin _$AuthState {
 abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res>;
-  $Res call({bool isSignIn, bool canCheckBiometrics});
+  $Res call({bool isSignIn});
 }
 
 /// @nodoc
@@ -57,16 +55,11 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
   @override
   $Res call({
     Object? isSignIn = freezed,
-    Object? canCheckBiometrics = freezed,
   }) {
     return _then(_value.copyWith(
       isSignIn: isSignIn == freezed
           ? _value.isSignIn
           : isSignIn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      canCheckBiometrics: canCheckBiometrics == freezed
-          ? _value.canCheckBiometrics
-          : canCheckBiometrics // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -78,7 +71,7 @@ abstract class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
           _AuthState value, $Res Function(_AuthState) then) =
       __$AuthStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool isSignIn, bool canCheckBiometrics});
+  $Res call({bool isSignIn});
 }
 
 /// @nodoc
@@ -93,16 +86,11 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isSignIn = freezed,
-    Object? canCheckBiometrics = freezed,
   }) {
     return _then(_AuthState(
       isSignIn: isSignIn == freezed
           ? _value.isSignIn
           : isSignIn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      canCheckBiometrics: canCheckBiometrics == freezed
-          ? _value.canCheckBiometrics
-          : canCheckBiometrics // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -111,18 +99,15 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AuthState implements _AuthState {
-  const _$_AuthState({this.isSignIn = false, this.canCheckBiometrics = false});
+  const _$_AuthState({this.isSignIn = false});
 
   @JsonKey()
   @override
   final bool isSignIn;
-  @JsonKey()
-  @override
-  final bool canCheckBiometrics;
 
   @override
   String toString() {
-    return 'AuthState(isSignIn: $isSignIn, canCheckBiometrics: $canCheckBiometrics)';
+    return 'AuthState(isSignIn: $isSignIn)';
   }
 
   @override
@@ -130,16 +115,12 @@ class _$_AuthState implements _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _AuthState &&
-            const DeepCollectionEquality().equals(other.isSignIn, isSignIn) &&
-            const DeepCollectionEquality()
-                .equals(other.canCheckBiometrics, canCheckBiometrics));
+            const DeepCollectionEquality().equals(other.isSignIn, isSignIn));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isSignIn),
-      const DeepCollectionEquality().hash(canCheckBiometrics));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(isSignIn));
 
   @JsonKey(ignore: true)
   @override
@@ -148,13 +129,10 @@ class _$_AuthState implements _AuthState {
 }
 
 abstract class _AuthState implements AuthState {
-  const factory _AuthState({bool isSignIn, bool canCheckBiometrics}) =
-      _$_AuthState;
+  const factory _AuthState({bool isSignIn}) = _$_AuthState;
 
   @override
   bool get isSignIn;
-  @override
-  bool get canCheckBiometrics;
   @override
   @JsonKey(ignore: true)
   _$AuthStateCopyWith<_AuthState> get copyWith =>
