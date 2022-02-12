@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'auth_state.dart';
 
@@ -111,10 +113,10 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 class _$_AuthState implements _AuthState {
   const _$_AuthState({this.isSignIn = false, this.canCheckBiometrics = false});
 
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isSignIn;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool canCheckBiometrics;
 
@@ -126,20 +128,18 @@ class _$_AuthState implements _AuthState {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _AuthState &&
-            (identical(other.isSignIn, isSignIn) ||
-                const DeepCollectionEquality()
-                    .equals(other.isSignIn, isSignIn)) &&
-            (identical(other.canCheckBiometrics, canCheckBiometrics) ||
-                const DeepCollectionEquality()
-                    .equals(other.canCheckBiometrics, canCheckBiometrics)));
+        (other.runtimeType == runtimeType &&
+            other is _AuthState &&
+            const DeepCollectionEquality().equals(other.isSignIn, isSignIn) &&
+            const DeepCollectionEquality()
+                .equals(other.canCheckBiometrics, canCheckBiometrics));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(isSignIn) ^
-      const DeepCollectionEquality().hash(canCheckBiometrics);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(isSignIn),
+      const DeepCollectionEquality().hash(canCheckBiometrics));
 
   @JsonKey(ignore: true)
   @override
@@ -152,9 +152,9 @@ abstract class _AuthState implements AuthState {
       _$_AuthState;
 
   @override
-  bool get isSignIn => throw _privateConstructorUsedError;
+  bool get isSignIn;
   @override
-  bool get canCheckBiometrics => throw _privateConstructorUsedError;
+  bool get canCheckBiometrics;
   @override
   @JsonKey(ignore: true)
   _$AuthStateCopyWith<_AuthState> get copyWith =>

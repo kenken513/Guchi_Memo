@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/auth_controller.dart';
+import 'package:flutter_guchi_memo/controllers/fetch_app_version.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,6 +15,7 @@ class SettingPage extends ConsumerWidget {
     final canCheckBiometrics = authState.canCheckBiometrics;
     final active = state.active;
     final auth = state.authState;
+    final appVersion = ref.watch(fetchAppVersion);
 
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +78,7 @@ class SettingPage extends ConsumerWidget {
                 child: ListTile(
                   title: const Text('アプリバージョン'),
                   subtitle: Text(
-                    state.version,
+                    appVersion,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,

@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'modal_state.dart';
 
@@ -101,7 +103,7 @@ class __$ModalStateCopyWithImpl<$Res> extends _$ModalStateCopyWithImpl<$Res>
 class _$_ModalState implements _ModalState {
   const _$_ModalState({this.isOpen = false});
 
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isOpen;
 
@@ -113,14 +115,14 @@ class _$_ModalState implements _ModalState {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _ModalState &&
-            (identical(other.isOpen, isOpen) ||
-                const DeepCollectionEquality().equals(other.isOpen, isOpen)));
+        (other.runtimeType == runtimeType &&
+            other is _ModalState &&
+            const DeepCollectionEquality().equals(other.isOpen, isOpen));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(isOpen);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(isOpen));
 
   @JsonKey(ignore: true)
   @override
@@ -132,7 +134,7 @@ abstract class _ModalState implements ModalState {
   const factory _ModalState({bool isOpen}) = _$_ModalState;
 
   @override
-  bool get isOpen => throw _privateConstructorUsedError;
+  bool get isOpen;
   @override
   @JsonKey(ignore: true)
   _$ModalStateCopyWith<_ModalState> get copyWith =>

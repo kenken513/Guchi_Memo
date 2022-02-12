@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'guchi.dart';
 
@@ -35,7 +37,7 @@ class _$GuchiTearOff {
     );
   }
 
-  Guchi fromJson(Map<String, Object> json) {
+  Guchi fromJson(Map<String, Object?> json) {
     return Guchi.fromJson(json);
   }
 }
@@ -176,14 +178,14 @@ class _$_Guchi extends _Guchi with DiagnosticableTreeMixin {
       : super._();
 
   factory _$_Guchi.fromJson(Map<String, dynamic> json) =>
-      _$_$_GuchiFromJson(json);
+      _$$_GuchiFromJson(json);
 
   @override
   final int? id;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String text;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String content;
   @override
@@ -211,30 +213,23 @@ class _$_Guchi extends _Guchi with DiagnosticableTreeMixin {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Guchi &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.text, text) ||
-                const DeepCollectionEquality().equals(other.text, text)) &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
-            (identical(other.createdAt, createdAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdAt, createdAt)) &&
-            (identical(other.editedAt, editedAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.editedAt, editedAt)));
+        (other.runtimeType == runtimeType &&
+            other is _Guchi &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.text, text) &&
+            const DeepCollectionEquality().equals(other.content, content) &&
+            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
+            const DeepCollectionEquality().equals(other.editedAt, editedAt));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(text) ^
-      const DeepCollectionEquality().hash(content) ^
-      const DeepCollectionEquality().hash(createdAt) ^
-      const DeepCollectionEquality().hash(editedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(text),
+      const DeepCollectionEquality().hash(content),
+      const DeepCollectionEquality().hash(createdAt),
+      const DeepCollectionEquality().hash(editedAt));
 
   @JsonKey(ignore: true)
   @override
@@ -243,7 +238,7 @@ class _$_Guchi extends _Guchi with DiagnosticableTreeMixin {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_GuchiToJson(this);
+    return _$$_GuchiToJson(this);
   }
 }
 
@@ -259,15 +254,15 @@ abstract class _Guchi extends Guchi {
   factory _Guchi.fromJson(Map<String, dynamic> json) = _$_Guchi.fromJson;
 
   @override
-  int? get id => throw _privateConstructorUsedError;
+  int? get id;
   @override
-  String get text => throw _privateConstructorUsedError;
+  String get text;
   @override
-  String get content => throw _privateConstructorUsedError;
+  String get content;
   @override
-  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt;
   @override
-  DateTime? get editedAt => throw _privateConstructorUsedError;
+  DateTime? get editedAt;
   @override
   @JsonKey(ignore: true)
   _$GuchiCopyWith<_Guchi> get copyWith => throw _privateConstructorUsedError;

@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'guchi_state.dart';
 
@@ -101,7 +103,7 @@ class __$GuchiStateCopyWithImpl<$Res> extends _$GuchiStateCopyWithImpl<$Res>
 class _$_GuchiState implements _GuchiState {
   const _$_GuchiState({this.guchiList = const <Guchi>[]});
 
-  @JsonKey(defaultValue: const <Guchi>[])
+  @JsonKey()
   @override
   final List<Guchi> guchiList;
 
@@ -113,15 +115,14 @@ class _$_GuchiState implements _GuchiState {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _GuchiState &&
-            (identical(other.guchiList, guchiList) ||
-                const DeepCollectionEquality()
-                    .equals(other.guchiList, guchiList)));
+        (other.runtimeType == runtimeType &&
+            other is _GuchiState &&
+            const DeepCollectionEquality().equals(other.guchiList, guchiList));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(guchiList);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(guchiList));
 
   @JsonKey(ignore: true)
   @override
@@ -133,7 +134,7 @@ abstract class _GuchiState implements GuchiState {
   const factory _GuchiState({List<Guchi> guchiList}) = _$_GuchiState;
 
   @override
-  List<Guchi> get guchiList => throw _privateConstructorUsedError;
+  List<Guchi> get guchiList;
   @override
   @JsonKey(ignore: true)
   _$GuchiStateCopyWith<_GuchiState> get copyWith =>
