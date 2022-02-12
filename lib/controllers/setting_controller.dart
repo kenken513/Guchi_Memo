@@ -28,7 +28,7 @@ class SettingController extends StateNotifier<SettingState> {
   final PackageInfoRepository _packageInfoRepository;
 
   Future<void> setAppVersion() async {
-    final appVersion = _packageInfoRepository.fetchAppVersion();
+    final appVersion = _packageInfoRepository.appVersion;
     state = state.copyWith(version: appVersion);
   }
 
