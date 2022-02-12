@@ -6,7 +6,7 @@ import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
 import 'package:flutter_guchi_memo/view/guchi_home_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AuthPage extends ConsumerWidget {
+class AuthPage extends HookConsumerWidget {
   const AuthPage({Key? key}) : super(key: key);
 
   @override

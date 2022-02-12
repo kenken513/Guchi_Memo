@@ -5,7 +5,7 @@ import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SettingPage extends ConsumerWidget {
+class SettingPage extends HookConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
