@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/auth_controller.dart';
+import 'package:flutter_guchi_memo/controllers/biometrics_controller.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
 import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
 import 'package:flutter_guchi_memo/view/guchi_home_page.dart';
@@ -36,8 +37,9 @@ class AuthPage extends ConsumerWidget {
           height: 50,
           child: ElevatedButton(
             onPressed: () async {
-              final result =
-                  await ref.read(authProvider.notifier).authenticate();
+              final result = await ref
+                  .read(biometricsControllerProvider)
+                  .didAuthenticate();
               if (result) {
                 await Navigator.push<void>(
                   context,
