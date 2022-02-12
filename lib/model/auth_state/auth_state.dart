@@ -6,6 +6,5 @@ part 'auth_state.freezed.dart';
 class AuthState with _$AuthState {
   const factory AuthState({
     @Default(false) bool isSignIn,
-    @Default(false) bool canCheckBiometrics,
   }) = _AuthState;
 }
