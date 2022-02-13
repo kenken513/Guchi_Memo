@@ -10,9 +10,6 @@ class SettingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final state = ref.watch(settingProvider);
-    // final settingController = ref.watch(settingProvider.notifier);
-    // final auth = state.authState;
     final biometricsController = ref.watch(biometricsControllerProvider);
     final appVersion = ref.watch(fetchAppVersion);
     final canCheckBiometrics = useState(false);
