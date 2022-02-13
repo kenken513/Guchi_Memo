@@ -8,6 +8,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SettingPage extends HookConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
+  static Future<void> show(BuildContext context) async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SettingPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final biometricsController = ref.watch(biometricsControllerProvider);

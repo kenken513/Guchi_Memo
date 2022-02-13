@@ -1,50 +1,40 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_guchi_memo/common/audio_file.dart';
 import 'package:flutter_guchi_memo/model/guchi/guchi.dart';
 import 'package:flutter_guchi_memo/model/guchi/guchi_state.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiController, GuchiState>(
   (ref) => GuchiController(
-    ref.read(sqlRepositoryProvider),
-    ref.read(sharedPreferenceRepositoryProvider),
+    ref.read,
   ),
 );
 
 class GuchiController extends StateNotifier<GuchiState> {
   GuchiController(
-    this._sqlRepository,
-    this._sharedPreferenceRepository,
+    this._read,
   ) : super(const GuchiState()) {
     initializeGuchi();
-    Future(() async {
-      _active = await fetchIsActive();
-    });
   }
 
-  final SqlRepository _sqlRepository;
-  final SharedPreferenceRepository _sharedPreferenceRepository;
+  final Reader _read;
 
-  late bool _active;
+  SqlRepository get _sqlRepository => _read(sqlRepositoryProvider);
+
+  SharedPreferenceRepository get _sharedPreferenceRepository =>
+      _read(sharedPreferenceRepositoryProvider);
 
   final refreshController = RefreshController(initialRefresh: false);
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-  final _audioCache = AudioCache();
 
   Future<bool> fetchIsActive() async {
     final active = await _sharedPreferenceRepository.fetchActivePrefs();
     return active;
-  }
-
-  Future<void> updateActive() async {
-    _active = await _sharedPreferenceRepository.fetchActivePrefs();
   }
 
   Future<void> onLoading() async {
@@ -53,28 +43,6 @@ class GuchiController extends StateNotifier<GuchiState> {
     final newList = [...state.guchiList, ...listDB];
     state = state.copyWith(guchiList: newList);
     refreshController.loadComplete();
-  }
-
-  Future<void> soundActionOnChange() async {
-    if (_active) {
-      await Future.wait([
-        _audioCache.play(AudioFile.panti.value),
-        HapticFeedback.heavyImpact(),
-      ]);
-    } else {
-      await HapticFeedback.heavyImpact();
-    }
-  }
-
-  Future<void> soundAction() async {
-    if (_active) {
-      await Future.wait([
-        _audioCache.play(AudioFile.panti_big.value),
-        HapticFeedback.heavyImpact(),
-      ]);
-    } else {
-      await HapticFeedback.heavyImpact();
-    }
   }
 
 //初期化
