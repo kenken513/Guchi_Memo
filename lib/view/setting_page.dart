@@ -10,18 +10,23 @@ class SettingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(settingProvider);
-    final settingController = ref.watch(settingProvider.notifier);
-    final active = state.active;
-    final auth = state.authState;
+    // final state = ref.watch(settingProvider);
+    // final settingController = ref.watch(settingProvider.notifier);
+    // final auth = state.authState;
     final biometricsController = ref.watch(biometricsControllerProvider);
     final appVersion = ref.watch(fetchAppVersion);
     final canCheckBiometrics = useState(false);
+    final isActiveSound = useState(true);
+    final isLocked = useState(false);
 
     useEffect(() {
       Future(() async {
         canCheckBiometrics.value =
             await biometricsController.canCheckBiometrics;
+        isActiveSound.value =
+            await ref.read(settingControllerProvider).fetchIsSoundActive();
+        isLocked.value =
+            await ref.read(settingControllerProvider).fetchIsLocked();
       });
       return null;
     }, []);
@@ -42,15 +47,18 @@ class SettingPage extends HookConsumerWidget {
                   color: Colors.white70,
                 ),
                 child: SwitchListTile(
-                  value: active,
+                  value: isActiveSound.value,
                   activeColor: Colors.pink,
                   activeTrackColor: Colors.pink,
                   inactiveThumbColor: Colors.grey,
                   inactiveTrackColor: Colors.grey,
                   secondary: const Icon(Icons.volume_up),
-                  title: Text('効果音 ${active ? 'ON' : 'OFF'}'),
+                  title: Text('効果音 ${isActiveSound.value ? 'ON' : 'OFF'}'),
                   onChanged: (bool value) async {
-                    await settingController.onCnaged(value: value);
+                    isActiveSound.value = value;
+                    await ref
+                        .read(settingControllerProvider)
+                        .setIsSoundActive(value: value);
                   },
                 ),
               ),
@@ -64,15 +72,18 @@ class SettingPage extends HookConsumerWidget {
                     color: Colors.white70,
                   ),
                   child: SwitchListTile(
-                    value: auth,
+                    value: isLocked.value,
                     activeColor: Colors.pink,
                     activeTrackColor: Colors.pink,
                     inactiveThumbColor: Colors.grey,
                     inactiveTrackColor: Colors.grey,
                     secondary: const Icon(Icons.lock),
-                    title: Text('画面ロック ${auth ? 'ON' : 'OFF'}'),
+                    title: Text('画面ロック ${isLocked.value ? 'ON' : 'OFF'}'),
                     onChanged: (bool value) async {
-                      await settingController.onCnagedAuthState(value: value);
+                      isLocked.value = value;
+                      await ref
+                          .read(settingControllerProvider)
+                          .setIsLocked(value: value);
                     },
                   ),
                 ),

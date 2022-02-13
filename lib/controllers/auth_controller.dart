@@ -18,14 +18,9 @@ class AuthController extends StateNotifier<AuthState>
 
   final SharedPreferenceRepository _sharedPreferenceRepository;
 
-  Future<bool> fetchAuthState() async {
-    final autuStaet = await _sharedPreferenceRepository.fetchAuthState();
-    return autuStaet;
-  }
-
   Future<void> changeIsSignInBackground() async {
-    final autuState = await fetchAuthState();
-    if (autuState) {
+    final isLocked = await _sharedPreferenceRepository.fetchIsLocked();
+    if (isLocked) {
       state = state.copyWith(isSignIn: false);
     }
   }

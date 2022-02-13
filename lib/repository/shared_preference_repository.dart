@@ -33,7 +33,7 @@ class SharedPreferenceRepository {
     return sharedValue;
   }
 
-  Future<bool> fetchAuthState() async {
+  Future<bool> fetchIsLocked() async {
     final prefs = _sharedPreferences;
     final sharedValue =
         prefs.getBool(SharedPreferenceKey.authState.value) ?? false;

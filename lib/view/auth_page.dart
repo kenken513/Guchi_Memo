@@ -4,6 +4,7 @@ import 'package:flutter_guchi_memo/controllers/biometrics_controller.dart';
 import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
 import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
 import 'package:flutter_guchi_memo/view/guchi_home_page.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthPage extends HookConsumerWidget {
@@ -11,13 +12,14 @@ class AuthPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settingController = ref.watch(settingProvider);
-    final authState = settingController.authState;
+    final isLocked = useState(false);
 
     ref.listen<AuthState>(
       authProvider,
       (previous, next) async {
-        if (authState) {
+        isLocked.value =
+            await ref.watch(settingControllerProvider).fetchIsLocked();
+        if (isLocked.value) {
           if (!next.isSignIn) {
             await Navigator.push<void>(
               context,
