@@ -23,14 +23,7 @@ class GuchiHomePage extends HookConsumerWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              await Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingPage(),
-                ),
-              ).then((value) async {
-                await ref.read(guchiProvider.notifier).updateActive();
-              });
+              await SettingPage.show(context);
             },
             icon: const Icon(Icons.settings),
           )
@@ -79,10 +72,7 @@ class GuchiHomePage extends HookConsumerWidget {
                       ),
                     ),
                     onLongPress: () async {
-                      await showDialog<void>(
-                        context: context,
-                        builder: (_) => GuchiDialog(id: data.id),
-                      );
+                      await GuchiDialog.show(context, id: data.id, guchi: data);
                     },
                   ),
                 ),
@@ -91,10 +81,7 @@ class GuchiHomePage extends HookConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await showDialog<Widget>(
-            context: context,
-            builder: (_) => GuchiDialog(),
-          );
+          await GuchiDialog.show(context);
         },
         child: const Icon(Icons.add),
       ),
