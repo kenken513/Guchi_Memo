@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/guchi_controller.dart';
-import 'package:flutter_guchi_memo/controllers/modal_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GuchiDialog extends ConsumerWidget {
@@ -10,7 +9,6 @@ class GuchiDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final guchiController = ref.watch(guchiProvider.notifier);
-    final modalController = ref.watch(modalProvider.notifier);
 
     return AlertDialog(
       title: const Center(
@@ -79,7 +77,6 @@ class GuchiDialog extends ConsumerWidget {
                   await guchiController.soundAction();
 
                   Navigator.pop(context);
-                  modalController.changeModalStateFlase();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12),

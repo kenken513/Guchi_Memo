@@ -6,6 +6,7 @@ import 'package:flutter_guchi_memo/repository/package_info_repository.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:flutter_guchi_memo/view/auth_page.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,12 +50,19 @@ Future<void> main() async {
 final firebaseAnalyticsProvider =
     Provider<FirebaseAnalytics>((ref) => FirebaseAnalytics.instance);
 
-class MyApp extends ConsumerWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(settingProvider).authState;
     final analytics = ref.watch(firebaseAnalyticsProvider);
+    final isLocked = useState(false);
+    useEffect(() {
+      Future(() async {
+        isLocked.value =
+            await ref.watch(settingControllerProvider).fetchIsLocked();
+      });
+      return null;
+    }, []);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -62,7 +70,7 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: authState ? const AuthPage() : const GuchiHomePage(),
+      home: isLocked.value ? const AuthPage() : const GuchiHomePage(),
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
       ],

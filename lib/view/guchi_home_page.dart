@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/guchi_controller.dart';
-import 'package:flutter_guchi_memo/controllers/modal_controller.dart';
 import 'package:flutter_guchi_memo/view/setting_page.dart';
 import 'package:flutter_guchi_memo/view/widgets/guchi_dialog.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -14,7 +13,6 @@ class GuchiHomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(guchiProvider);
     final guchiController = ref.watch(guchiProvider.notifier);
-    final modalController = ref.watch(modalProvider.notifier);
     final refreshController =
         useState(RefreshController(initialRefresh: false));
 
@@ -42,7 +40,6 @@ class GuchiHomePage extends HookConsumerWidget {
         enablePullDown: false,
         enablePullUp: true,
         controller: refreshController.value,
-        // guchiController.refreshController,
         onLoading: guchiController.onLoading,
         child: ListView.builder(
             itemCount: state.guchiList.length,
@@ -86,7 +83,6 @@ class GuchiHomePage extends HookConsumerWidget {
                         context: context,
                         builder: (_) => GuchiDialog(id: data.id),
                       );
-                      modalController.changeModalStateTrue();
                     },
                   ),
                 ),

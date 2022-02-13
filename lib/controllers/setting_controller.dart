@@ -1,43 +1,30 @@
-import 'package:flutter_guchi_memo/model/setting_state/setting_state.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final settingProvider =
-    StateNotifierProvider.autoDispose<SettingController, SettingState>(
-  (ref) => SettingController(
-    ref.read(sharedPreferenceRepositoryProvider),
-  ),
-);
+final settingControllerProvider = Provider((ref) => SettingController(
+      ref.read(sharedPreferenceRepositoryProvider),
+    ));
 
-class SettingController extends StateNotifier<SettingState> {
+class SettingController {
   SettingController(
     this._sharedPreferenceRepository,
-  ) : super(const SettingState()) {
-    Future(() async {
-      await fetchActive();
-      await fetchAuthState();
-    });
-  }
+  );
 
   final SharedPreferenceRepository _sharedPreferenceRepository;
 
-  Future<void> fetchActive() async {
-    final sharedValue = await _sharedPreferenceRepository.fetchActivePrefs();
-    state = state.copyWith(active: sharedValue);
+  Future<bool> fetchIsSoundActive() {
+    return _sharedPreferenceRepository.fetchActivePrefs();
   }
 
-  Future<void> onCnaged({required bool value}) async {
-    state = state.copyWith(active: value);
+  Future<void> setIsSoundActive({required bool value}) async {
     await _sharedPreferenceRepository.setActive(value: value);
   }
 
-  Future<void> fetchAuthState() async {
-    final sharedValue = await _sharedPreferenceRepository.fetchAuthState();
-    state = state.copyWith(authState: sharedValue);
+  Future<bool> fetchIsLocked() {
+    return _sharedPreferenceRepository.fetchIsLocked();
   }
 
-  Future<void> onCnagedAuthState({required bool value}) async {
-    state = state.copyWith(authState: value);
+  Future<void> setIsLocked({required bool value}) async {
     await _sharedPreferenceRepository.setAuthState(value: value);
   }
 }
