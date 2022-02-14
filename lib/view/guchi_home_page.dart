@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guchi_memo/controllers/auth_controller.dart';
 import 'package:flutter_guchi_memo/controllers/guchi_controller.dart';
+import 'package:flutter_guchi_memo/controllers/setting_controller.dart';
+import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
+import 'package:flutter_guchi_memo/view/auth_page.dart';
 import 'package:flutter_guchi_memo/view/setting_page.dart';
 import 'package:flutter_guchi_memo/view/widgets/guchi_dialog.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -15,13 +19,28 @@ class GuchiHomePage extends HookConsumerWidget {
     final guchiController = ref.watch(guchiProvider.notifier);
     final refreshController =
         useState(RefreshController(initialRefresh: false));
+    final isLocked = useState(false);
 
     useEffect(() {
       Future(() async {
         await ref.read(guchiProvider.notifier).initializeGuchi();
       });
+      ref.read(authProvider.notifier).initState();
       return null;
     }, []);
+
+    ref.listen<AuthState>(
+      authProvider,
+      (previous, next) async {
+        isLocked.value =
+            await ref.watch(settingControllerProvider).fetchIsLocked();
+        if (isLocked.value) {
+          if (!next.isSignIn) {
+            await AuthPage.show(context);
+          }
+        }
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
