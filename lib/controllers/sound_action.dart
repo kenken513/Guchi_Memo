@@ -42,7 +42,7 @@ class SoundAction {
     final active = await _sharedPreferenceRepository.fetchActivePrefs();
     if (active) {
       await Future.wait([
-        _audioCache.play(AudioFile.panti_big.value),
+        soundActionPantiBig(),
         HapticFeedback.heavyImpact(),
       ]);
       return;
