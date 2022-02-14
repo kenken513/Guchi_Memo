@@ -16,6 +16,13 @@ class GuchiHomePage extends HookConsumerWidget {
     final refreshController =
         useState(RefreshController(initialRefresh: false));
 
+    useEffect(() {
+      Future(() async {
+        await ref.read(guchiProvider.notifier).initializeGuchi();
+      });
+      return null;
+    }, []);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -33,7 +40,10 @@ class GuchiHomePage extends HookConsumerWidget {
         enablePullDown: false,
         enablePullUp: true,
         controller: refreshController.value,
-        onLoading: guchiController.onLoading,
+        onLoading: () async {
+          await ref.read(guchiProvider.notifier).onLoading();
+          refreshController.value.loadComplete();
+        },
         child: ListView.builder(
             itemCount: state.guchiList.length,
             itemBuilder: (context, index) {

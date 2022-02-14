@@ -1,6 +1,6 @@
 import 'package:flutter_guchi_memo/model/start_up_guide_state/start_up_guide_state.dart';
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final startUpGuideDialogProvider =
     StateNotifierProvider<StartUpGuideDialogController, StartUpGuideState>(
