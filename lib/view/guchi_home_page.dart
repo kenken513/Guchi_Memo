@@ -36,7 +36,7 @@ class GuchiHomePage extends HookConsumerWidget {
         }
       });
 
-      ref.read(authProvider.notifier).initState();
+      ref.read(authProvider.notifier).init();
 
       return null;
     }, []);

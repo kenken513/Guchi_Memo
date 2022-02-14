@@ -17,22 +17,19 @@ class AuthController extends StateNotifier<AuthState>
   SharedPreferenceRepository get _sharedPreferenceRepository =>
       _read(sharedPreferenceRepositoryProvider);
 
-  Future<void> changeIsSignInBackground() async {
+  void changeIsSignInBackground() {
     final isLocked = _sharedPreferenceRepository.fetchIsLocked;
     if (isLocked) {
       state = state.copyWith(isSignIn: false);
     }
   }
 
-  void initState() {
-    WidgetsBinding.instance!.addObserver(this);
+  void changeIsSignIn() {
+    state = state.copyWith(isSignIn: true);
   }
 
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.paused) {
-      await changeIsSignInBackground();
-    }
+  void init() {
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -41,7 +38,10 @@ class AuthController extends StateNotifier<AuthState>
     super.dispose();
   }
 
-  void changeIsSignIn() {
-    state = state.copyWith(isSignIn: true);
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      changeIsSignInBackground();
+    }
   }
 }
