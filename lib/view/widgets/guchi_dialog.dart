@@ -85,7 +85,7 @@ class GuchiDialog extends HookConsumerWidget {
                     titleTextEditingController.value.clear();
                     contentTextEditingController.value.clear();
 
-                    await ref.read(soundAction).soundAction();
+                    await ref.read(soundAction).soundActionBig();
 
                     Navigator.pop(context);
                     return;
@@ -99,7 +99,7 @@ class GuchiDialog extends HookConsumerWidget {
                   titleTextEditingController.value.clear();
                   contentTextEditingController.value.clear();
 
-                  await ref.read(soundAction).soundAction();
+                  await ref.read(soundAction).soundActionBig();
 
                   Navigator.pop(context);
                 },

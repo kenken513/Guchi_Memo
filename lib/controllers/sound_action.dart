@@ -18,19 +18,19 @@ class SoundAction {
   SharedPreferenceRepository get _sharedPreferenceRepository =>
       _read(sharedPreferenceRepositoryProvider);
 
-  void soundActionPantiSmall() {
-    _audioCache.play(AudioFile.panti.value);
+  Future<void> soundActionPantiDefault() async {
+    await _audioCache.play(AudioFile.panti.value);
   }
 
-  void soundActionPantiBig() {
-    _audioCache.play(AudioFile.panti_big.value);
+  Future<void> soundActionPantiBig() async {
+    await _audioCache.play(AudioFile.panti_big.value);
   }
 
   Future<void> soundActionOnChange() async {
     final active = await _sharedPreferenceRepository.fetchActivePrefs();
     if (active) {
       await Future.wait([
-        _audioCache.play(AudioFile.panti.value),
+        soundActionPantiDefault(),
         HapticFeedback.heavyImpact(),
       ]);
       return;
@@ -38,7 +38,7 @@ class SoundAction {
     await HapticFeedback.heavyImpact();
   }
 
-  Future<void> soundAction() async {
+  Future<void> soundActionBig() async {
     final active = await _sharedPreferenceRepository.fetchActivePrefs();
     if (active) {
       await Future.wait([
