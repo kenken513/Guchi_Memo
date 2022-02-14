@@ -60,6 +60,7 @@ flutter:
   assets: 
     - assets/panti.mp3
     - assets/panti_big.mp3
+    - assets/home_image/guchi_woman.png
 
   uses-material-design: true
 

@@ -16,6 +16,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class GuchiHomePage extends HookConsumerWidget {
   const GuchiHomePage({Key? key}) : super(key: key);
 
+  static const homeImagePath = 'assets/home_image/guchi_woman.png';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(guchiProvider);
@@ -74,25 +76,33 @@ class GuchiHomePage extends HookConsumerWidget {
           await ref.read(guchiProvider.notifier).onLoading();
           refreshController.value.loadComplete();
         },
-        child: ListView.builder(
-          itemCount: state.guchiList.length,
-          itemBuilder: (context, index) {
-            final data = state.guchiList[index];
-            final id = data.id;
-            return GuchiTile(
-              text: data.text,
-              content: data.content,
-              onLongPress: () async {
-                await GuchiDialog.show(context, guchi: data);
-              },
-              onPressed: () {
-                if (id != null) {
-                  guchiController.deleteGuchi(id);
-                }
-              },
-            );
-          },
-        ),
+        child: state.guchiList.isEmpty
+            ? Center(
+                child: Image.asset(
+                homeImagePath,
+                width: 300,
+                height: 500,
+              ))
+            : ListView.builder(
+                itemCount: state.guchiList.length,
+                itemBuilder: (context, index) {
+                  final data = state.guchiList[index];
+                  final id = data.id;
+
+                  return GuchiTile(
+                    text: data.text,
+                    content: data.content,
+                    onLongPress: () async {
+                      await GuchiDialog.show(context, guchi: data);
+                    },
+                    onPressed: () {
+                      if (id != null) {
+                        guchiController.deleteGuchi(id);
+                      }
+                    },
+                  );
+                },
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
