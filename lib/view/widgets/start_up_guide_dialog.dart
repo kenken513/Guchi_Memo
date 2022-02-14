@@ -46,7 +46,7 @@ class StartUpGuideDialog extends ConsumerWidget {
 
                     await showDialog<void>(
                       context: context,
-                      builder: (_) => GuchiDialog(),
+                      builder: (_) => const GuchiDialog(),
                     );
                   },
                   child: const Text(

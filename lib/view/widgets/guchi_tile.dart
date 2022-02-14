@@ -14,7 +14,7 @@ class GuchiTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.pink, width: 2),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
