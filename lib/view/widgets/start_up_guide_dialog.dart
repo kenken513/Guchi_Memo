@@ -6,10 +6,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class StartUpGuideDialog extends ConsumerWidget {
   const StartUpGuideDialog({Key? key}) : super(key: key);
 
+  static Future<void> show(BuildContext context) async {
+    await showDialog<Widget>(
+      context: context,
+      builder: (_) => const StartUpGuideDialog(),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final startUpGuideDialogController =
-        ref.watch(startUpGuideDialogProvider.notifier);
+    final startUpGuideDialogController = ref.watch(startUpGuideDialogProvider);
     return AlertDialog(
       title: const Center(
           child: Text(
@@ -32,7 +38,7 @@ class StartUpGuideDialog extends ConsumerWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(16),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -44,16 +50,13 @@ class StartUpGuideDialog extends ConsumerWidget {
 
                     await startUpGuideDialogController.setStartUpGuideState();
 
-                    await showDialog<void>(
-                      context: context,
-                      builder: (_) => const GuchiDialog(),
-                    );
+                    await GuchiDialog.show(context);
                   },
                   child: const Text(
                     '愚痴る',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                     ),
                   )),
             )
