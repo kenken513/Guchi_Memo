@@ -5,17 +5,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final startUpGuideDialogProvider =
     StateNotifierProvider<StartUpGuideDialogController, StartUpGuideState>(
   (ref) => StartUpGuideDialogController(
-    ref.read(sharedPreferenceRepositoryProvider),
+    ref.read,
   ),
 );
 
 class StartUpGuideDialogController extends StateNotifier<StartUpGuideState> {
-  StartUpGuideDialogController(this._sharedPreferenceRepository)
-      : super(const StartUpGuideState()) {
+  StartUpGuideDialogController(this._read) : super(const StartUpGuideState()) {
     fetchStartUpGuideState();
   }
 
-  final SharedPreferenceRepository _sharedPreferenceRepository;
+  final Reader _read;
+
+  SharedPreferenceRepository get _sharedPreferenceRepository =>
+      _read(sharedPreferenceRepositoryProvider);
 
   Future<void> fetchStartUpGuideState() async {
     final startUpGuideState =

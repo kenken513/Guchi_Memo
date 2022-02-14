@@ -1,16 +1,18 @@
 import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final settingControllerProvider = Provider((ref) => SettingController(
-      ref.read(sharedPreferenceRepositoryProvider),
-    ));
+final settingControllerProvider =
+    Provider((ref) => SettingController(ref.read));
 
 class SettingController {
   SettingController(
-    this._sharedPreferenceRepository,
+    this._read,
   );
 
-  final SharedPreferenceRepository _sharedPreferenceRepository;
+  final Reader _read;
+
+  SharedPreferenceRepository get _sharedPreferenceRepository =>
+      _read(sharedPreferenceRepositoryProvider);
 
   Future<bool> fetchIsSoundActive() {
     return _sharedPreferenceRepository.fetchActivePrefs();

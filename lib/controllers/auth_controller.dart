@@ -5,16 +5,17 @@ import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart'
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthController, AuthState>(
-  (ref) => AuthController(
-    ref.read(sharedPreferenceRepositoryProvider),
-  ),
+  (ref) => AuthController(ref.read),
 );
 
 class AuthController extends StateNotifier<AuthState>
     with WidgetsBindingObserver {
-  AuthController(this._sharedPreferenceRepository) : super(const AuthState());
+  AuthController(this._read) : super(const AuthState());
 
-  final SharedPreferenceRepository _sharedPreferenceRepository;
+  final Reader _read;
+
+  SharedPreferenceRepository get _sharedPreferenceRepository =>
+      _read(sharedPreferenceRepositoryProvider);
 
   Future<void> changeIsSignInBackground() async {
     final isLocked = await _sharedPreferenceRepository.fetchIsLocked();
