@@ -10,6 +10,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class AuthPage extends HookConsumerWidget {
   const AuthPage({Key? key}) : super(key: key);
 
+  static Future<void> show(BuildContext context) async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AuthPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLocked = useState(false);
@@ -21,12 +30,7 @@ class AuthPage extends HookConsumerWidget {
             await ref.watch(settingControllerProvider).fetchIsLocked();
         if (isLocked.value) {
           if (!next.isSignIn) {
-            await Navigator.push<void>(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const AuthPage(),
-              ),
-            );
+            await AuthPage.show(context);
           }
         }
       },

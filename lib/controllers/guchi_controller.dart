@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/model/guchi/guchi.dart';
 import 'package:flutter_guchi_memo/model/guchi/guchi_state.dart';
-import 'package:flutter_guchi_memo/repository/shared_preference_repository.dart';
 import 'package:flutter_guchi_memo/repository/sql_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final guchiProvider = StateNotifierProvider<GuchiController, GuchiState>(
   (ref) => GuchiController(
@@ -14,35 +10,17 @@ final guchiProvider = StateNotifierProvider<GuchiController, GuchiState>(
 );
 
 class GuchiController extends StateNotifier<GuchiState> {
-  GuchiController(
-    this._read,
-  ) : super(const GuchiState()) {
-    initializeGuchi();
-  }
+  GuchiController(this._read) : super(const GuchiState());
 
   final Reader _read;
 
   SqlRepository get _sqlRepository => _read(sqlRepositoryProvider);
-
-  SharedPreferenceRepository get _sharedPreferenceRepository =>
-      _read(sharedPreferenceRepositoryProvider);
-
-  final refreshController = RefreshController(initialRefresh: false);
-
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
-
-  Future<bool> fetchIsActive() async {
-    final active = await _sharedPreferenceRepository.fetchActivePrefs();
-    return active;
-  }
 
   Future<void> onLoading() async {
     final listLength = state.guchiList.length;
     final listDB = await _sqlRepository.fetchGuchiList(offset: listLength);
     final newList = [...state.guchiList, ...listDB];
     state = state.copyWith(guchiList: newList);
-    refreshController.loadComplete();
   }
 
 //初期化
