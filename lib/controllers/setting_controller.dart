@@ -14,17 +14,13 @@ class SettingController {
   SharedPreferenceRepository get _sharedPreferenceRepository =>
       _read(sharedPreferenceRepositoryProvider);
 
-  Future<bool> fetchIsSoundActive() {
-    return _sharedPreferenceRepository.fetchActivePrefs();
-  }
+  bool get fetchIsSoundActive => _sharedPreferenceRepository.fetchActivePrefs;
 
   Future<void> setIsSoundActive({required bool value}) async {
     await _sharedPreferenceRepository.setActive(value: value);
   }
 
-  Future<bool> fetchIsLocked() {
-    return _sharedPreferenceRepository.fetchIsLocked();
-  }
+  bool get fetchIsLocked => _sharedPreferenceRepository.fetchIsLocked;
 
   Future<void> setIsLocked({required bool value}) async {
     await _sharedPreferenceRepository.setAuthState(value: value);

@@ -58,8 +58,7 @@ class MyApp extends HookConsumerWidget {
     final isLocked = useState(false);
     useEffect(() {
       Future(() async {
-        isLocked.value =
-            await ref.watch(settingControllerProvider).fetchIsLocked();
+        isLocked.value = ref.watch(settingControllerProvider).fetchIsLocked;
       });
       return null;
     }, []);

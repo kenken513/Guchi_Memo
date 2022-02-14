@@ -27,7 +27,7 @@ class SoundAction {
   }
 
   Future<void> soundActionOnChange() async {
-    final active = await _sharedPreferenceRepository.fetchActivePrefs();
+    final active = _sharedPreferenceRepository.fetchActivePrefs;
     if (active) {
       await Future.wait([
         soundActionPantiDefault(),
@@ -39,7 +39,7 @@ class SoundAction {
   }
 
   Future<void> soundActionBig() async {
-    final active = await _sharedPreferenceRepository.fetchActivePrefs();
+    final active = _sharedPreferenceRepository.fetchActivePrefs;
     if (active) {
       await Future.wait([
         soundActionPantiBig(),

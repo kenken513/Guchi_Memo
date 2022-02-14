@@ -29,7 +29,7 @@ class GuchiHomePage extends HookConsumerWidget {
         await ref.read(guchiProvider.notifier).initializeGuchi();
 
         final isOpendStartUpGuideDialog =
-            await ref.read(startUpGuideDialogProvider).fetchStartUpGuideState;
+            ref.read(startUpGuideDialogProvider).fetchStartUpGuideState;
 
         if (isOpendStartUpGuideDialog) {
           await StartUpGuideDialog.show(context);
@@ -44,8 +44,7 @@ class GuchiHomePage extends HookConsumerWidget {
     ref.listen<AuthState>(
       authProvider,
       (previous, next) async {
-        isLocked.value =
-            await ref.watch(settingControllerProvider).fetchIsLocked();
+        isLocked.value = ref.watch(settingControllerProvider).fetchIsLocked;
         if (isLocked.value) {
           if (!next.isSignIn) {
             await AuthPage.show(context);
