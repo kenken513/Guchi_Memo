@@ -30,9 +30,8 @@ class SettingPage extends HookConsumerWidget {
         canCheckBiometrics.value =
             await biometricsController.canCheckBiometrics;
         isActiveSound.value =
-            await ref.read(settingControllerProvider).fetchIsSoundActive();
-        isLocked.value =
-            await ref.read(settingControllerProvider).fetchIsLocked();
+            ref.read(settingControllerProvider).fetchIsSoundActive;
+        isLocked.value = ref.read(settingControllerProvider).fetchIsLocked;
       });
       return null;
     }, []);

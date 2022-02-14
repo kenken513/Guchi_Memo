@@ -15,8 +15,8 @@ class StartUpGuideDialogController {
   SharedPreferenceRepository get _sharedPreferenceRepository =>
       _read(sharedPreferenceRepositoryProvider);
 
-  Future<bool> get fetchStartUpGuideState =>
-      _sharedPreferenceRepository.fetchStartUpGuideState();
+  bool get fetchStartUpGuideState =>
+      _sharedPreferenceRepository.fetchStartUpGuideState;
 
   Future<void> setStartUpGuideState() async {
     await _sharedPreferenceRepository.changeStartUpGuideState(value: false);

@@ -7,52 +7,37 @@ final sharedPreferenceRepositoryProvider =
 
 class SharedPreferenceRepository {
   SharedPreferenceRepository(this._sharedPreferences);
+
   final SharedPreferences _sharedPreferences;
 
-  Future<bool> setActive({required bool value}) async {
-    final prefs = _sharedPreferences;
-    final sharedValue = await prefs.setBool(
+  bool get fetchActivePrefs =>
+      _sharedPreferences.getBool(SharedPreferenceKey.active.value) ?? true;
+
+  bool get fetchIsLocked =>
+      _sharedPreferences.getBool(SharedPreferenceKey.authState.value) ?? false;
+
+  bool get fetchStartUpGuideState =>
+      _sharedPreferences.getBool(SharedPreferenceKey.startUpGuideState.value) ??
+      true;
+
+  Future<void> setActive({required bool value}) async {
+    await _sharedPreferences.setBool(
       SharedPreferenceKey.active.value,
       value,
     );
-    return sharedValue;
   }
 
-  Future<bool> fetchActivePrefs() async {
-    final prefs = _sharedPreferences;
-    final sharedValue = prefs.getBool(SharedPreferenceKey.active.value) ?? true;
-    return sharedValue;
-  }
-
-  Future<bool> setAuthState({required bool value}) async {
-    final prefs = _sharedPreferences;
-    final sharedValue = await prefs.setBool(
+  Future<void> setAuthState({required bool value}) async {
+    await _sharedPreferences.setBool(
       SharedPreferenceKey.authState.value,
       value,
     );
-    return sharedValue;
   }
 
-  Future<bool> fetchIsLocked() async {
-    final prefs = _sharedPreferences;
-    final sharedValue =
-        prefs.getBool(SharedPreferenceKey.authState.value) ?? false;
-    return sharedValue;
-  }
-
-  Future<bool> changeStartUpGuideState({required bool value}) async {
-    final prefs = _sharedPreferences;
-    final sharedValue = await prefs.setBool(
+  Future<void> changeStartUpGuideState({required bool value}) async {
+    await _sharedPreferences.setBool(
       SharedPreferenceKey.startUpGuideState.value,
       value,
     );
-    return sharedValue;
-  }
-
-  Future<bool> fetchStartUpGuideState() async {
-    final prefs = _sharedPreferences;
-    final sharedValue =
-        prefs.getBool(SharedPreferenceKey.startUpGuideState.value) ?? true;
-    return sharedValue;
   }
 }
