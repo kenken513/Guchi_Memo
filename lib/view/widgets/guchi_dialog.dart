@@ -6,17 +6,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GuchiDialog extends HookConsumerWidget {
-  const GuchiDialog({Key? key, this.id, this.guchi}) : super(key: key);
-
-  final int? id;
+  const GuchiDialog({Key? key, this.guchi}) : super(key: key);
 
   final Guchi? guchi;
 
-  static Future<void> show(BuildContext context,
-      {int? id, Guchi? guchi}) async {
+  static Future<void> show(BuildContext context, {Guchi? guchi}) async {
     await showDialog<Widget>(
       context: context,
-      builder: (_) => GuchiDialog(id: id, guchi: guchi),
+      builder: (_) => GuchiDialog(guchi: guchi),
     );
   }
 
@@ -76,12 +73,15 @@ class GuchiDialog extends HookConsumerWidget {
                   ),
                 ),
                 onPressed: () async {
+                  final id = guchi?.id;
                   if (id != null) {
+                    //更新
                     await guchiController.updateGuchi(
-                      id!,
+                      id,
                       titleTextEditingController.value.text,
                       contentTextEditingController.value.text,
                     );
+
                     titleTextEditingController.value.clear();
                     contentTextEditingController.value.clear();
 
@@ -90,6 +90,8 @@ class GuchiDialog extends HookConsumerWidget {
                     Navigator.pop(context);
                     return;
                   }
+
+                  //作成
                   await guchiController.createGuchi(
                     titleTextEditingController.value.text,
                     contentTextEditingController.value.text,
@@ -104,7 +106,7 @@ class GuchiDialog extends HookConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text(
-                    id != null ? '編集' : '保存',
+                    guchi != null ? '編集' : '保存',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

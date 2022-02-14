@@ -73,7 +73,7 @@ class GuchiHomePage extends HookConsumerWidget {
               text: data.text,
               content: data.content,
               onLongPress: () async {
-                await GuchiDialog.show(context, id: id, guchi: data);
+                await GuchiDialog.show(context, guchi: data);
               },
               onPressed: () {
                 if (id != null) {
