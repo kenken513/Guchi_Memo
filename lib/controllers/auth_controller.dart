@@ -12,9 +12,7 @@ final authProvider = StateNotifierProvider<AuthController, AuthState>(
 
 class AuthController extends StateNotifier<AuthState>
     with WidgetsBindingObserver {
-  AuthController(this._sharedPreferenceRepository) : super(const AuthState()) {
-    initState();
-  }
+  AuthController(this._sharedPreferenceRepository) : super(const AuthState());
 
   final SharedPreferenceRepository _sharedPreferenceRepository;
 
