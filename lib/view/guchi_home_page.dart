@@ -6,6 +6,7 @@ import 'package:flutter_guchi_memo/model/auth_state/auth_state.dart';
 import 'package:flutter_guchi_memo/view/auth_page.dart';
 import 'package:flutter_guchi_memo/view/setting_page.dart';
 import 'package:flutter_guchi_memo/view/widgets/guchi_dialog.dart';
+import 'package:flutter_guchi_memo/view/widgets/guchi_tile.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -64,49 +65,24 @@ class GuchiHomePage extends HookConsumerWidget {
           refreshController.value.loadComplete();
         },
         child: ListView.builder(
-            itemCount: state.guchiList.length,
-            itemBuilder: (context, index) {
-              final data = state.guchiList[index];
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.pink, width: 2),
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      data.text,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      data.content,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: IconButton(
-                      onPressed: () {
-                        if (data.id != null) {
-                          guchiController.deleteGuchi(data.id!);
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                      ),
-                    ),
-                    onLongPress: () async {
-                      await GuchiDialog.show(context, id: data.id, guchi: data);
-                    },
-                  ),
-                ),
-              );
-            }),
+          itemCount: state.guchiList.length,
+          itemBuilder: (context, index) {
+            final data = state.guchiList[index];
+            final id = data.id;
+            return GuchiTile(
+              text: data.text,
+              content: data.content,
+              onLongPress: () async {
+                await GuchiDialog.show(context, id: id, guchi: data);
+              },
+              onPressed: () {
+                if (id != null) {
+                  guchiController.deleteGuchi(id);
+                }
+              },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
