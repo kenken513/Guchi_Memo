@@ -47,7 +47,7 @@ class SettingPage extends HookConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Container(
+              child: DecoratedBox(
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white70,
@@ -72,7 +72,7 @@ class SettingPage extends HookConsumerWidget {
             if (canCheckBiometrics.value)
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Container(
+                child: DecoratedBox(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Colors.white70,
@@ -96,7 +96,7 @@ class SettingPage extends HookConsumerWidget {
               ),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Container(
+              child: DecoratedBox(
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white70,

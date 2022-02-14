@@ -1,5 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'guchi.freezed.dart';
 part 'guchi.g.dart';
@@ -16,10 +16,4 @@ class Guchi with _$Guchi {
   }) = _Guchi;
   const Guchi._();
   factory Guchi.fromJson(Map<String, dynamic> json) => _$GuchiFromJson(json);
-
-  Map<String, dynamic> toCreateJson(Guchi guchi) {
-    final data = guchi.toJson();
-    data.remove('id');
-    return data;
-  }
 }
