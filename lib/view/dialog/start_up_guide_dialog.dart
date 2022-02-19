@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guchi_memo/controllers/start_up_guide_dialog_controller.dart';
-import 'package:flutter_guchi_memo/view/widgets/guchi_dialog.dart';
+import 'package:flutter_guchi_memo/view/dialog/guchi_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class StartUpGuideDialog extends ConsumerWidget {
