@@ -26,6 +26,7 @@ class GuchiHomePage extends HookConsumerWidget {
         useState(RefreshController(initialRefresh: false));
     final isLocked = useState(false);
     const name = 'test';
+    const name2 = 'test';
 
     useEffect(() {
       Future(() async {
