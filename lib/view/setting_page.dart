@@ -51,20 +51,42 @@ class SettingPage extends HookConsumerWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white70,
                 ),
-                child: SwitchListTile(
-                  value: isActiveSound.value,
-                  activeColor: Colors.pink,
-                  activeTrackColor: Colors.pink,
-                  inactiveThumbColor: Colors.grey,
-                  inactiveTrackColor: Colors.grey,
-                  secondary: const Icon(Icons.volume_up),
-                  title: Text('効果音 ${isActiveSound.value ? 'ON' : 'OFF'}'),
-                  onChanged: (bool value) async {
-                    isActiveSound.value = value;
-                    await ref
-                        .read(settingControllerProvider)
-                        .setIsSoundActive(value: value);
-                  },
+                child: SizedBox(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Icon(
+                                Icons.volume_up,
+                                color: isActiveSound.value
+                                    ? Colors.pink
+                                    : Colors.grey,
+                              ),
+                            ),
+                            Text('効果音 ${isActiveSound.value ? 'ON' : 'OFF'}'),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: Switch(
+                          value: isActiveSound.value,
+                          onChanged: (bool value) async {
+                            isActiveSound.value = value;
+                            await ref
+                                .read(settingControllerProvider)
+                                .setIsSoundActive(value: value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -76,20 +98,42 @@ class SettingPage extends HookConsumerWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Colors.white70,
                   ),
-                  child: SwitchListTile(
-                    value: isLocked.value,
-                    activeColor: Colors.pink,
-                    activeTrackColor: Colors.pink,
-                    inactiveThumbColor: Colors.grey,
-                    inactiveTrackColor: Colors.grey,
-                    secondary: const Icon(Icons.lock),
-                    title: Text('画面ロック ${isLocked.value ? 'ON' : 'OFF'}'),
-                    onChanged: (bool value) async {
-                      isLocked.value = value;
-                      await ref
-                          .read(settingControllerProvider)
-                          .setIsLocked(value: value);
-                    },
+                  child: SizedBox(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Icon(
+                                  Icons.lock,
+                                  color: isLocked.value
+                                      ? Colors.pink
+                                      : Colors.grey,
+                                ),
+                              ),
+                              Text('画面ロック ${isLocked.value ? 'ON' : 'OFF'}'),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: Switch(
+                            value: isLocked.value,
+                            onChanged: (bool value) async {
+                              isLocked.value = value;
+                              await ref
+                                  .read(settingControllerProvider)
+                                  .setIsLocked(value: value);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -100,14 +144,26 @@ class SettingPage extends HookConsumerWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white70,
                 ),
-                child: ListTile(
-                  title: const Text('アプリバージョン'),
-                  subtitle: Text(
-                    appVersion,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                child: SizedBox(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Text('アプリバージョン'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 28),
+                        child: Text(
+                          appVersion,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
