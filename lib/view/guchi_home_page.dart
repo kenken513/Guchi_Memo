@@ -55,60 +55,65 @@ class GuchiHomePage extends HookConsumerWidget {
       },
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('愚痴メモ'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await SettingPage.show(context);
-            },
-            icon: const Icon(Icons.settings),
-          )
-        ],
-      ),
-      body: SmartRefresher(
-        enablePullDown: false,
-        enablePullUp: true,
-        controller: refreshController.value,
-        onLoading: () async {
-          await ref.read(guchiProvider.notifier).onLoading();
-          refreshController.value.loadComplete();
-        },
-        child: state.guchiList.isEmpty
-            ? Center(
-                child: Image.asset(
-                homeImagePath,
-                width: 300,
-                height: 500,
-              ))
-            : ListView.builder(
-                itemCount: state.guchiList.length,
-                itemBuilder: (context, index) {
-                  final data = state.guchiList[index];
-                  final id = data.id;
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('愚痴メモ'),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await SettingPage.show(context);
+              },
+              icon: const Icon(Icons.settings),
+            )
+          ],
+        ),
+        body: SmartRefresher(
+          enablePullDown: false,
+          enablePullUp: true,
+          controller: refreshController.value,
+          onLoading: () async {
+            await ref.read(guchiProvider.notifier).onLoading();
+            refreshController.value.loadComplete();
+          },
+          child: state.guchiList.isEmpty
+              ? Center(
+                  child: Image.asset(
+                  homeImagePath,
+                  width: 300,
+                  height: 500,
+                ))
+              : ListView.builder(
+                  itemCount: state.guchiList.length,
+                  itemBuilder: (context, index) {
+                    final data = state.guchiList[index];
+                    final id = data.id;
 
-                  return GuchiTile(
-                    text: data.text,
-                    content: data.content,
-                    onLongPress: () async {
-                      await GuchiDialog.show(context, guchi: data);
-                    },
-                    onPressed: () {
-                      if (id != null) {
-                        guchiController.deleteGuchi(id);
-                      }
-                    },
-                  );
-                },
-              ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await GuchiDialog.show(context);
-        },
-        child: const Icon(Icons.add),
+                    return GuchiTile(
+                      text: data.text,
+                      content: data.content,
+                      onLongPress: () async {
+                        await GuchiDialog.show(context, guchi: data);
+                      },
+                      onPressed: () {
+                        if (id != null) {
+                          guchiController.deleteGuchi(id);
+                        }
+                      },
+                    );
+                  },
+                ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            await GuchiDialog.show(context);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
