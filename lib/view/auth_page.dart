@@ -18,46 +18,51 @@ class AuthPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 200,
-          height: 50,
-          child: ElevatedButton(
-            onPressed: () async {
-              final result = await ref
-                  .read(biometricsControllerProvider)
-                  .didAuthenticate();
-              if (result) {
-                await Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const GuchiHomePage(),
-                  ),
-                );
-                ref.read(authProvider.notifier).changeIsSignIn();
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              shape: const StadiumBorder(),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    'ロックを解除',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Center(
+          child: SizedBox(
+            width: 200,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () async {
+                final result = await ref
+                    .read(biometricsControllerProvider)
+                    .didAuthenticate();
+                if (result) {
+                  await Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GuchiHomePage(),
+                    ),
+                  );
+                  ref.read(authProvider.notifier).changeIsSignIn();
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                shape: const StadiumBorder(),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      'ロックを解除',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Icon(Icons.lock_open),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(Icons.lock_open),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
