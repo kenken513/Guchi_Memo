@@ -43,6 +43,9 @@ dependencies:
   firebase_core: ^1.12.0
   firebase_analytics: ^9.1.0
 
+  #others
+  flutter_native_splash: ^2.1.2+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,6 +58,10 @@ flutter_icons:
   android: false
   ios: true
   image_path: "assets/icon/guchimemo_icon.png"
+
+flutter_native_splash:
+  image: "assets/icon/splash.png"
+  color: "F50057"
 
 flutter:
   assets: 
